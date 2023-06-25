@@ -3,7 +3,7 @@ import { PropsWithChildren } from "react";
 export const UserLayout = ({ children }: PropsWithChildren) => {
     return (
       <>
-        {/* <Navbar /> */}
+        <p>Navbar</p>
         <main>{children}</main>
         {/* <Footer /> */}
       </>
