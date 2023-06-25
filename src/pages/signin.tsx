@@ -2,11 +2,10 @@ import Head from 'next/head';
 import { Inter } from 'next/font/google';
 import styles from '@/styles/Home.module.css';
 import { Heading, Flex } from "@chakra-ui/react";
-import { CustomButton } from '@/components/CustomButton';
 
 const inter = Inter({ subsets: ['latin'] })
 
-export default function Home() {
+export default function SignIn() {
   return (
     <>
       <Head>
@@ -17,8 +16,7 @@ export default function Home() {
       </Head>
       <main>
         <Flex height="100vh" alignItems="center" justifyContent="center">
-          <Heading>Install Chakra UI In NextJS 13</Heading>
-          <CustomButton label="Hello World!" />
+          <Heading>Sign In</Heading>
         </Flex>
       </main>
     </>
