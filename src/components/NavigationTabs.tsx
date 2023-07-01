@@ -1,19 +1,12 @@
 import { Box } from "@chakra-ui/react";
-import { FiHome, FiStar } from "react-icons/fi";
 import { LinkItem, CustomNavLink } from "./CustomNavLink";
 
 interface Props {
+  linkItems: LinkItem[];
   isInSidebar: boolean;
 }
 
-const LinkItems: LinkItem[] = [
-  { label: "Home", icon: FiHome, href: "/" },
-  { label: "Tab 2", icon: FiStar, href: "/" },
-  { label: "Tab 3", icon: FiStar, href: "/" },
-  { label: "Tab 4", icon: FiStar, href: "/" },
-]
-
-export const NavigationTabs = ({ isInSidebar }: Props) => {
+export const NavigationTabs = ({ linkItems, isInSidebar }: Props) => {
   return (
     <Box
       display={{ base: (isInSidebar ? "flex" : "none"), md: "flex" }}
@@ -24,11 +17,11 @@ export const NavigationTabs = ({ isInSidebar }: Props) => {
     >
       { isInSidebar ?
         <ul>
-            {LinkItems.map((link, i) => (
+            {linkItems.map((link, i) => (
             <ol><CustomNavLink key={i} link={link} /></ol>
           ))}
         </ul> :
-        LinkItems.map((link, i) => (
+        linkItems.map((link, i) => (
           <CustomNavLink key={i} link={link} />
         ))
       }

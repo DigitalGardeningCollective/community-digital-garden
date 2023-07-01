@@ -1,13 +1,8 @@
 import { ReactElement } from 'react';
 import Head from 'next/head';
-import { Inter } from 'next/font/google';
-import styles from '@/styles/Home.module.css';
-import { Heading, Flex } from "@chakra-ui/react";
-import { CustomButton } from '@/components/CustomButton';
+import { ChakraProvider } from "@chakra-ui/react";
 import { NextPageWithLayout } from './_app';
-import { UserLayout } from '@/components/layouts/UserLayout';
-
-const inter = Inter({ subsets: ['latin'] })
+import { Layout } from '@/components/layouts/Layout';
 
 const Home: NextPageWithLayout = () => {
   return (
@@ -18,21 +13,18 @@ const Home: NextPageWithLayout = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main>
-        <Flex height="100vh" alignItems="center" justifyContent="center">
-          <Heading>Install Chakra UI In NextJS 13</Heading>
-          <CustomButton label="Hello World!" />
-        </Flex>
-      </main>
+      <p>Hello</p>
     </>
   )
 }
 
 Home.getLayout = function getLayout(page: ReactElement) {
   return (
-    <UserLayout>
-      {page}
-    </UserLayout>
+    <ChakraProvider>
+      <Layout>
+        {page}
+      </Layout>
+    </ChakraProvider>
   )
 }
 
