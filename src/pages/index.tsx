@@ -1,6 +1,5 @@
 import { ReactElement } from 'react';
 import Head from 'next/head';
-import { ChakraProvider } from "@chakra-ui/react";
 import { NextPageWithLayout } from './_app';
 import { Layout } from '@/components/layouts/Layout';
 
