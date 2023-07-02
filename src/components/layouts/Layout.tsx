@@ -1,4 +1,4 @@
-import { Box, Drawer, DrawerContent, useDisclosure } from "@chakra-ui/react";
+import { Box, ChakraProvider, Drawer, DrawerContent, Flex, useDisclosure } from "@chakra-ui/react";
 import { PropsWithChildren } from "react";
 import { Sidebar } from "../Sidebar";
 import { Header } from "../Header";
@@ -14,24 +14,26 @@ export const Layout = ({ children }: PropsWithChildren) => {
     { label: "Tab 4", icon: FiStar, href: "/" },
   ];
   return (
-    <Box minH="100vh" bg='white' >
-      <Drawer
-        autoFocus={false}
-        isOpen={isOpen}
-        placement="left"
-        onClose={onClose}
-        returnFocusOnClose={false}
-        onOverlayClick={onClose}
-        size="full"
-      >
-        <DrawerContent>
-          <Sidebar linkItems={items} onClose={onClose} />
-        </DrawerContent>
-      </Drawer>
-      <Header linkItems={items} onOpen={onOpen} />
-      <Box ml={{ base: 0, md: 60 }} p="4">
-        {children}
+    <ChakraProvider>
+      <Box minH="100vh" bg='white' >
+        <Drawer
+          autoFocus={false}
+          isOpen={isOpen}
+          placement="left"
+          onClose={onClose}
+          returnFocusOnClose={false}
+          onOverlayClick={onClose}
+          size="full"
+        >
+          <DrawerContent>
+            <Sidebar linkItems={items} onClose={onClose} />
+          </DrawerContent>
+        </Drawer>
+        <Header linkItems={items} onOpen={onOpen} />
+        <Flex direction={'column'} align={'center'} pt="4">
+          {children}
+        </Flex>
       </Box>
-    </Box>
-    )
-  }
+    </ChakraProvider>
+  )
+}

@@ -20,11 +20,9 @@ const Home: NextPageWithLayout = () => {
 
 Home.getLayout = function getLayout(page: ReactElement) {
   return (
-    <ChakraProvider>
-      <Layout>
-        {page}
-      </Layout>
-    </ChakraProvider>
+    <Layout>
+      {page}
+    </Layout>
   )
 }
 

@@ -1,6 +1,6 @@
 import { ReactElement } from 'react';
 import Head from 'next/head';
-import { ChakraProvider } from "@chakra-ui/react";
+import { Box, Button, ChakraProvider, Checkbox, Flex, FormControl, FormLabel, Heading, Input, Link, Stack, Text, useColorModeValue } from "@chakra-ui/react";
 import { NextPageWithLayout } from './_app';
 import { Layout } from '@/components/layouts/Layout';
 
@@ -13,18 +13,74 @@ const SignIn: NextPageWithLayout = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <p>Sign In</p>
+      <Flex
+        minH={'100vh'}
+        justify={'center'}
+        >
+        <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
+          <Stack align={'center'}>
+            <Heading fontSize={'4xl'}>Sign in to your account</Heading>
+            <Text fontSize={'lg'} color={'gray.600'}>
+              to enjoy all of our cool <Link color={'blue.400'}>features</Link> ✌️
+            </Text>
+          </Stack>
+          <Box
+            rounded={'lg'}
+            bg={useColorModeValue('white', 'gray.700')}
+            boxShadow={'lg'}
+            p={8}>
+            <Stack spacing={4}>
+              <form /*onSubmit={handleSubmit(onSubmit)}*/>
+                <FormControl isRequired>
+                  <FormLabel>Email address</FormLabel>
+                  <Input
+                    type="email"
+                    id='email'
+                    // {...register('email')}
+                  />
+                </FormControl>
+                <FormControl isRequired>
+                  <FormLabel>Password</FormLabel>
+                  <Input
+                    type="password"
+                    id='password'
+                    // {...register('password')}
+                  />
+                </FormControl>
+                <Stack mt={4} spacing={4} align='center'>
+                  <Stack
+                    direction={{ base: 'column', sm: 'row' }}
+                    align={'start'}
+                    justify={'space-between'}>
+                    <Checkbox>Remember me</Checkbox>
+                    <Link color={'blue.400'}>Forgot password?</Link>
+                  </Stack>
+                  {/* {error && <p>{error}</p>} */}
+                  <Button
+                    type='submit'
+                    width={'100%'}
+                    bg={'blue.400'}
+                    color={'white'}
+                    _hover={{
+                      bg: 'blue.500',
+                    }}>
+                    Sign in
+                  </Button>
+                </Stack>
+              </form>
+            </Stack>
+          </Box>
+        </Stack>
+      </Flex>
     </>
   )
 }
 
 SignIn.getLayout = function getLayout(page: ReactElement) {
   return (
-    <ChakraProvider>
-      <Layout>
-        {page}
-      </Layout>
-    </ChakraProvider>
+    <Layout>
+      {page}
+    </Layout>
   )
 }
 
