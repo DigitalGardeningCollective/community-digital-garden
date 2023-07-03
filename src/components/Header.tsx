@@ -1,8 +1,9 @@
 import { Flex, IconButton, Text } from "@chakra-ui/react";
 import { NavigationTabs } from "./NavigationTabs";
-import { Navigation } from "./Navigation";
+import { AuthOptions } from "./AuthOptions";
 import { FiMenu } from "react-icons/fi";
 import { LinkItem } from "./CustomNavLink";
+import { useUserSession } from "@/hooks/useUserSession";
 
 interface Props {
     linkItems: LinkItem[];
@@ -10,6 +11,7 @@ interface Props {
 }
 
 export const Header = ({ linkItems, onOpen }: Props) => {
+    const { session } = useUserSession(); // TODO - See why this isn't working with storybook
     return (
       <Flex
         px="4"
@@ -38,7 +40,7 @@ export const Header = ({ linkItems, onOpen }: Props) => {
           Logo
         </Text>
         <NavigationTabs linkItems={linkItems} isInSidebar={false} />
-        <Navigation />
+        <AuthOptions session={session} />
       </Flex>
     )
   }

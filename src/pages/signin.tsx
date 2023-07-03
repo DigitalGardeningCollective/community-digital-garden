@@ -1,10 +1,35 @@
-import { ReactElement } from 'react';
+import React, { ReactElement } from 'react';
 import Head from 'next/head';
-import { Box, Button, ChakraProvider, Checkbox, Flex, FormControl, FormLabel, Heading, Input, Link, Stack, Text, useColorModeValue } from "@chakra-ui/react";
+import { Box, Button, Checkbox, Flex, FormControl, FormLabel, Heading, Input, Link, Stack, Text, useColorModeValue } from "@chakra-ui/react";
 import { NextPageWithLayout } from './_app';
 import { Layout } from '@/components/layouts/Layout';
+import { supabaseClient } from './api/auth';
+import { useRouter } from 'next/router';
+import { useForm } from 'react-hook-form';
+
+type Inputs = {
+  email: string;
+  password: string;
+}
 
 const SignIn: NextPageWithLayout = () => {
+  const {
+    register,
+    handleSubmit
+  } = useForm<Inputs>();
+  const [error, setError] = React.useState<string | null>(null);
+  const router = useRouter();
+
+  const onSubmit = async (data: any) => {
+    setError(null);
+    try {
+      const response = await supabaseClient.auth.signInWithPassword({ email: data.email, password: data.password });
+      response?.error?.message ? setError(response.error.message) : router.push('/home');
+    } catch(error: any) {
+      setError(error.message);
+    }
+  }
+
   return (
     <>
       <Head>
@@ -30,13 +55,13 @@ const SignIn: NextPageWithLayout = () => {
             boxShadow={'lg'}
             p={8}>
             <Stack spacing={4}>
-              <form /*onSubmit={handleSubmit(onSubmit)}*/>
+              <form onSubmit={handleSubmit(onSubmit)}>
                 <FormControl isRequired>
                   <FormLabel>Email address</FormLabel>
                   <Input
                     type="email"
                     id='email'
-                    // {...register('email')}
+                    {...register('email')}
                   />
                 </FormControl>
                 <FormControl isRequired>
@@ -44,7 +69,7 @@ const SignIn: NextPageWithLayout = () => {
                   <Input
                     type="password"
                     id='password'
-                    // {...register('password')}
+                    {...register('password')}
                   />
                 </FormControl>
                 <Stack mt={4} spacing={4} align='center'>
@@ -55,7 +80,7 @@ const SignIn: NextPageWithLayout = () => {
                     <Checkbox>Remember me</Checkbox>
                     <Link color={'blue.400'}>Forgot password?</Link>
                   </Stack>
-                  {/* {error && <p>{error}</p>} */}
+                  {error && <p>{error}</p>}
                   <Button
                     type='submit'
                     width={'100%'}

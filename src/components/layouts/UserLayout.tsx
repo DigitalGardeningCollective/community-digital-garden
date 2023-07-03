@@ -1,5 +1,5 @@
 import { Box, ChakraProvider, Drawer, DrawerContent, Flex, useDisclosure, extendTheme } from "@chakra-ui/react";
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, useEffect, useState } from "react";
 import { Sidebar } from "../Sidebar";
 import { Header } from "../Header";
 import { FiHome, FiStar } from "react-icons/fi";
@@ -8,14 +8,15 @@ import * as theme from "../../../.chakra/chakra.config";
 
 const extendedTheme = extendTheme(theme)
 
-export const Layout = ({ children }: PropsWithChildren) => {
+export const UserLayout = ({ children }: PropsWithChildren) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const items: LinkItem[] = [
-    { label: "Tech", icon: FiHome, href: "/" },
-    { label: "Team", icon: FiStar, href: "/" },
-    { label: "About", icon: FiStar, href: "/" },
+    { label: "Home", icon: FiHome, href: "/" },
+    { label: "Tab 2", icon: FiStar, href: "/" },
+    { label: "Tab 3", icon: FiStar, href: "/" },
     { label: "Tab 4", icon: FiStar, href: "/" },
   ];
+
   return (
     <ChakraProvider theme={extendedTheme}>
       <Box minH="100vh" bg='white' >
