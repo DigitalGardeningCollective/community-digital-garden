@@ -1,8 +1,9 @@
 import Link from 'next/link'
 import { SignOutBtn } from './SignOutBtn';
+import { Session } from '@supabase/supabase-js';
 
 interface Props {
-  session: any;
+  session: Session | null;
 }
 
 export const AuthOptions = ({ session }: Props) => {
