@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { SignOutBtn } from './SignOutBtn';
 
 interface Props {
   session: any;
@@ -13,7 +14,7 @@ export const AuthOptions = ({ session }: Props) => {
             <Link href="/signin">Sign In</Link>
           </> : 
           <>
-            <Link href="/signup">Sign Out</Link>
+            <SignOutBtn />
           </>
         }
       </nav>

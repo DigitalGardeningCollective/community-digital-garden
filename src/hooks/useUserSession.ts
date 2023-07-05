@@ -7,9 +7,7 @@ export const useUserSession = () => {
 
     const fetchUserSession = async () => {
         const { data } = await supabaseClient.auth.getSession();
-
-        console.log('fetchUserSession - data -', data);
-
+        // console.log('fetchUserSession - data -', data);
         if (data) {
             setSession(data.session);
         }
