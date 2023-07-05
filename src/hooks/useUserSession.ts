@@ -1,4 +1,4 @@
-import { supabaseClient } from "@/pages/api/auth";
+import { supabaseClient } from "../pages/api/auth";
 import { Session } from "@supabase/supabase-js";
 import { useEffect, useState } from "react";
 
