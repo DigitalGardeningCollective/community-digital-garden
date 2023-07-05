@@ -18,7 +18,7 @@ export const NavigationTabs = ({ linkItems, isInSidebar }: Props) => {
       { isInSidebar ?
         <ul>
             {linkItems.map((link, i) => (
-            <ol><CustomNavLink key={i} link={link} /></ol>
+            <ol key={i}><CustomNavLink key={i} link={link} /></ol>
           ))}
         </ul> :
         linkItems.map((link, i) => (
