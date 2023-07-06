@@ -1,20 +1,9 @@
 import { ReactElement, useEffect } from 'react';
 import Head from 'next/head';
 import { NextPageWithLayout } from './_app';
-import { Layout } from '@/components/layouts/Layout';
 import { UserLayout } from '@/components/layouts/UserLayout';
-import { useUserSession } from '@/hooks/useUserSession';
-import { useUser } from '@/context/AuthContext';
-import { useUpdateUserSession } from '@/hooks/useUpdateUserSession';
 
 const Home: NextPageWithLayout = () => {
-    // useUpdateUserSession();
-    // const { session, setSession } = useUser();
-
-    // useEffect(() => {
-    //   setSession(session);
-    // }, [session, setSession]);
-
     return (
     <>
       <Head>

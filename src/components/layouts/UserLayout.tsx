@@ -1,11 +1,10 @@
 import { Box, ChakraProvider, Drawer, DrawerContent, Flex, useDisclosure, extendTheme } from "@chakra-ui/react";
-import { PropsWithChildren, useEffect, useState } from "react";
+import { PropsWithChildren } from "react";
 import { Sidebar } from "../Sidebar";
 import { Header } from "../Header";
 import { FiHome, FiStar } from "react-icons/fi";
 import { LinkItem } from "../CustomNavLink";
 import * as theme from "../../../.chakra/chakra.config";
-import { useUserSession } from "../../hooks/useUserSession";
 
 const extendedTheme = extendTheme(theme)
 

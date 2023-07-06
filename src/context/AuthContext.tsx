@@ -1,4 +1,4 @@
-import { Session } from "@supabase/gotrue-js";
+import { Session } from "@supabase/supabase-js";
 import { Dispatch, PropsWithChildren, SetStateAction, createContext, useContext, useState } from "react";
 
 const UserContext = createContext<{
