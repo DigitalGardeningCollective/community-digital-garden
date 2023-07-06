@@ -1,9 +1,11 @@
+import { useUpdateUserSession } from '../hooks/useUpdateUserSession';
 import { supabaseClient } from '../pages/api/auth';
 import { Button } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 
 export const SignOutBtn = () => {
   const router = useRouter();
+  const { deleteSession } = useUpdateUserSession();
 
   const onClick = async () => {
     const { error } = await supabaseClient.auth.signOut();
@@ -11,6 +13,7 @@ export const SignOutBtn = () => {
     if (error) {
         console.log('Sign Out Failed - Error -', error);
     } else {
+        deleteSession();
         router.push('/signin');
     }
   }

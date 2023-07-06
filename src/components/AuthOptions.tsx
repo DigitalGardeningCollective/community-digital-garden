@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { SignOutBtn } from './SignOutBtn';
-import { Session } from '@supabase/supabase-js';
+import { Session } from '@supabase/gotrue-js';
 
 interface Props {
   session: Session | null;

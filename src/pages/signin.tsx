@@ -6,6 +6,7 @@ import { Layout } from '@/components/layouts/Layout';
 import { supabaseClient } from './api/auth';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
+import { useUpdateUserSession } from '@/hooks/useUpdateUserSession';
 
 type Inputs = {
   email: string;
@@ -19,12 +20,19 @@ const SignIn: NextPageWithLayout = () => {
   } = useForm<Inputs>();
   const [error, setError] = React.useState<string | null>(null);
   const router = useRouter();
+  const { updateSession } = useUpdateUserSession();
 
   const onSubmit = async (data: any) => {
     setError(null);
     try {
       const response = await supabaseClient.auth.signInWithPassword({ email: data.email, password: data.password });
-      response?.error?.message ? setError(response.error.message) : router.push('/home');
+      if (response?.error?.message) {
+        setError(response.error.message);
+      } {
+        console.log('signin response -', response);
+        updateSession(response.data.session);
+        router.push('/home');
+      }
     } catch(error: any) {
       setError(error.message);
     }
@@ -78,7 +86,7 @@ const SignIn: NextPageWithLayout = () => {
                     align={'start'}
                     justify={'space-between'}>
                     <Checkbox>Remember me</Checkbox>
-                    <Link color={'blue.400'}>Forgot password?</Link>
+                    <Link color={'blue.400'} href='reset-password'>Forgot password?</Link>
                   </Stack>
                   {error && <p>{error}</p>}
                   <Button

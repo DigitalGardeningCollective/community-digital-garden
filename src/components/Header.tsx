@@ -3,7 +3,7 @@ import { NavigationTabs } from "./NavigationTabs";
 import { AuthOptions } from "./AuthOptions";
 import { FiMenu } from "react-icons/fi";
 import { LinkItem } from "./CustomNavLink";
-import { useUserSession } from "../hooks/useUserSession";
+import { useUser } from "@/context/AuthContext";
 
 interface Props {
     linkItems: LinkItem[];
@@ -11,7 +11,7 @@ interface Props {
 }
 
 export const Header = ({ linkItems, onOpen }: Props) => {
-    const { session } = useUserSession();
+    const { session } = useUser();
     return (
       <Flex
         px="4"

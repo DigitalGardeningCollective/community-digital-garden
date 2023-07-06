@@ -1,10 +1,19 @@
-import { ReactElement } from 'react';
+import { ReactElement, useEffect } from 'react';
 import Head from 'next/head';
 import { NextPageWithLayout } from './_app';
 import { Layout } from '@/components/layouts/Layout';
 import { UserLayout } from '@/components/layouts/UserLayout';
+import { useUserSession } from '@/hooks/useUserSession';
+import { useUser } from '@/context/AuthContext';
+import { useUpdateUserSession } from '@/hooks/useUpdateUserSession';
 
 const Home: NextPageWithLayout = () => {
+    // useUpdateUserSession();
+    // const { session, setSession } = useUser();
+
+    // useEffect(() => {
+    //   setSession(session);
+    // }, [session, setSession]);
 
     return (
     <>
@@ -20,7 +29,7 @@ const Home: NextPageWithLayout = () => {
 }
 
 Home.getLayout = function getLayout(page: ReactElement) {
-  return (// TODO - Create the UserLayout and use it here
+  return (
     <UserLayout>
       {page}
     </UserLayout>

@@ -5,6 +5,7 @@ import { Header } from "../Header";
 import { FiHome, FiStar } from "react-icons/fi";
 import { LinkItem } from "../CustomNavLink";
 import * as theme from "../../../.chakra/chakra.config";
+import { useUserSession } from "../../hooks/useUserSession";
 
 const extendedTheme = extendTheme(theme)
 
