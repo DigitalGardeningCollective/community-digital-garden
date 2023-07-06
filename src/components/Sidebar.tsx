@@ -3,6 +3,7 @@ import { NavigationTabs } from "./NavigationTabs"
 import { LinkItem } from "./CustomNavLink";
 import { AuthOptions } from "./AuthOptions";
 import { useUser } from "@/context/AuthContext";
+import { Logo } from "./Logo";
 
 interface Props {
     linkItems: LinkItem[];
@@ -27,9 +28,7 @@ export const Sidebar = ({ linkItems, onClose }: Props) => {
           mx="8"
           justifyContent="space-between"
         >
-          <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
-            Logo
-          </Text>
+          <Logo />
           <CloseButton display="flex" onClick={onClose} />
         </Flex>
         <NavigationTabs linkItems={linkItems} isInSidebar/>

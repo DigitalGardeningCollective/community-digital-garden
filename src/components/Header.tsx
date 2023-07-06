@@ -4,6 +4,7 @@ import { AuthOptions } from "./AuthOptions";
 import { FiMenu } from "react-icons/fi";
 import { LinkItem } from "./CustomNavLink";
 import { useUser } from "@/context/AuthContext";
+import { Logo } from "./Logo";
 
 interface Props {
     linkItems: LinkItem[];
@@ -31,14 +32,7 @@ export const Header = ({ linkItems, onOpen }: Props) => {
           aria-label="open menu"
           icon={<FiMenu />}
         />
-        <Text
-          display={{ base: "flex", md: "flex" }}
-          fontSize="2xl"
-          fontFamily="monospace"
-          fontWeight="bold"
-        >
-          Logo
-        </Text>
+        <Logo />
         <Box display={{ base: "flex", md: "none" }} />
         <NavigationTabs linkItems={linkItems} isInSidebar={false} />
         <AuthOptions session={session} isInSideBar={false} />
