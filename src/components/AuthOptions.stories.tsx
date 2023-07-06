@@ -12,10 +12,18 @@ export default meta;
 
 type Story = StoryObj<typeof AuthOptions>;
 
-export const SignedOut: Story = {
-    render: () => <AuthOptions session={null} />,
+export const SignedOutNotSideBar: Story = {
+    render: () => <AuthOptions session={null} isInSideBar={false} />,
   };
 
-export const SignedIn: Story = {
-  render: () => <AuthOptions session={{}} />,
+export const SignedInNotSideBar: Story = {
+  render: () => <AuthOptions session={{}} isInSideBar={false} />,
+};
+
+export const SignedOutInSideBar: Story = {
+  render: () => <AuthOptions session={null} isInSideBar />,
+};
+
+export const SignedInInSideBar: Story = {
+render: () => <AuthOptions session={{}} isInSideBar />,
 };

@@ -1,4 +1,4 @@
-import { Flex, IconButton, Text } from "@chakra-ui/react";
+import { Box, Flex, IconButton, Text, useMediaQuery } from "@chakra-ui/react";
 import { NavigationTabs } from "./NavigationTabs";
 import { AuthOptions } from "./AuthOptions";
 import { FiMenu } from "react-icons/fi";
@@ -39,8 +39,9 @@ export const Header = ({ linkItems, onOpen }: Props) => {
         >
           Logo
         </Text>
+        <Box display={{ base: "flex", md: "none" }} />
         <NavigationTabs linkItems={linkItems} isInSidebar={false} />
-        <AuthOptions session={session} />
+        <AuthOptions session={session} isInSideBar={false} />
       </Flex>
     )
   }

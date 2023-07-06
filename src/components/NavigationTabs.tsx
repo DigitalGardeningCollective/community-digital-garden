@@ -10,9 +10,7 @@ export const NavigationTabs = ({ linkItems, isInSidebar }: Props) => {
   return (
     <Box
       display={{ base: (isInSidebar ? "flex" : "none"), md: "flex" }}
-      zIndex={2}
-      position="absolute"
-      ml={(isInSidebar ? 8 : 60)}
+      ml={(isInSidebar ? 8 : 0)}
       bg="white"
     >
       { isInSidebar ?

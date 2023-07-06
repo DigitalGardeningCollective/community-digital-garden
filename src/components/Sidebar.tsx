@@ -1,6 +1,8 @@
-import { Box, CloseButton, Flex, Text } from "@chakra-ui/react"
+import { Box, CloseButton, Flex, Text, VStack } from "@chakra-ui/react"
 import { NavigationTabs } from "./NavigationTabs"
 import { LinkItem } from "./CustomNavLink";
+import { AuthOptions } from "./AuthOptions";
+import { useUser } from "@/context/AuthContext";
 
 interface Props {
     linkItems: LinkItem[];
@@ -8,6 +10,7 @@ interface Props {
 }
 
 export const Sidebar = ({ linkItems, onClose }: Props) => {
+    const { session } = useUser();
     return (
       <Box
         transition="3s ease"
@@ -30,6 +33,7 @@ export const Sidebar = ({ linkItems, onClose }: Props) => {
           <CloseButton display="flex" onClick={onClose} />
         </Flex>
         <NavigationTabs linkItems={linkItems} isInSidebar/>
+        <AuthOptions session={session} isInSideBar />
       </Box>
     )
   }
