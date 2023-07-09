@@ -2,8 +2,12 @@ import { ReactElement, useEffect } from 'react';
 import Head from 'next/head';
 import { NextPageWithLayout } from './_app';
 import { UserLayout } from '@/components/layouts/UserLayout';
+import { Button, Link } from '@chakra-ui/react';
+import { useRouter } from 'next/router';
 
 const Home: NextPageWithLayout = () => {
+    const router = useRouter();
+
     return (
     <>
       <Head>
@@ -12,7 +16,7 @@ const Home: NextPageWithLayout = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <p>Home</p>
+      <Button onClick={() => router.push('/submissions')}>Submissions</Button>
     </>
   )
 }
