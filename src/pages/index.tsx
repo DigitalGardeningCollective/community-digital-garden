@@ -2,6 +2,7 @@ import { ReactElement } from 'react';
 import Head from 'next/head';
 import { NextPageWithLayout } from './_app';
 import { Layout } from '@/components/layouts/Layout';
+import { PieceCard } from '@/components/PieceCard';
 
 const Landing: NextPageWithLayout = () => {
   return (
@@ -13,6 +14,7 @@ const Landing: NextPageWithLayout = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <p>Landing</p>
+      <PieceCard></PieceCard>
     </>
   )
 }
