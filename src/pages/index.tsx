@@ -14,7 +14,7 @@ const Landing: NextPageWithLayout = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <p>Landing</p>
-      <PieceCard></PieceCard>
+      <PieceCard title="Testing" author="John Doe" description="This is a Piece" tag="Evergreen"></PieceCard>
     </>
   )
 }

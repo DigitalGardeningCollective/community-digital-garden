@@ -3,15 +3,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 //import './PieceCard.css';
 
-export const PieceCard = ({ title, author, tag, description, img}) => (
+export const PieceCard = ({ title, author, tag, description, img }) => (
   <Card>
     <CardHeader>
       <Heading size='md'>{ title }</Heading>
     </CardHeader>
     <CardBody>
-      <Text>testing {title} testing</Text>
+      <Text>by {author}</Text>
+      <Text>{description}</Text>
     </CardBody>
-
+  <CardFooter>{tag}</CardFooter>
   </Card>
 );
 
