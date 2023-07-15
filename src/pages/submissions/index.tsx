@@ -4,6 +4,8 @@ import { NextPageWithLayout } from '../_app';
 import { UserLayout } from '@/components/layouts/UserLayout';
 import { useFetchSubmissions } from '@/hooks/useFetchSubmissions';
 import { Table, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
+import { isChangeDetails } from '@/types/utilities';
+import { format } from 'date-fns';
 
 const Submissions: NextPageWithLayout = () => {
 
@@ -17,22 +19,30 @@ const Submissions: NextPageWithLayout = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <p>Submissions</p>
       <TableContainer minW={'4xl'}>
             <Table variant='striped' colorScheme='teal'>
                 <Thead>
                 <Tr>
                     <Th>Title</Th>
-                    {/* <Th>Author</Th> */}
-                    {/* <Th>Submitted</Th> */}
+                    <Th>Author</Th>
+                    <Th>Submitted</Th>
                 </Tr>
                 </Thead>
                 <Tbody>
                 { submissions && submissions.map((s, index) =>
                     <Tr key={s.id} cursor={'pointer'} /*onClick={() => navigate(`/submissions/${s.id}`)}*/>
-                        <Td>Submission { index }</Td>
-                        {/* <Td>{ s.changeDetails.author ? s.changeDetails.author : "Not Found" }</Td> */}
-                        {/* <Td>{ timeTag(s.createdAt) }</Td> */}
+                        { isChangeDetails(s.change_details) ?
+                            <>
+                                <Td>{ s.change_details.metadata.title }</Td>
+                                <Td>{ s.change_details.contributor.name }</Td>
+                            </>
+                            :
+                            <>
+                                <Td>Submission { index }</Td>
+                                <Td>Not Found</Td>
+                            </>
+                        }
+                        <Td>{ format(new Date(s.created_at), "yyyy-MM-dd h:mm") }</Td>
                     </Tr>
                 ) }
                 </Tbody>
