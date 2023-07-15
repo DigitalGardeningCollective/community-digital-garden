@@ -6,7 +6,6 @@ import { Layout } from '@/components/layouts/Layout';
 import { supabaseClient } from './api/auth';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
-import { useUpdateUserSession } from '@/hooks/useUpdateUserSession';
 
 type Inputs = {
   email: string;
@@ -20,7 +19,6 @@ const SignIn: NextPageWithLayout = () => {
   } = useForm<Inputs>();
   const [error, setError] = React.useState<string | null>(null);
   const router = useRouter();
-  const { updateSession } = useUpdateUserSession();
 
   const onSubmit = async (data: any) => {
     setError(null);
@@ -30,7 +28,6 @@ const SignIn: NextPageWithLayout = () => {
         setError(response.error.message);
       } {
         console.log('signin response -', response);
-        updateSession(response.data.session);
         router.push('/home');
       }
     } catch(error: any) {
