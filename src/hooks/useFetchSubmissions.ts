@@ -17,9 +17,15 @@ export const useFetchSubmissions = () => {
         }
     }
 
+    const deleteSubmission = (givenSubmission: any): void => {
+        if (givenSubmission) {
+            setSubmissions(submissions?.filter((sub) => sub.id !== givenSubmission) ?? submissions)
+        }
+    };
+
     useEffect(() => {
         fetchSubmissions();
     }, []);
 
-    return { submissions };
+    return { deleteSubmission, submissions };
 }

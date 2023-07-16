@@ -1,13 +1,38 @@
-import { ReactElement, useEffect } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
 import Head from 'next/head';
 import { NextPageWithLayout } from '../_app';
 import { UserLayout } from '@/components/layouts/UserLayout';
 import { useFetchSubmissions } from '@/hooks/useFetchSubmissions';
-import { Table, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
+import { Button, Flex, Spacer, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr } from '@chakra-ui/react';
+
+type TCommentSelections = number[];
 
 const Submissions: NextPageWithLayout = () => {
+    const [commentSelections, setCommentSelections] = useState<TCommentSelections>([]);
 
-    const { submissions } = useFetchSubmissions();
+    const { deleteSubmission, submissions } = useFetchSubmissions();
+
+    const handleCommentSelection = (id: number): void => {
+        let comments: TCommentSelections = [];
+
+        if (commentSelections.includes(id)) {
+            comments = commentSelections.filter((commentId) => commentId !== id);
+        } else {
+            comments = [...commentSelections, id];
+        }
+
+        setCommentSelections(comments);
+    };
+
+    const handleDeleteSubmissions = (): void => {
+        if (commentSelections.length) {
+            commentSelections.forEach((comment) => {
+                deleteSubmission(comment);
+            });
+
+            setCommentSelections([]);
+        }
+    };
 
     return (
     <>
@@ -22,15 +47,31 @@ const Submissions: NextPageWithLayout = () => {
             <Table variant='striped' colorScheme='teal'>
                 <Thead>
                 <Tr>
-                    <Th>Title</Th>
+                    <Th>
+                        <Flex align="center">
+                            <Text fontSize="md" textTransform="none">New Comments</Text>
+
+                            <Spacer />
+
+                            <Text fontSize="sm" fontWeight="normal" textTransform="none" mr={6}>{commentSelections.length} Selected</Text>
+
+                            <Button
+                                disabled={commentSelections.length === 0}
+                                onClick={handleDeleteSubmissions}>
+                                    Delete
+                            </Button>
+                        </Flex>
+                    </Th>
+                    {/* <Th>Title</Th> */}
                     {/* <Th>Author</Th> */}
                     {/* <Th>Submitted</Th> */}
                 </Tr>
                 </Thead>
                 <Tbody>
                 { submissions && submissions.map((s, index) =>
-                    <Tr key={s.id} cursor={'pointer'} /*onClick={() => navigate(`/submissions/${s.id}`)}*/>
-                        <Td>Submission { index }</Td>
+                    <Tr key={s.id} cursor={'pointer'} /*onClick={() => navigate(`/submissions/${s.id}`)}*/ onClick={() => handleCommentSelection(s.id)}>
+                        <Td>Submission index of { index } with id of { s.id }</Td>
+                        {/* <Td>Submission { index }</Td> */}
                         {/* <Td>{ s.changeDetails.author ? s.changeDetails.author : "Not Found" }</Td> */}
                         {/* <Td>{ timeTag(s.createdAt) }</Td> */}
                     </Tr>
