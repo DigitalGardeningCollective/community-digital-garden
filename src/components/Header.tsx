@@ -1,10 +1,10 @@
-import { Box, Flex, IconButton, Text, useMediaQuery } from "@chakra-ui/react";
+import { Box, Flex, IconButton } from "@chakra-ui/react";
 import { NavigationTabs } from "./NavigationTabs";
 import { AuthOptions } from "./AuthOptions";
 import { FiMenu } from "react-icons/fi";
 import { LinkItem } from "./CustomNavLink";
-import { useUser } from "@/context/AuthContext";
 import { Logo } from "./Logo";
+import { useUser } from "@supabase/auth-helpers-react";
 
 interface Props {
     linkItems: LinkItem[];
@@ -12,7 +12,8 @@ interface Props {
 }
 
 export const Header = ({ linkItems, onOpen }: Props) => {
-    const { session } = useUser();
+    const user = useUser();
+
     return (
       <Flex
         px="4"
@@ -35,7 +36,7 @@ export const Header = ({ linkItems, onOpen }: Props) => {
         <Logo />
         <Box display={{ base: "flex", md: "none" }} />
         <NavigationTabs linkItems={linkItems} isInSidebar={false} />
-        <AuthOptions session={session} isInSideBar={false} />
+        <AuthOptions user={user} isInSideBar={false} />
       </Flex>
     )
   }

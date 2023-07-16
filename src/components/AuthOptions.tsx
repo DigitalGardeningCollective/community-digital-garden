@@ -1,14 +1,14 @@
 import Link from 'next/link'
 import { SignOutBtn } from './SignOutBtn';
-import { Session } from '@supabase/supabase-js';
+import { User } from '@supabase/supabase-js';
 import { Stack } from '@chakra-ui/layout';
 
 interface Props {
-  session: Session | null;
+  user: User | null;
   isInSideBar: boolean;
 }
 
-export const AuthOptions = ({ session, isInSideBar }: Props) => {
+export const AuthOptions = ({ user, isInSideBar }: Props) => {
     return (
       <Stack
         display={{ base: (isInSideBar ? "flex" : "none"), md: "flex" }}
@@ -16,7 +16,7 @@ export const AuthOptions = ({ session, isInSideBar }: Props) => {
         ml={(isInSideBar ? 8 : 0)}
         mr={(isInSideBar ? 8 : 0)}
       >
-        { !session ? 
+        { !user ? 
           <>
             <Link href="/signup">Sign Up</Link>
             <Link href="/signin">Sign In</Link>
