@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
-
 import { PieceCard } from './PieceCard';
 
 
 const meta: Meta<typeof PieceCard> = {
+  title: 'App/PieceCard',
   component: PieceCard,
 };
 
@@ -16,7 +16,7 @@ type Story = StoryObj<typeof PieceCard>;
  * to learn how to use render functions.
  */
 export const Primary: Story = {
-  render: () => <PieceCard backgroundColor="#ff0" label="PieceCard" />,
+  render: ({title, author, tag, img}) => <PieceCard title={title} author={author} tag={tag} img={img} />,
 };
 
 // export const Secondary: Story = {

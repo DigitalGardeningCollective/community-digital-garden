@@ -1,9 +1,17 @@
-import { Card, CardHeader, CardBody, CardFooter, Heading, Text, Image, Box } from "@chakra-ui/react";
+import { Card, CardHeader, CardBody, CardFooter, Heading, Text, Image, Box, Tag } from "@chakra-ui/react";
 import React from 'react';
 import PropTypes from 'prop-types';
 //import './PieceCard.css';
 
-export const PieceCard = ({ title, author, tag, description, img }) => (
+interface Props {
+  title: string | "";
+  author: string | "";
+  tag: string | "";
+  img: string | "";
+}
+
+export const PieceCard = ({ title, author, tag, img }: Props) => {
+  return (
   <Card>
     <CardHeader>
     <Box boxSize='sm'>
@@ -13,18 +21,10 @@ export const PieceCard = ({ title, author, tag, description, img }) => (
     </CardHeader>
     <CardBody>
       <Text>by {author}</Text>
-      {/* <Text>{description}</Text> */}
     </CardBody>
-  <CardFooter>{tag}</CardFooter>
+  <CardFooter><Tag>{tag}</Tag></CardFooter>
   </Card>
-);
-
-PieceCard.propTypes = {
-
-};
-
-PieceCard.defaultProps = {
- title: null,
+  )
 };
 
 
