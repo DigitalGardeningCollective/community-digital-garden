@@ -1,7 +1,7 @@
-import { ReactElement, useEffect } from 'react';
+import { ReactElement } from 'react';
 import Head from 'next/head';
 import { NextPageWithLayout } from './_app';
-import { UserLayout } from '@/components/layouts/UserLayout';
+import { ModeratorLayout } from '@/components/layouts/ModeratorLayout';
 import { Button, Link } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 
@@ -23,9 +23,9 @@ const Home: NextPageWithLayout = () => {
 
 Home.getLayout = function getLayout(page: ReactElement) {
   return (
-    <UserLayout>
+    <ModeratorLayout>
       {page}
-    </UserLayout>
+    </ModeratorLayout>
   )
 }
 

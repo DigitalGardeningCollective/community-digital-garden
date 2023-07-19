@@ -8,7 +8,7 @@ import * as theme from "../../../.chakra/chakra.config";
 
 const extendedTheme = extendTheme(theme)
 
-export const UserLayout = ({ children }: PropsWithChildren) => {
+export const ModeratorLayout = ({ children }: PropsWithChildren) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const items: LinkItem[] = [
     { label: "Home", icon: FiHome, href: "/" },

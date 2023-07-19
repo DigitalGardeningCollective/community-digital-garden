@@ -1,7 +1,7 @@
 import { ReactElement, useEffect } from 'react';
 import Head from 'next/head';
 import { NextPageWithLayout } from '../_app';
-import { UserLayout } from '@/components/layouts/UserLayout';
+import { ModeratorLayout } from '@/components/layouts/ModeratorLayout';
 import { useFetchSubmissions } from '@/hooks/useFetchSubmissions';
 import { Table, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
 import { isChangeDetails } from '@/types/utilities';
@@ -54,9 +54,9 @@ const Submissions: NextPageWithLayout = () => {
 
 Submissions.getLayout = function getLayout(page: ReactElement) {
   return (
-    <UserLayout>
+    <ModeratorLayout>
       {page}
-    </UserLayout>
+    </ModeratorLayout>
   )
 }
 
