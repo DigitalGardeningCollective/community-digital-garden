@@ -2,7 +2,7 @@ import { Box, CloseButton, Flex } from "@chakra-ui/react"
 import { NavigationTabs } from "./NavigationTabs"
 import { LinkItem } from "./CustomNavLink";
 import { AuthOptions } from "./AuthOptions";
-import { Logo } from "./Logo";
+import { Logo } from "./Logo/Logo";
 import { useUser } from "@supabase/auth-helpers-react";
 
 interface Props {
@@ -28,7 +28,7 @@ export const Sidebar = ({ linkItems, onClose }: Props) => {
           mx="8"
           justifyContent="space-between"
         >
-          <Logo />
+          <Logo user={user} isDark />
           <CloseButton display="flex" onClick={onClose} />
         </Flex>
         <NavigationTabs linkItems={linkItems} isInSidebar/>

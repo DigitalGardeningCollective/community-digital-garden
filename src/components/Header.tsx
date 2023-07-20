@@ -1,9 +1,9 @@
-import { Box, Flex, IconButton } from "@chakra-ui/react";
+import { Box, Flex, HStack, IconButton } from "@chakra-ui/react";
 import { NavigationTabs } from "./NavigationTabs";
 import { AuthOptions } from "./AuthOptions";
 import { FiMenu } from "react-icons/fi";
 import { LinkItem } from "./CustomNavLink";
-import { Logo } from "./Logo";
+import { Logo } from "./Logo/Logo";
 import { useUser } from "@supabase/auth-helpers-react";
 
 interface Props {
@@ -22,8 +22,6 @@ export const Header = ({ linkItems, onOpen }: Props) => {
         zIndex="1"
         alignItems="center"
         bg="white"
-        borderBottomWidth="1px"
-        borderBottomColor="gray"
         justifyContent="space-between"
       >
         <IconButton
@@ -33,7 +31,7 @@ export const Header = ({ linkItems, onOpen }: Props) => {
           aria-label="open menu"
           icon={<FiMenu />}
         />
-        <Logo />
+        <Logo user={user} isDark />
         <Box display={{ base: "flex", md: "none" }} />
         <NavigationTabs linkItems={linkItems} isInSidebar={false} />
         <AuthOptions user={user} isInSideBar={false} />

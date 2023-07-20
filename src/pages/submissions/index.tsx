@@ -3,7 +3,7 @@ import Head from 'next/head';
 import { NextPageWithLayout } from '../_app';
 import { ModeratorLayout } from '@/components/layouts/ModeratorLayout';
 import { useFetchSubmissions } from '@/hooks/useFetchSubmissions';
-import { Table, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
+import { Box, Table, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
 import { isChangeDetails } from '@/types/utilities';
 import { format } from 'date-fns';
 
@@ -19,7 +19,8 @@ const Submissions: NextPageWithLayout = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <TableContainer minW={'4xl'}>
+      <TableContainer width={'100%'}>
+        <Box overflowX={'auto'}>
             <Table variant='striped' colorScheme='teal'>
                 <Thead>
                 <Tr>
@@ -47,7 +48,8 @@ const Submissions: NextPageWithLayout = () => {
                 ) }
                 </Tbody>
             </Table>
-        </TableContainer>
+        </Box>
+    </TableContainer>
     </>
   )
 }

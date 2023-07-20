@@ -1,4 +1,4 @@
-import { Box, ChakraProvider, Drawer, DrawerContent, Flex, useDisclosure, extendTheme } from "@chakra-ui/react";
+import { Box, ChakraProvider, Drawer, DrawerContent, Flex, useDisclosure, extendTheme, Container } from "@chakra-ui/react";
 import { PropsWithChildren } from "react";
 import { Sidebar } from "../Sidebar";
 import { Header } from "../Header";
@@ -11,10 +11,7 @@ const extendedTheme = extendTheme(theme)
 export const ModeratorLayout = ({ children }: PropsWithChildren) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const items: LinkItem[] = [
-    { label: "Home", icon: FiHome, href: "/" },
-    { label: "Tab 2", icon: FiStar, href: "/" },
-    { label: "Tab 3", icon: FiStar, href: "/" },
-    { label: "Tab 4", icon: FiStar, href: "/" },
+    { label: "Submissions", icon: FiHome, href: "/submissions" },
   ];
 
   return (
@@ -33,10 +30,13 @@ export const ModeratorLayout = ({ children }: PropsWithChildren) => {
             <Sidebar linkItems={items} onClose={onClose} />
           </DrawerContent>
         </Drawer>
-        <Header linkItems={items} onOpen={onOpen} />
-        <Flex direction={'column'} align={'center'} pt="4">
-          {children}
-        </Flex>
+        <Container
+          maxW={'4xl'}>
+          <Header linkItems={items} onOpen={onOpen} />
+          <Flex direction={'column'} align={'center'} pt="4">
+            {children}
+          </Flex>
+        </Container>
       </Box>
     </ChakraProvider>
   )

@@ -12,6 +12,10 @@ export default meta;
 
 type Story = StoryObj<typeof Logo>;
 
-export const Example: Story = {
-    render: () => <Logo />,
+export const Dark: Story = {
+    render: () => <Logo user={null} isDark />,
   };
+
+export const White: Story = {
+  render: () => <Logo user={null} isDark={false} />,
+};

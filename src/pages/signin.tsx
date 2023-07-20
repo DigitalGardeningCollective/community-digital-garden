@@ -28,7 +28,7 @@ const SignIn: NextPageWithLayout = () => {
         setError(response.error.message);
       } {
         console.log('signin response -', response);
-        router.push('/home');
+        router.push('/submissions');
       }
     } catch(error: any) {
       setError(error.message);
