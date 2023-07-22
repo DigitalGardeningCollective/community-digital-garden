@@ -6,9 +6,10 @@ import { useFetchSubmissions } from '@/hooks/useFetchSubmissions';
 import { Box, Table, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
 import { isChangeDetails } from '@/types/utilities';
 import { format } from 'date-fns';
+import { useRouter } from 'next/router';
 
 const Submissions: NextPageWithLayout = () => {
-
+    const router = useRouter();
     const { submissions } = useFetchSubmissions();
 
     return (
@@ -31,7 +32,7 @@ const Submissions: NextPageWithLayout = () => {
                 </Thead>
                 <Tbody>
                 { submissions && submissions.map((s, index) =>
-                    <Tr key={s.id} cursor={'pointer'} /*onClick={() => navigate(`/submissions/${s.id}`)}*/>
+                    <Tr key={s.id} cursor={'pointer'} onClick={() => router.push(`/submissions/${encodeURIComponent(s.id)}`)}>
                         { isChangeDetails(s.change_details) ?
                             <>
                                 <Td>{ s.change_details.metadata.title }</Td>

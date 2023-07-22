@@ -16,7 +16,6 @@ export const Header = ({ linkItems, onOpen }: Props) => {
 
     return (
       <Flex
-        px="4"
         position="sticky"
         height="20"
         zIndex="1"

@@ -1,13 +1,6 @@
-import { Json } from "./generated";
+import { Database } from "./generated";
 
-export interface Submission {
-    change_details: Json;
-    created_at: string;
-    id: number;
-    submission_status_id: number;
-    submission_type_id: number;
-    updated_at: string | null;
-}
+export type Submission = Database['public']['Tables']['submission']['Row'];
 
 export interface ContributorDetails {
     name: string;
