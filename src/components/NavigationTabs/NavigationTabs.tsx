@@ -1,5 +1,5 @@
 import { Box } from "@chakra-ui/react";
-import { LinkItem, CustomNavLink } from "./CustomNavLink";
+import { LinkItem, CustomNavLink } from "../CustomNavLink/CustomNavLink";
 
 interface Props {
   linkItems: LinkItem[];

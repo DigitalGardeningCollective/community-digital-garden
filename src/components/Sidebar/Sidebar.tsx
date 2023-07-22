@@ -1,8 +1,8 @@
 import { Box, CloseButton, Flex } from "@chakra-ui/react"
-import { NavigationTabs } from "./NavigationTabs"
-import { LinkItem } from "./CustomNavLink";
-import { AuthOptions } from "./AuthOptions";
-import { Logo } from "./Logo/Logo";
+import { NavigationTabs } from "../NavigationTabs/NavigationTabs"
+import { LinkItem } from "../CustomNavLink/CustomNavLink";
+import { AuthOptions } from "../AuthOptions/AuthOptions";
+import { Logo } from "../Logo/Logo";
 import { useUser } from "@supabase/auth-helpers-react";
 
 interface Props {

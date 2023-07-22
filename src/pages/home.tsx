@@ -4,6 +4,7 @@ import { NextPageWithLayout } from './_app';
 import { ModeratorLayout } from '@/components/layouts/ModeratorLayout';
 import { Button, Link } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
+import { PageHeader } from '@/components/PageHeader/PageHeader';
 
 const Home: NextPageWithLayout = () => {
     const router = useRouter();
@@ -16,7 +17,7 @@ const Home: NextPageWithLayout = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Button onClick={() => router.push('/submissions')}>Submissions</Button>
+      <PageHeader title="Notes" subtitle="A collection of atomic notes, i.e. a single idea or a single object of attention." />
     </>
   )
 }

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { FiHome, FiStar } from 'react-icons/fi';
-import { LinkItem } from './CustomNavLink';
+import { LinkItem } from '../CustomNavLink/CustomNavLink';
 import { useDisclosure } from '@chakra-ui/react';
 import { Sidebar } from './Sidebar';
 

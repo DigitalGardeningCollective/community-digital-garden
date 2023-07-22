@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { NavigationTabs } from './NavigationTabs';
 import { FiHome, FiStar } from 'react-icons/fi';
-import { LinkItem } from './CustomNavLink';
+import { LinkItem } from '../CustomNavLink/CustomNavLink';
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
 const meta: Meta<typeof NavigationTabs> = {

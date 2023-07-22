@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { SignOutBtn } from './SignOutBtn';
+import { SignOutBtn } from '../SideOutBtn/SignOutBtn';
 import { User } from '@supabase/supabase-js';
 import { Stack } from '@chakra-ui/layout';
 

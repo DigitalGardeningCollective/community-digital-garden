@@ -1,9 +1,9 @@
 import { Box, Flex, HStack, IconButton } from "@chakra-ui/react";
-import { NavigationTabs } from "./NavigationTabs";
-import { AuthOptions } from "./AuthOptions";
+import { NavigationTabs } from "../NavigationTabs/NavigationTabs";
+import { AuthOptions } from "../AuthOptions/AuthOptions";
 import { FiMenu } from "react-icons/fi";
-import { LinkItem } from "./CustomNavLink";
-import { Logo } from "./Logo/Logo";
+import { LinkItem } from "../CustomNavLink/CustomNavLink";
+import { Logo } from "../Logo/Logo";
 import { useUser } from "@supabase/auth-helpers-react";
 
 interface Props {

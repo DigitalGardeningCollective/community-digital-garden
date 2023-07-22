@@ -1,7 +1,7 @@
 import { Button } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import { useSupabaseClient } from '@supabase/auth-helpers-react'
-import { Database  } from '../types/generated';
+import { Database  } from '../../types/generated';
 
 
 export const SignOutBtn = () => {
