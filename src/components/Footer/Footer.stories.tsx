@@ -1,17 +1,17 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { Logo } from './Logo';
+import { Footer } from './Footer';
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
-const meta: Meta<typeof Logo> = {
-  title: 'App/Logo',
-  component: Logo,
+const meta: Meta<typeof Footer> = {
+  title: 'App/Footer',
+  component: Footer,
 };
 
 export default meta;
 
-type Story = StoryObj<typeof Logo>;
+type Story = StoryObj<typeof Footer>;
 
 export const Example: Story = {
-    render: () => <Logo />,
+    render: () => <Footer />,
   };

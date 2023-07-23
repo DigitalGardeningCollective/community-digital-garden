@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { SignOutBtn } from './SignOutBtn';
+import { SignOutBtn } from '../SideOutBtn/SignOutBtn';
 import { User } from '@supabase/supabase-js';
 import { Stack } from '@chakra-ui/layout';
 
@@ -18,8 +18,8 @@ export const AuthOptions = ({ user, isInSideBar }: Props) => {
       >
         { !user ? 
           <>
-            <Link href="/signup">Sign Up</Link>
-            <Link href="/signin">Sign In</Link>
+            <Link href="/signup" style={{ color: 'white' }}>Sign Up</Link>
+            <Link href="/signin" style={{ color: 'white' }}>Sign In</Link>
           </> : 
           <>
             <SignOutBtn />

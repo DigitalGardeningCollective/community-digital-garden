@@ -30,7 +30,8 @@
     "react-dom": "18.2.0",
     "react-hook-form": "^7.45.1",
     "react-icons": "^4.10.1",
-    "typescript": "5.1.3"
+    "typescript": "5.1.3",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@chakra-ui/storybook-addon": "^5.0.0",
@@ -41,6 +42,7 @@
     "@storybook/nextjs": "^7.0.23",
     "@storybook/react": "^7.0.23",
     "@storybook/testing-library": "^0.0.14-next.2",
+    "@types/uuid": "^9.0.2",
     "eslint-plugin-storybook": "^0.6.12",
     "storybook": "^7.0.23"
   }

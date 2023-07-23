@@ -1,10 +1,10 @@
-import { Box, Flex, IconButton } from "@chakra-ui/react";
-import { NavigationTabs } from "./NavigationTabs";
-import { AuthOptions } from "./AuthOptions";
+import { Box, Button, Flex, IconButton, Tooltip } from "@chakra-ui/react";
+import { NavigationTabs } from "../NavigationTabs/NavigationTabs";
 import { FiMenu } from "react-icons/fi";
-import { LinkItem } from "./CustomNavLink";
-import { Logo } from "./Logo";
+import { LinkItem } from "../CustomNavLink/CustomNavLink";
+import { Logo } from "../Logo/Logo";
 import { useUser } from "@supabase/auth-helpers-react";
+import { SignOutBtn } from "../SideOutBtn/SignOutBtn";
 
 interface Props {
     linkItems: LinkItem[];
@@ -16,14 +16,11 @@ export const Header = ({ linkItems, onOpen }: Props) => {
 
     return (
       <Flex
-        px="4"
         position="sticky"
         height="20"
         zIndex="1"
         alignItems="center"
         bg="white"
-        borderBottomWidth="1px"
-        borderBottomColor="gray"
         justifyContent="space-between"
       >
         <IconButton
@@ -33,10 +30,15 @@ export const Header = ({ linkItems, onOpen }: Props) => {
           aria-label="open menu"
           icon={<FiMenu />}
         />
-        <Logo />
+        <Logo user={user} isDark />
         <Box display={{ base: "flex", md: "none" }} />
         <NavigationTabs linkItems={linkItems} isInSidebar={false} />
-        <AuthOptions user={user} isInSideBar={false} />
+        { user ?
+          <SignOutBtn /> :
+          <Tooltip label='Coming Soon!'>
+            <Button colorScheme={'cyan'} color={'white'}>Submit Content</Button>
+          </Tooltip>
+        }
       </Flex>
     )
   }

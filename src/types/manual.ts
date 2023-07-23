@@ -1,13 +1,9 @@
-import { Json } from "./generated";
+import { Database } from "./generated";
 
-export interface Submission {
-    change_details: Json;
-    created_at: string;
-    id: number;
-    submission_status_id: number;
-    submission_type_id: number;
-    updated_at: string | null;
-}
+export type Submission = Database['public']['Tables']['submission']['Row'];
+
+export type Published_Piece = Database['public']['Tables']['published_piece']['Row'];
+
 
 export interface ContributorDetails {
     name: string;
@@ -16,9 +12,10 @@ export interface ContributorDetails {
 
 export interface MetadataDetails {
     title: string;
+    url_key: string;
     description: string;
     tags: string[];
-    type_id: number;
+    piece_type_id: number;
     growth_stage_id: number;
     open_to_collab: boolean;
     cover_url: string;
