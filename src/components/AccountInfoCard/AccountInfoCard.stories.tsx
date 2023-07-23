@@ -18,19 +18,6 @@ export const ExampleUser: Story = {
   />
 }
 
-export const BenjaminCovington: Story = {
-  render: () => <AccountInfoCard 
-    avatarSource={'https://media.licdn.com/dms/image/C5603AQFY4clHxNJG5w/profile-displayphoto-shrink_800_800/0/1660670542956?e=2147483647&v=beta&t=WfrJiwPN9tojfgiXEWl11GIPafX_jRrjjjudRQ721qs'
-  }
-    name='Benjamin'
-    fullName='Benjamin Covington'
-    linkText='@bencovington-game'
-    linkSource={'https://media.licdn.com/dms/image/C5603AQFY4clHxNJG5w/profile-displayphoto-shrink_800_800/0/1660670542956?e=2147483647&v=beta&t=WfrJiwPN9tojfgiXEWl11GIPafX_jRrjjjudRQ721qs'
-  }
-    description='Build Engineer'
-  />
-}
-
 export default {
   title: 'App/AccountInfoCard',
   component: AccountInfoCard,
