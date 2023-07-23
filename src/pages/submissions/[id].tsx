@@ -2,12 +2,16 @@ import { ReactElement } from 'react';
 import Head from 'next/head';
 import { NextPageWithLayout } from '../_app';
 import { ModeratorLayout } from '@/components/layouts/ModeratorLayout';
-import { Avatar, Box, Container, Grid, GridItem, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, VStack } from '@chakra-ui/react';
+import { Avatar, Box, Button, Container, Grid, GridItem, HStack, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, VStack } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import { useFetchSubmission } from '@/hooks/useFetchSubmission';
 import { isChangeDetails } from '@/types/utilities';
+import { useInsertNewPiece } from '@/hooks/useInsertNewPiece';
+import { ChangeDetails, Published_Piece, Submission } from '@/types/manual';
+import { Json } from '@/types/generated';
+import { v4 as uuidv4 } from 'uuid';
 
-const Submission: NextPageWithLayout = () => {
+const SubmissionPage: NextPageWithLayout = () => {
     const router = useRouter();
     
     console.log('router.query.id -', router.query.id);
@@ -17,6 +21,23 @@ const Submission: NextPageWithLayout = () => {
     }
 
     const { submission } = useFetchSubmission(router.query.id);
+    const { insertPiece } = useInsertNewPiece();
+
+    const handleAccept = (changeDetails: Json) => {
+        if (isChangeDetails(changeDetails)) {
+            insertPiece({ 
+                id: uuidv4(), // TODO: Check if the id is available in the piece table
+                title: changeDetails.metadata.title,
+                description: changeDetails.metadata.description,
+                url_key: changeDetails.metadata.url_key,
+                piece_type_id: changeDetails.metadata.piece_type_id,
+                growth_stage_id: changeDetails.metadata.growth_stage_id,
+                cover_url: changeDetails.metadata.cover_url,
+                open_to_collab: changeDetails.metadata.open_to_collab,
+                content: changeDetails.content,
+            });
+        }
+    }
 
     return (
     <>
@@ -35,15 +56,21 @@ const Submission: NextPageWithLayout = () => {
                 gap={5}
             >
                 <GridItem rowSpan={3} colSpan={1} bg='tomato' />
-                <GridItem rowSpan={1} colSpan={1} bg='tomato'>
+                <GridItem rowSpan={1} colSpan={1}>
                     <Box width={'100%'} mb={4} border='1px' borderColor='gray.200' padding={2}>
                         <Text>Assigned Moderator</Text>
                     </Box>
                 </GridItem>
-                <GridItem rowSpan={1} colSpan={1} bg='tomato'>
+                <GridItem rowSpan={1} colSpan={1}>
                     <Box width={'100%'} mb={4} border='1px' borderColor='gray.200' padding={2}>
                         <Text>Approve?</Text>
                     </Box>
+                    <HStack>
+                        <Button colorScheme='green' disabled={ !submission.change_details } onClick={
+                            () => handleAccept(submission.change_details)
+                            }>Accept</Button>
+                        <Button colorScheme='gray'>Reject</Button>
+                    </HStack>
                 </GridItem>
                 <GridItem rowSpan={1} colSpan={1}>
                     <Box width={'100%'} mb={4} border='1px' borderColor='gray.200' padding={2}>
@@ -77,7 +104,7 @@ const Submission: NextPageWithLayout = () => {
                                     </Tr>
                                     <Tr>
                                         <Td>Type</Td>
-                                        <Td>{ submission.change_details.metadata.type_id }</Td>
+                                        <Td>{ submission.change_details.metadata.piece_type_id }</Td>
                                     </Tr>
                                     <Tr>
                                         <Td>Growth Stage</Td>
@@ -103,7 +130,7 @@ const Submission: NextPageWithLayout = () => {
   )
 }
 
-Submission.getLayout = function getLayout(page: ReactElement) {
+SubmissionPage.getLayout = function getLayout(page: ReactElement) {
   return (
     <ModeratorLayout>
       {page}
@@ -111,4 +138,4 @@ Submission.getLayout = function getLayout(page: ReactElement) {
   )
 }
 
-export default Submission;
+export default SubmissionPage;
