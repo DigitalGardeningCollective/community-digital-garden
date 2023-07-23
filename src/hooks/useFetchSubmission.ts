@@ -3,7 +3,7 @@ import { useSupabaseClient } from '@supabase/auth-helpers-react'
 import { Database } from '../types/generated';
 import { Submission } from "@/types/manual";
 
-export const useGetSubmission = (id: string | undefined) => {
+export const useFetchSubmission = (id: string | undefined) => {
     const [submission, setSubmission] = useState<Submission | null>(null);
     const supabaseClient = useSupabaseClient<Database>();
 

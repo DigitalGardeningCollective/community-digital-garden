@@ -4,7 +4,7 @@ import { NextPageWithLayout } from '../_app';
 import { ModeratorLayout } from '@/components/layouts/ModeratorLayout';
 import { Avatar, Box, Container, Grid, GridItem, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, VStack } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
-import { useGetSubmission } from '@/hooks/useGetSubmission';
+import { useFetchSubmission } from '@/hooks/useFetchSubmission';
 import { isChangeDetails } from '@/types/utilities';
 
 const Submission: NextPageWithLayout = () => {
@@ -16,7 +16,7 @@ const Submission: NextPageWithLayout = () => {
         throw Error();
     }
 
-    const { submission } = useGetSubmission(router.query.id);
+    const { submission } = useFetchSubmission(router.query.id);
 
     return (
     <>

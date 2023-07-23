@@ -1,6 +1,5 @@
-import { Box, HStack, Text } from "@chakra-ui/react";
+import { Box, HStack, Text, Image } from "@chakra-ui/react";
 import { User } from "@supabase/auth-helpers-react";
-import Image from "next/image";
 
 interface Props {
   user: User | null;
@@ -16,7 +15,7 @@ export const Logo = ({ user, isDark }: Props) => {
         fontFamily="monospace"
         fontWeight="bold"
         >
-        <Image height={90} width={90} src={isDark ? "/images/co-x3-logo-dark.png" : "/images/co-x3-logo-white.png"} alt='Co-x3 Logo' />
+        <Image width={20} src={isDark ? "/co-x3-logo-dark.png" : "/co-x3-logo-white.png"} alt='Co-x3 Logo' />
       </Text>
       { user && 
         <Box

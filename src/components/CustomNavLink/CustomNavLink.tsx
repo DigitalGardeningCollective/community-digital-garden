@@ -5,7 +5,7 @@ import { IconType } from 'react-icons';
 
 export interface LinkItem {
   label: string;
-  icon: IconType;
+  icon?: IconType;
   href: string;
 }
 
