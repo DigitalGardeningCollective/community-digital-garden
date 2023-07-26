@@ -24,7 +24,7 @@ const SubmissionPage: NextPageWithLayout = () => {
     const { insertPiece } = useInsertNewPiece();
 
     const handleAccept = (changeDetails: Json) => {
-        if (isChangeDetails(changeDetails)) {
+        if (isChangeDetails(changeDetails)) { // Note: I will need to remove the tags property from the changeDetails object if I want to make this cleaner.
             insertPiece({ 
                 id: uuidv4(), // TODO: Check if the id is available in the piece table
                 title: changeDetails.metadata.title,

@@ -4,6 +4,11 @@ export type Submission = Database['public']['Tables']['submission']['Row'];
 
 export type Published_Piece = Database['public']['Tables']['published_piece']['Row'];
 
+export type Contributor = Database['public']['Tables']['contributor']['Row'];
+
+export type Tag = Database['public']['Tables']['tag']['Row'];
+
+export type Moderator = Database['public']['Tables']['moderator']['Row'];
 
 export interface ContributorDetails {
     name: string;
