@@ -4,6 +4,10 @@ export type Submission = Database['public']['Tables']['submission']['Row'];
 
 export type Published_Piece = Database['public']['Tables']['published_piece']['Row'];
 
+export type Published_Piece_View = Database['public']['Views']['published_piece_view']['Row'];
+
+export type Temp_Piece_Contributor = Database['public']['Tables']['temp_piece_contributor']['Row'];
+
 export type Contributor = Database['public']['Tables']['contributor']['Row'];
 
 export type Tag = Database['public']['Tables']['tag']['Row'];

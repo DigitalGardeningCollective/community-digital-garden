@@ -51,7 +51,7 @@ export const PieceHeader: FC<Props> = ({ header: {
   }
 
   return (
-    <Box pb={4} mb={8} /*borderBottom="1px solid"*/ /*borderColor={useColorModeValue('gray.200', 'gray.700')}*/>
+    <Box pb={4} mb={4} /*borderBottom="1px solid"*/ /*borderColor={useColorModeValue('gray.200', 'gray.700')}*/>
       <HStack spacing={2}>
         { getGrowthStageIcon(growth_stage) }
         <Text style={{ fontWeight: 'normal' }}>{ `${growth_stage[0].toUpperCase()}${growth_stage.substring(1)}`}</Text>

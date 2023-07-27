@@ -75,58 +75,6 @@ export interface Database {
         }
         Relationships: []
       }
-      piece_tag: {
-        Row: {
-          id: number
-          published_piece_id: string
-          tag_id: number
-        }
-        Insert: {
-          id?: number
-          published_piece_id: string
-          tag_id: number
-        }
-        Update: {
-          id?: number
-          published_piece_id?: string
-          tag_id?: number
-        }
-        Relationships: [
-          {
-            foreignKeyName: "piece_tag_published_piece_id_fkey"
-            columns: ["published_piece_id"]
-            referencedRelation: "published_piece"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "piece_tag_published_piece_id_fkey"
-            columns: ["published_piece_id"]
-            referencedRelation: "published_piece_view"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "piece_tag_tag_id_fkey"
-            columns: ["tag_id"]
-            referencedRelation: "tag"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
-      piece_type: {
-        Row: {
-          id: number
-          title: string
-        }
-        Insert: {
-          id?: number
-          title: string
-        }
-        Update: {
-          id?: number
-          title?: string
-        }
-        Relationships: []
-      }
       published_piece: {
         Row: {
           content: string
@@ -177,10 +125,62 @@ export interface Database {
           {
             foreignKeyName: "published_piece_piece_type_id_fkey"
             columns: ["piece_type_id"]
-            referencedRelation: "piece_type"
+            referencedRelation: "published_piece_type"
             referencedColumns: ["id"]
           }
         ]
+      }
+      published_piece_tag: {
+        Row: {
+          id: number
+          published_piece_id: string
+          tag_id: number
+        }
+        Insert: {
+          id?: number
+          published_piece_id: string
+          tag_id: number
+        }
+        Update: {
+          id?: number
+          published_piece_id?: string
+          tag_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "published_piece_tag_published_piece_id_fkey"
+            columns: ["published_piece_id"]
+            referencedRelation: "published_piece"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "published_piece_tag_published_piece_id_fkey"
+            columns: ["published_piece_id"]
+            referencedRelation: "published_piece_view"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "published_piece_tag_tag_id_fkey"
+            columns: ["tag_id"]
+            referencedRelation: "tag"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      published_piece_type: {
+        Row: {
+          id: number
+          title: string
+        }
+        Insert: {
+          id?: number
+          title: string
+        }
+        Update: {
+          id?: number
+          title?: string
+        }
+        Relationships: []
       }
       submission: {
         Row: {
