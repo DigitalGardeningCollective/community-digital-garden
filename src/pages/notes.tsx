@@ -1,15 +1,25 @@
-// eslint-disable-next-line @next/next/no-document-import-in-page
-import { Html, Head } from "next/document";
+import { PageHeader } from "@/components/PageHeader/PageHeader";
 import React, { ReactElement } from "react";
-import { Layout } from "@/components/layouts/Layout";
-import { supabaseClient } from "./api/auth";
+import { Published_Piece_View } from "@/types/manual";
+import { SupabaseClient } from "@supabase/supabase-js";
 
 export default function Notes() {
-  return (
-    <Html lang="en">
-      <Head></Head>
-    </Html>
-  );
+  const fetchNotes = async () => {
+    try {
+      const { data, error } = await SupabaseClient.from(
+        "publish_piece_view"
+      ).select("*");
+      if (error) {
+        throw error;
+      }
+      console.log(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  fetchNotes();
+
+  return <PageHeader>{/* <PieceCard></PieceCard> */}</PageHeader>;
 
   //   Notes.getLayout = function getLayout(notes: ReactElement) {
   //     return <Layout>{notes}</Layout>;

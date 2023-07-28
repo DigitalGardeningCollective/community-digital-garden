@@ -7,38 +7,41 @@ import { useUser } from "@supabase/auth-helpers-react";
 import { SignOutBtn } from "../SideOutBtn/SignOutBtn";
 
 interface Props {
-    linkItems: LinkItem[];
-    onOpen: () => void;
+  linkItems: LinkItem[];
+  onOpen: () => void;
 }
 
 export const Header = ({ linkItems, onOpen }: Props) => {
-    const user = useUser();
+  const user = useUser();
 
-    return (
-      <Flex
-        position="sticky"
-        height="20"
-        zIndex="1"
-        alignItems="center"
-        bg="white"
-        justifyContent="space-between"
-      >
-        <IconButton
-          display={{ base: "flex", md: "none" }}
-          onClick={onOpen}
-          variant="outline"
-          aria-label="open menu"
-          icon={<FiMenu />}
-        />
-        <Logo user={user} isDark />
-        <Box display={{ base: "flex", md: "none" }} />
-        <NavigationTabs linkItems={linkItems} isInSidebar={false} />
-        { user ?
-          <SignOutBtn /> :
-          <Tooltip label='Coming Soon!'>
-            <Button colorScheme={'cyan'} color={'white'}>Submit Content</Button>
-          </Tooltip>
-        }
-      </Flex>
-    )
-  }
+  return (
+    <Flex
+      position="sticky"
+      height="20"
+      zIndex="1"
+      alignItems="center"
+      bg="white"
+      justifyContent="space-between"
+    >
+      <IconButton
+        display={{ base: "flex", md: "none" }}
+        onClick={onOpen}
+        variant="outline"
+        aria-label="open menu"
+        icon={<FiMenu />}
+      />
+      <Logo user={user} isDark />
+      <Box display={{ base: "flex", md: "none" }} />
+      <NavigationTabs linkItems={linkItems} isInSidebar={false} />
+      {user ? (
+        <SignOutBtn />
+      ) : (
+        <Tooltip label="Coming Soon!">
+          <Button colorScheme={"cyan"} color={"white"}>
+            Submit Content
+          </Button>
+        </Tooltip>
+      )}
+    </Flex>
+  );
+};

@@ -3,6 +3,8 @@
         "autodocs",
         "backlink",
         "chakra",
+        "collab",
+        "fkey",
         "signin",
         "supabase"
     ]
