@@ -6,26 +6,30 @@ import { Text } from "@chakra-ui/react";
 import { HStack, VStack } from "@chakra-ui/react";
 
 interface Backlink {
-  avatarUrl: String;
-  title: String;
-  description: String;
-  fullUrl: String;
+  avatarUrl: string;
+  title: string;
+  description: string;
+  fullUrl: string;
 }
 
 interface Props {
   backlink: Backlink;
 }
 
-const Backlink = ({
+export const Backlink = ({
   backlink: { avatarUrl, title, description, fullUrl },
 }: Props) => {
+  
   const urlShortener = (fullUrl: string) => {
     const domainRegex = /^(?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:\/\n]+)/;
-    const originDomain = fullUrl.match(domainRegex)[1];
-    return originDomain;
-  };
+    const urlMatches = fullUrl.match(domainRegex);
 
-  //come back to this
+    if (!urlMatches) {
+      throw Error('Backlink - match returned null')
+    }
+
+    return urlMatches[1]; // gets the origin domain, ex. google.com
+  };
 
   return (
     <Box maxW="md" borderRadius="lg">
@@ -42,5 +46,3 @@ const Backlink = ({
     </Box>
   );
 };
-
-export default Backlink;
