@@ -1,23 +1,33 @@
-import React, { ReactElement } from 'react';
-import Head from 'next/head';
-import { Box, Button, Checkbox, Flex, FormControl, FormLabel, Heading, Input, Link, Stack, Text, useColorModeValue } from "@chakra-ui/react";
-import { NextPageWithLayout } from './_app';
-import { Layout } from '@/components/layouts/Layout';
-import { useRouter } from 'next/router';
-import { useForm } from 'react-hook-form';
-import { useSupabaseClient } from '@supabase/auth-helpers-react'
-import { Database  } from '../types/generated';
+import React, { ReactElement } from "react";
+import Head from "next/head";
+import {
+  Box,
+  Button,
+  Checkbox,
+  Flex,
+  FormControl,
+  FormLabel,
+  Heading,
+  Input,
+  Link,
+  Stack,
+  Text,
+  useColorModeValue,
+} from "@chakra-ui/react";
+import { NextPageWithLayout } from "./_app";
+import { Layout } from "@/components/layouts/Layout";
+import { useRouter } from "next/router";
+import { useForm } from "react-hook-form";
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import { Database } from "../types/generated";
 
 type Inputs = {
   email: string;
   password: string;
-}
+};
 
 const SignIn: NextPageWithLayout = () => {
-  const {
-    register,
-    handleSubmit
-  } = useForm<Inputs>();
+  const { register, handleSubmit } = useForm<Inputs>();
   const [error, setError] = React.useState<string | null>(null);
   const router = useRouter();
   const supabaseClient = useSupabaseClient<Database>();
@@ -25,17 +35,21 @@ const SignIn: NextPageWithLayout = () => {
   const onSubmit = async (data: any) => {
     setError(null);
     try {
-      const response = await supabaseClient.auth.signInWithPassword({ email: data.email, password: data.password });
+      const response = await supabaseClient.auth.signInWithPassword({
+        email: data.email,
+        password: data.password,
+      });
       if (response?.error?.message) {
         setError(response.error.message);
-      } {
-        console.log('signin response -', response);
-        router.push('/submissions');
       }
-    } catch(error: any) {
+      {
+        console.log("signin response -", response);
+        router.push("/submissions");
+      }
+    } catch (error: any) {
       setError(error.message);
     }
-  }
+  };
 
   return (
     <>
@@ -45,57 +59,56 @@ const SignIn: NextPageWithLayout = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Flex
-        minH={'100vh'}
-        justify={'center'}
-        >
-        <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
-          <Stack align={'center'}>
-            <Heading fontSize={'4xl'}>Sign in to your account</Heading>
-            <Text fontSize={'lg'} color={'gray.600'}>
-              to enjoy all of our cool <Link color={'blue.400'}>features</Link> ✌️
+      <Flex minH={"100vh"} justify={"center"}>
+        <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
+          <Stack align={"center"}>
+            <Heading fontSize={"4xl"}>Sign in to your account</Heading>
+            <Text fontSize={"lg"} color={"gray.600"}>
+              to enjoy all of our cool <Link color={"blue.400"}>features</Link>{" "}
+              ✌️
             </Text>
           </Stack>
           <Box
-            rounded={'lg'}
-            bg={useColorModeValue('white', 'gray.700')}
-            boxShadow={'lg'}
-            p={8}>
+            rounded={"lg"}
+            bg={useColorModeValue("white", "gray.700")}
+            boxShadow={"lg"}
+            p={8}
+          >
             <Stack spacing={4}>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <FormControl isRequired>
                   <FormLabel>Email address</FormLabel>
-                  <Input
-                    type="email"
-                    id='email'
-                    {...register('email')}
-                  />
+                  <Input type="email" id="email" {...register("email")} />
                 </FormControl>
                 <FormControl isRequired>
                   <FormLabel>Password</FormLabel>
                   <Input
                     type="password"
-                    id='password'
-                    {...register('password')}
+                    id="password"
+                    {...register("password")}
                   />
                 </FormControl>
-                <Stack mt={4} spacing={4} align='center'>
+                <Stack mt={4} spacing={4} align="center">
                   <Stack
-                    direction={{ base: 'column', sm: 'row' }}
-                    align={'start'}
-                    justify={'space-between'}>
+                    direction={{ base: "column", sm: "row" }}
+                    align={"start"}
+                    justify={"space-between"}
+                  >
                     <Checkbox>Remember me</Checkbox>
-                    <Link color={'blue.400'} href='reset-password'>Forgot password?</Link>
+                    <Link color={"blue.400"} href="reset-password">
+                      Forgot password?
+                    </Link>
                   </Stack>
                   {error && <p>{error}</p>}
                   <Button
-                    type='submit'
-                    width={'100%'}
-                    bg={'blue.400'}
-                    color={'white'}
+                    type="submit"
+                    width={"100%"}
+                    bg={"blue.400"}
+                    color={"white"}
                     _hover={{
-                      bg: 'blue.500',
-                    }}>
+                      bg: "blue.500",
+                    }}
+                  >
                     Sign in
                   </Button>
                 </Stack>
@@ -105,15 +118,11 @@ const SignIn: NextPageWithLayout = () => {
         </Stack>
       </Flex>
     </>
-  )
-}
+  );
+};
 
 SignIn.getLayout = function getLayout(page: ReactElement) {
-  return (
-    <Layout>
-      {page}
-    </Layout>
-  )
-}
+  return <Layout>{page}</Layout>;
+};
 
 export default SignIn;
