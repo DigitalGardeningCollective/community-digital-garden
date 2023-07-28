@@ -17,9 +17,9 @@ export const Footer = () => {
 
   return (
     <Box
-      mt={8}
+      // mt={8}
       bg={'footerBrown'}
-      style={{ position: 'absolute', bottom: 0 }}
+      // style={{ position: 'fixed', bottom: 0 }}
       width={'100%'}
       >
       <Container as={Stack} maxW={'4xl'} py={10}>

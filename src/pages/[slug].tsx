@@ -4,11 +4,27 @@ import { NextPageWithLayout } from './_app';
 import { Container, Text } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import { Layout } from '@/components/layouts/Layout';
+import { useFetchPiece } from '@/hooks/useFetchPiece';
+import { PieceHeader } from '@/components/PieceHeader/PieceHeader';
+import PieceContent from '@/components/PieceContent/PieceContent';
+import { useFetchContributorForPiece } from '@/hooks/useFetchContributorForPiece';
+import { useFetchTagsForPiece } from '@/hooks/useFetchTagsForPiece';
 
 const Piece: NextPageWithLayout = () => {
     const router = useRouter();
     
     console.log('router.query.slug -', router.query.slug);
+
+    if (Array.isArray(router.query.slug)) {
+      throw Error();
+    }
+
+    const { pieceView } = useFetchPiece(router.query.slug);
+    const { contributor } = useFetchContributorForPiece(router.query.slug);
+    const { tags } = useFetchTagsForPiece(router.query.slug);
+
+    console.log('pieceView -', pieceView);
+    console.log('tags -', tags);
 
     return (
     <>
@@ -18,9 +34,26 @@ const Piece: NextPageWithLayout = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Container maxW={'4xl'} padding={0}>
-        <Text>Piece Page</Text>
-      </Container>
+      { pieceView && contributor && tags &&
+          pieceView.title && pieceView.growth_stage && pieceView.created_at && pieceView.content &&
+        <Container maxW={'4xl'} padding={0}>
+          <PieceHeader 
+            header={{
+              title: pieceView.title,
+              description: pieceView.description,
+              cover_url: pieceView.cover_url,
+              growth_stage: pieceView.growth_stage,
+              created_at: pieceView.created_at,
+              updated_at: pieceView.updated_at,
+              contributor: contributor,
+              tags: tags
+            }}
+          />
+          <PieceContent 
+            body={pieceView.content}
+          />
+        </Container>
+      }
     </>
   )
 }

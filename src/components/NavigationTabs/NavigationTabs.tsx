@@ -1,17 +1,20 @@
-import { Box } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import { LinkItem, CustomNavLink } from "../CustomNavLink/CustomNavLink";
+import { User } from "@supabase/supabase-js";
 
 interface Props {
+  user: User | null;
   linkItems: LinkItem[];
   isInSidebar: boolean;
+  hasCenteredTabs: boolean;
 }
 
-export const NavigationTabs = ({ linkItems, isInSidebar }: Props) => {
+export const NavigationTabs = ({ user, linkItems, isInSidebar, hasCenteredTabs }: Props) => {
   return (
-    <Box
+    <Flex
       display={{ base: (isInSidebar ? "flex" : "none"), md: "flex" }}
-      ml={(isInSidebar ? 8 : 0)}
-      bg="white"
+      ml={(isInSidebar ? 8 : 4)}
+      flex={user && hasCenteredTabs ? 1 : 0}
     >
       { isInSidebar ?
         <ul>
@@ -23,6 +26,6 @@ export const NavigationTabs = ({ linkItems, isInSidebar }: Props) => {
           <CustomNavLink key={i} link={link} />
         ))
       }
-    </Box>
+    </Flex>
   )
 }

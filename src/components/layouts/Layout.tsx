@@ -16,6 +16,7 @@ export const Layout = ({ children }: PropsWithChildren) => {
     { label: "Essays", href: "/" },
     { label: "Contributors", href: "/" },
   ];
+  
   return (
     <ChakraProvider theme={extendedTheme}>
       <Box minH="100vh" bg='white' >
@@ -34,13 +35,14 @@ export const Layout = ({ children }: PropsWithChildren) => {
         </Drawer>
         <Container
           maxW={'4xl'}
+          // minH={'3xl'}
           >
           <Header linkItems={items} onOpen={onOpen} />
           <Flex direction={'column'} align={'center'} pt="4">
             {children}
           </Flex>
         </Container>
-        <Footer />
+        {/* <Footer /> */}
       </Box>
     </ChakraProvider>
   )
