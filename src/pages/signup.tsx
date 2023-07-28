@@ -4,9 +4,10 @@ import { Box, Button, Flex, FormControl, FormLabel, HStack, Heading, Input, Inpu
 import { NextPageWithLayout } from './_app';
 import { Layout } from '@/components/layouts/Layout';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
-import { supabaseClient } from './api/auth';
-import { useRouter } from 'next/router'
+import { useSupabaseClient } from '@supabase/auth-helpers-react';
+import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
+import { Database } from '@/types/generated';
 
 type Inputs = {
     email: string;
@@ -20,6 +21,7 @@ const SignUp: NextPageWithLayout = () => {
     register,
     handleSubmit
   } = useForm<Inputs>();
+  const supabaseClient = useSupabaseClient<Database>();
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = React.useState<string | null>(null);
   const router = useRouter();
