@@ -16,20 +16,8 @@ type Story = StoryObj<typeof PieceCard>;
  * See https://storybook.js.org/docs/react/api/csf
  * to learn how to use render functions.
  */
-export const EmptyCard: Story = {
-  render: () => <PieceCard piece={{}}/>,
-};
 
-export const Primary: Story = {
-  render: (piece) => <PieceCard piece={piece}/>,
-};
-
-// TODO change later
-let defaultImage = 'https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
-export const NoImage: Story = {
-  render: (title, author, status) => <PieceCard piece={{title, author, status, img: defaultImage}}/>
-}
-
+// shows the example displayed in the wireframe
 export const ExampleCard: Story = {
   render: () => <PieceCard piece={{
     title: 'Title',
