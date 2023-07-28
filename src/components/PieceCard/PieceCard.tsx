@@ -3,15 +3,10 @@ import {
   Card, 
   CardHeader, 
   CardBody, 
-  CardFooter, 
   Heading, 
   Text, 
   Image, 
-  Box, 
 } from "@chakra-ui/react";
-// import React from 'react';
-// import PropTypes from 'prop-types';
-//import './PieceCard.css';
 
 interface Piece {
   title: string;
@@ -33,14 +28,12 @@ export const PieceCard = ({piece: { title, author, status, img }}: Props) =>
         alt={title} 
         boxSize='sm'
         objectFit='cover'
-        layout={'fill'}
       />
     </AspectRatio>
   </CardHeader>
   <CardBody>
-    {title ? <Heading>{title}</Heading> : <></>}
-    {author ? <Text>By {author}</Text> : <></>}
-    {status ? <Text color='grey'>{status}</Text>: <></>}
+    <Heading>{title}</Heading>
+    <Text>By {author}</Text>
+    <Text color='grey'>{status}</Text>
   </CardBody>
 </Card>
-  // <CardFooter></CardFooter>
