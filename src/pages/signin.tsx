@@ -3,10 +3,10 @@ import Head from 'next/head';
 import { Box, Button, Checkbox, Flex, FormControl, FormLabel, Heading, Input, Link, Stack, Text, useColorModeValue } from "@chakra-ui/react";
 import { NextPageWithLayout } from './_app';
 import { Layout } from '@/components/layouts/Layout';
-import { supabaseClient } from './api/auth';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
-import { useUpdateUserSession } from '@/hooks/useUpdateUserSession';
+import { useSupabaseClient } from '@supabase/auth-helpers-react'
+import { Database  } from '../types/generated';
 
 type Inputs = {
   email: string;
@@ -20,7 +20,7 @@ const SignIn: NextPageWithLayout = () => {
   } = useForm<Inputs>();
   const [error, setError] = React.useState<string | null>(null);
   const router = useRouter();
-  const { updateSession } = useUpdateUserSession();
+  const supabaseClient = useSupabaseClient<Database>();
 
   const onSubmit = async (data: any) => {
     setError(null);
@@ -30,8 +30,7 @@ const SignIn: NextPageWithLayout = () => {
         setError(response.error.message);
       } {
         console.log('signin response -', response);
-        updateSession(response.data.session);
-        router.push('/home');
+        router.push('/submissions');
       }
     } catch(error: any) {
       setError(error.message);

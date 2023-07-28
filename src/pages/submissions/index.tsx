@@ -1,12 +1,15 @@
 import { ReactElement, useEffect } from 'react';
 import Head from 'next/head';
 import { NextPageWithLayout } from '../_app';
-import { UserLayout } from '@/components/layouts/UserLayout';
+import { ModeratorLayout } from '@/components/layouts/ModeratorLayout';
 import { useFetchSubmissions } from '@/hooks/useFetchSubmissions';
-import { Table, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
+import { Box, Table, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
+import { isChangeDetails } from '@/types/utilities';
+import { format } from 'date-fns';
+import { useRouter } from 'next/router';
 
 const Submissions: NextPageWithLayout = () => {
-
+    const router = useRouter();
     const { submissions } = useFetchSubmissions();
 
     return (
@@ -17,36 +20,46 @@ const Submissions: NextPageWithLayout = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <p>Submissions</p>
-      <TableContainer minW={'4xl'}>
+      <TableContainer width={'100%'}>
+        <Box overflowX={'auto'}>
             <Table variant='striped' colorScheme='teal'>
                 <Thead>
                 <Tr>
                     <Th>Title</Th>
-                    {/* <Th>Author</Th> */}
-                    {/* <Th>Submitted</Th> */}
+                    <Th>Author</Th>
+                    <Th>Submitted</Th>
                 </Tr>
                 </Thead>
                 <Tbody>
                 { submissions && submissions.map((s, index) =>
-                    <Tr key={s.id} cursor={'pointer'} /*onClick={() => navigate(`/submissions/${s.id}`)}*/>
-                        <Td>Submission { index }</Td>
-                        {/* <Td>{ s.changeDetails.author ? s.changeDetails.author : "Not Found" }</Td> */}
-                        {/* <Td>{ timeTag(s.createdAt) }</Td> */}
+                    <Tr key={s.id} cursor={'pointer'} onClick={() => router.push(`/submissions/${encodeURIComponent(s.id)}`)}>
+                        { isChangeDetails(s.change_details) ?
+                            <>
+                                <Td>{ s.change_details.metadata.title }</Td>
+                                <Td>{ s.change_details.contributor.name }</Td>
+                            </>
+                            :
+                            <>
+                                <Td>Submission { index }</Td>
+                                <Td>Not Found</Td>
+                            </>
+                        }
+                        <Td>{ format(new Date(s.created_at), "yyyy-MM-dd h:mm") }</Td>
                     </Tr>
                 ) }
                 </Tbody>
             </Table>
-        </TableContainer>
+        </Box>
+    </TableContainer>
     </>
   )
 }
 
 Submissions.getLayout = function getLayout(page: ReactElement) {
   return (
-    <UserLayout>
+    <ModeratorLayout>
       {page}
-    </UserLayout>
+    </ModeratorLayout>
   )
 }
 
