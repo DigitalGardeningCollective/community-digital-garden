@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSupabaseClient } from '@supabase/auth-helpers-react'
 import { Database } from '../types/generated';
-import { Tag } from "@/types/manual";
 
 export const useFetchTagsForPiece = (slug: string | undefined) => {
     const [tags, setTags] = useState<string[]>();

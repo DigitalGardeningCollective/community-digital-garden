@@ -14,14 +14,14 @@ interface HeaderData {
   cover_url: string | null;
   contributor: Contributor;
   tags: string[];
-  isPreview?: boolean;
 }
 
 interface Props {
   header: HeaderData;
+  isPreview?: boolean;
 }
 
-export const PieceHeader: FC<Props> = ({ header: {
+export const PieceHeader: FC<Props> = ({ isPreview, header: {
   title,
   growth_stage,
   description,
@@ -30,7 +30,6 @@ export const PieceHeader: FC<Props> = ({ header: {
   updated_at,
   contributor,
   tags,
-  isPreview, // I think this was to indicate whether this component was being rendered on the submit page or the piece page
 }}) => {
 
   const getGrowthStageIcon = (growthStage: string) => {
