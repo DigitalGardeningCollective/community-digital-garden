@@ -1,46 +1,26 @@
 import {
     Avatar,
-    Link,
     Flex,
-    Box,
     Text,
     Popover,
     PopoverTrigger,
     PopoverContent,
-    PopoverHeader,
-    PopoverBody,
 } from '@chakra-ui/react'
+import { Contributor } from '@/types/manual'
+import PersonCard from '../PersonCard/PersonCard'
 
-interface Props {
-    avatarSource: string;
-    name: string;
-    fullName: string;
-    linkText: string;
-    linkSource: string;
-    description: string;
-}
+interface Props { contributor: Contributor }
 
-const AccountInfoCard = ({avatarSource, name, fullName, linkText, linkSource, description}: Props) =>
+const AccountInfoCard = ({contributor: {avatar_url, bio, full_name, username}}: Props) =>
 <Popover trigger="hover" placement="bottom-start">
     <PopoverTrigger>
         <Flex>
-            <Avatar size='xs' ml={-1} mr={2} src={avatarSource} name={name}/>
-            <Text>{name}</Text>
+            <Avatar size='xs' ml={-1} mr={2} src={avatar_url} name={username}/>
+            <Text>{full_name}</Text>
         </Flex>
     </PopoverTrigger>
     <PopoverContent>
-        <PopoverHeader>
-            <Flex>
-                <Avatar src={avatarSource} />
-                <Box ml='3'>
-                    <Text fontWeight='bold'>{fullName}</Text>
-                    <Link href={linkSource}>{linkText}</Link>
-                </Box>
-            </Flex>
-        </PopoverHeader>
-        <PopoverBody>
-            <Text fontSize='sm'>{description}</Text>
-        </PopoverBody>
+        <PersonCard contributor={{avatar_url, bio, full_name, username}}></PersonCard>
     </PopoverContent>
 </Popover>
 
