@@ -1,9 +1,10 @@
-import { ReactElement, useEffect } from 'react';
+import { ReactElement } from 'react';
 import Head from 'next/head';
 import { NextPageWithLayout } from './_app';
-import { UserLayout } from '@/components/layouts/UserLayout';
+import { ModeratorLayout } from '@/components/layouts/ModeratorLayout';
 import { Button, Link } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
+import { PageHeader } from '@/components/PageHeader/PageHeader';
 
 const Home: NextPageWithLayout = () => {
     const router = useRouter();
@@ -16,16 +17,16 @@ const Home: NextPageWithLayout = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Button onClick={() => router.push('/submissions')}>Submissions</Button>
+      <PageHeader title="Notes" subtitle="A collection of atomic notes, i.e. a single idea or a single object of attention." />
     </>
   )
 }
 
 Home.getLayout = function getLayout(page: ReactElement) {
   return (
-    <UserLayout>
+    <ModeratorLayout>
       {page}
-    </UserLayout>
+    </ModeratorLayout>
   )
 }
 
