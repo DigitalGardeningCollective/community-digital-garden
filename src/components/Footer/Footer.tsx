@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { Box, Container, Link as ChakraLink, SimpleGrid, Stack, Text, useColorModeValue } from '@chakra-ui/react';
+import { Box, Container, Link as ChakraLink, SimpleGrid, Stack, Text } from '@chakra-ui/react';
 import { Logo } from '../Logo/Logo';
 import { AuthOptions } from '../AuthOptions/AuthOptions';
 import { useUser } from '@supabase/auth-helpers-react';
@@ -17,9 +17,8 @@ export const Footer = () => {
 
   return (
     <Box
-      // mt={8}
+      mt={'auto'}
       bg={'footerBrown'}
-      // style={{ position: 'fixed', bottom: 0 }}
       width={'100%'}
       >
       <Container as={Stack} maxW={'4xl'} py={10}>

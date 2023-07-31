@@ -10,6 +10,8 @@ import { useInsertNewPiece } from '@/hooks/useInsertNewPiece';
 import { ChangeDetails, Published_Piece, Submission } from '@/types/manual';
 import { Json } from '@/types/generated';
 import { v4 as uuidv4 } from 'uuid';
+import { PieceHeader } from '@/components/PieceHeader/PieceHeader';
+import PieceContent from '@/components/PieceContent/PieceContent';
 
 const SubmissionPage: NextPageWithLayout = () => {
     const router = useRouter();
@@ -55,29 +57,58 @@ const SubmissionPage: NextPageWithLayout = () => {
                 templateColumns='repeat(2, 1fr)'
                 gap={5}
             >
-                <GridItem rowSpan={3} colSpan={1} bg='tomato' />
-                <GridItem rowSpan={1} colSpan={1}>
-                    <Box width={'100%'} mb={4} border='1px' borderColor='gray.200' padding={2}>
-                        <Text>Assigned Moderator</Text>
-                    </Box>
+                <GridItem rowSpan={3} colSpan={1} border='1px' borderColor='gray.200' padding={4}>
+                    <PieceHeader
+                        header={{
+                            title: submission.change_details.metadata.title,
+                            description: submission.change_details.metadata.description,
+                            cover_url: null,
+                            growth_stage: 'Seedling',
+                            created_at: submission.created_at,
+                            updated_at: null,
+                            contributor: {
+                                id: 'slkfjsf',
+                                full_name: 'Joshwin Greene',
+                                avatar_url: 'https://joshwin.dev/img/joshwin-linkedin-photo.JPG',
+                                bio: "Hello World!",
+                                created_at: '2023-07-23 21:05:28.699666+00',
+                                updated_at: '2023-07-24 21:05:28.699666+00',
+                                username: 'joshwin_green'
+                            },
+                            tags: submission.change_details.metadata.tags,
+                          }}
+                        isPreview
+                    />
+                    <PieceContent 
+                        body={submission.change_details.content}
+                    />
                 </GridItem>
                 <GridItem rowSpan={1} colSpan={1}>
-                    <Box width={'100%'} mb={4} border='1px' borderColor='gray.200' padding={2}>
-                        <Text>Approve?</Text>
+                    <Box width={'100%'} mb={4} /*border='1px' borderColor='gray.200'*/ bgColor={'#2e3637'} padding={2}>
+                        <Text fontWeight={'bold'} color='white'>Assigned Moderator</Text>
                     </Box>
                     <HStack>
-                        <Button colorScheme='green' disabled={ !submission.change_details } onClick={
-                            () => handleAccept(submission.change_details)
-                            }>Accept</Button>
-                        <Button colorScheme='gray'>Reject</Button>
+                        <Avatar size="sm" name={'John Doe'} src={'https://randomuser.me/api/portraits/men/35.jpg'}  />
+                        <Text>John Doe</Text>
                     </HStack>
                 </GridItem>
                 <GridItem rowSpan={1} colSpan={1}>
-                    <Box width={'100%'} mb={4} border='1px' borderColor='gray.200' padding={2}>
-                        <Text>Submission Details</Text>
+                    <Box width={'100%'} mb={4} bgColor={'#2e3637'} padding={2}>
+                        <Text fontWeight={'bold'} color='white'>Approve?</Text>
+                    </Box>
+                    <HStack>
+                        <Button width={'100%'} height='40' colorScheme='green' disabled={ !submission.change_details } onClick={
+                            () => handleAccept(submission.change_details)
+                            }>Accept</Button>
+                        <Button width={'100%'} height='40' colorScheme='gray'>Reject</Button>
+                    </HStack>
+                </GridItem>
+                <GridItem rowSpan={1} colSpan={1}>
+                    <Box width={'100%'} mb={4} bgColor={'#2e3637'} padding={2}>
+                        <Text fontWeight={'bold'} color='white'>Submission Details</Text>
                     </Box>
                     <VStack width='100%' padding={4} border='1px' borderColor='gray.200'>
-                        <Avatar />
+                        <Avatar size="sm" name={submission.change_details.contributor.name} src={'https://joshwin.dev/img/joshwin-linkedin-photo.JPG'} />
                         <Text>{ submission.change_details.contributor.name }</Text>
                     </VStack>
                     <TableContainer width={'100%'}>

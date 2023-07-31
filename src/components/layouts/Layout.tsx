@@ -19,7 +19,7 @@ export const Layout = ({ children }: PropsWithChildren) => {
   
   return (
     <ChakraProvider theme={extendedTheme}>
-      <Box minH="100vh" bg='white' >
+      <Flex minH="100vh" bg='white' flexDirection={'column'} >
         <Drawer
           autoFocus={false}
           isOpen={isOpen}
@@ -35,15 +35,14 @@ export const Layout = ({ children }: PropsWithChildren) => {
         </Drawer>
         <Container
           maxW={'4xl'}
-          // minH={'3xl'}
           >
           <Header linkItems={items} onOpen={onOpen} />
           <Flex direction={'column'} align={'center'} pt="4">
             {children}
           </Flex>
         </Container>
-        {/* <Footer /> */}
-      </Box>
+        <Footer />
+      </Flex>
     </ChakraProvider>
   )
 }

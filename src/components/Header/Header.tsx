@@ -32,7 +32,12 @@ export const Header = ({ linkItems, onOpen }: Props) => {
       />
       <Logo user={user} isDark />
       <Box display={{ base: "flex", md: "none" }} />
-      <NavigationTabs linkItems={linkItems} isInSidebar={false} />
+      <NavigationTabs
+        user={user}
+        linkItems={linkItems}
+        isInSidebar={false}
+        hasCenteredTabs
+      />
       {user ? (
         <SignOutBtn />
       ) : (

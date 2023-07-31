@@ -1,27 +1,13 @@
-import React, { ReactElement, useState } from "react";
-import Head from "next/head";
-import {
-  Box,
-  Button,
-  Flex,
-  FormControl,
-  FormLabel,
-  HStack,
-  Heading,
-  Input,
-  InputGroup,
-  InputRightElement,
-  Link,
-  Stack,
-  Text,
-  useColorModeValue,
-} from "@chakra-ui/react";
-import { NextPageWithLayout } from "./_app";
-import { Layout } from "@/components/layouts/Layout";
-import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
-import { useSupabaseClient } from "@supabase/auth-helpers-react";
-import { useRouter } from "next/router";
-import { useForm } from "react-hook-form";
+import React, { ReactElement, useState } from 'react';
+import Head from 'next/head';
+import { Box, Button, Flex, FormControl, FormLabel, HStack, Heading, Input, InputGroup, InputRightElement, Link, Stack, Text, useColorModeValue } from "@chakra-ui/react";
+import { NextPageWithLayout } from './_app';
+import { Layout } from '@/components/layouts/Layout';
+import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
+import { useSupabaseClient } from '@supabase/auth-helpers-react';
+import { useRouter } from 'next/router';
+import { useForm } from 'react-hook-form';
+import { Database } from '@/types/generated';
 
 type Inputs = {
   email: string;
@@ -31,7 +17,11 @@ type Inputs = {
 };
 
 const SignUp: NextPageWithLayout = () => {
-  const { register, handleSubmit } = useForm<Inputs>();
+  const {
+    register,
+    handleSubmit
+  } = useForm<Inputs>();
+  const supabaseClient = useSupabaseClient<Database>();
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = React.useState<string | null>(null);
   const router = useRouter();
