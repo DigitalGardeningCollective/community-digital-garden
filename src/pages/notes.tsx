@@ -5,6 +5,8 @@ import { useRouter } from "next/router";
 import { Layout } from "@/components/layouts/Layout";
 import Head from "next/head";
 import { useFetchNotes } from "@/hooks/useFetchNotes";
+import { PieceCard } from "@/components/PieceCard/PieceCard";
+import Piece from "./[slug]";
 
 const Notes: NextPageWithLayout = () => {
   const router = useRouter();
@@ -27,6 +29,10 @@ const Notes: NextPageWithLayout = () => {
         // subtitle=ion."
     })*/
       />
+      {published_piece_view &&
+        published_piece_view.map((p, index) => {
+          <PieceCard key={index}>{p.content}</PieceCard>;
+        })}
     </>
   );
 };
