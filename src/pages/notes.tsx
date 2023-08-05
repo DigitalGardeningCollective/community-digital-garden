@@ -1,17 +1,15 @@
 import { PageHeader } from "@/components/PageHeader/PageHeader";
 import { ReactElement, useEffect, useState } from "react";
 import { NextPageWithLayout } from "./_app";
-import { useRouter } from "next/router";
 import { Layout } from "@/components/layouts/Layout";
 import Head from "next/head";
 import { useFetchNotes } from "@/hooks/useFetchNotes";
 import { PieceCard } from "@/components/PieceCard/PieceCard";
-import Piece from "./[slug]";
 
 const Notes: NextPageWithLayout = () => {
-  const router = useRouter();
   const { published_piece_view } = useFetchNotes();
   console.log(published_piece_view);
+
   return (
     <>
       <Head>
@@ -21,17 +19,19 @@ const Notes: NextPageWithLayout = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <PageHeader
-        title={""}
-        subtitle={""}
-        /*published_piece_view && published_piece_view.map((p,index) =>{
-        // title={p.title}
-        // subtitle=ion."
-    })*/
-      />
+      <PageHeader title={"some header"} subtitle={"some subtitle header"} />
+
       {published_piece_view &&
-        published_piece_view.map((p, index) => {
-          <PieceCard key={index}>{p.content}</PieceCard>;
+        published_piece_view?.map((p) => {
+          <PieceCard
+            key={p.id}
+            piece={{
+              title: p.title,
+              growth_stage: p.growth_stage,
+              cover_url: p.cover_url,
+            }}
+            contributor={{ full_name: "Sam Smith" }}
+          ></PieceCard>;
         })}
     </>
   );
