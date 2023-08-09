@@ -1,6 +1,7 @@
 import { ReactElement } from 'react';
 import Head from 'next/head';
 import { NextPageWithLayout } from './_app';
+import { Container, Text } from '@chakra-ui/react';
 import { PageHeader } from '@/components/PageHeader/PageHeader';
 import { useFetchPiece } from '@/hooks/useFetchPiece';
 import { PieceCard } from '@/components/PieceCard/PieceCard';
@@ -15,6 +16,8 @@ const Essays: NextPageWithLayout = () => {
     console.log('router.query.slug -', router.query.slug)
     const { pieceView } = useFetchPiece(router.query.slug);
     console.log('pieceView -', pieceView);
+
+    const testPiece = { title: "test", author: "test", status: "Evergreen", img: null }
    
     if (Array.isArray(router.query.slug)) {
         throw Error();
@@ -30,6 +33,8 @@ const Essays: NextPageWithLayout = () => {
             // pieceView.map(piece => (
             //     <PieceCard piece={piece}/>
             // ))
+
+            <PieceCard piece={testPiece}/>
 
         }
     </>
