@@ -3,7 +3,7 @@ import Head from 'next/head';
 import { NextPageWithLayout } from './_app';
 import { Container, Text } from '@chakra-ui/react';
 import { PageHeader } from '@/components/PageHeader/PageHeader';
-import { useFetchPiece } from '@/hooks/useFetchPiece';
+import { useFetchEssays } from '@/hooks/useFetchEssays';
 import { PieceCard } from '@/components/PieceCard/PieceCard';
 import { useRouter } from 'next/router';
 // Add the page's header using the PageHeader component
@@ -14,10 +14,10 @@ const Essays: NextPageWithLayout = () => {
     
     // Add a simple Supabase query to only fetch essays from the "piece" table
     console.log('router.query.slug -', router.query.slug)
-    const { pieceView } = useFetchPiece(router.query.slug);
-    console.log('pieceView -', pieceView);
+    const { pieces } = useFetchEssays();
+    console.log('essayView -', pieces);
 
-    const testPiece = { title: "test", author: "test", status: "Evergreen", img: null }
+    //const testPiece = { title: "test", author: "test", status: "Evergreen", img: null }
    
     if (Array.isArray(router.query.slug)) {
         throw Error();
@@ -30,11 +30,9 @@ const Essays: NextPageWithLayout = () => {
     </Head>
         <PageHeader title="Essays" subtitle="A collection of atomic notes, i.e. a single idea or a single object of attention." />
         {
-            // pieceView.map(piece => (
-            //     <PieceCard piece={piece}/>
-            // ))
-
-            <PieceCard piece={testPiece}/>
+            pieces?.map(piece => (
+                <PieceCard piece={piece}/>
+            ))
 
         }
     </>
