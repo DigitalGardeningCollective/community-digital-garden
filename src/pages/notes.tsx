@@ -24,13 +24,27 @@ const Notes: NextPageWithLayout = () => {
       {published_piece_view &&
         published_piece_view?.map((p) => {
           <PieceCard
-            key={p.id}
             piece={{
+              id: p.id,
               title: p.title,
               growth_stage: p.growth_stage,
               cover_url: p.cover_url,
+              created_at: p.created_at,
+              description: p.description,
+              type: p.type,
+              updated_at: p.updated_at,
+              url_key: p.url_key,
+              content: p.content,
             }}
-            contributor={{ full_name: "Sam Smith" }}
+            contributor={{
+              id: "1",
+              avatar_url: "",
+              bio: "I like Coding",
+              username: "TheeSamSmith01",
+              full_name: "Sam Smith",
+              created_at: "",
+              updated_at: "",
+            }}
           ></PieceCard>;
         })}
     </>
