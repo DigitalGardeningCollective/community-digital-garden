@@ -11,7 +11,7 @@ import PersonCard from '../PersonCard/PersonCard'
 
 interface Props { contributor: Contributor }
 
-const AccountInfoCard = ({contributor: {avatar_url, bio, full_name, username}}: Props) =>
+const PersonPopover = ({contributor: {avatar_url, bio, full_name, username}}: Props) =>
 <Popover trigger="hover" placement="bottom-start">
     <PopoverTrigger>
         <Flex>
@@ -24,4 +24,4 @@ const AccountInfoCard = ({contributor: {avatar_url, bio, full_name, username}}: 
     </PopoverContent>
 </Popover>
 
-export default AccountInfoCard
+export default PersonPopover

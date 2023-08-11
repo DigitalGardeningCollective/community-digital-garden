@@ -15,7 +15,7 @@ import { Contributor } from '@/types/manual'
 interface Props { contributor: Contributor }
 
 const PersonCard = ({contributor: {avatar_url, full_name, username, bio}}: Props) => 
-<Card maxW='sm'>
+<Card size='sm' width='sm'>
     <CardHeader>
         <Flex>
             <Avatar src={avatar_url} />
