@@ -11,8 +11,7 @@ import { Published_Piece_View } from '../types/manual';
 // Add the page's header using the PageHeader component
 // Show the fetched essays in a list (use the PieceCard component for each item)
 
-const contributor = (essay: Published_Piece_View) => useFetchContributorForPiece(essay.id).contributor
-const essay = (essay: Published_Piece_View) => <PieceCard piece={essay} contributor={contributor}/>
+const essay = (essay: Published_Piece_View) => <PieceCard piece={essay} contributor={{id: "1", avatar_url: "", bio: "I like coding", username: "TheeSamSmith01", full_nme: "Sam Smith", created_at:"", updated_at:""}}/>
 
 const Essays: NextPageWithLayout = () => {
     const router = useRouter();
