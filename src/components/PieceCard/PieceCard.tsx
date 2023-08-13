@@ -9,6 +9,13 @@ import {
   Image, 
 } from "@chakra-ui/react";
 
+interface Piece {
+  title: string;
+  author: string;
+  status: string;
+  img: string;
+}
+
 interface Props {
   piece: Published_Piece_View;
   contributor: Contributor;
