@@ -7,8 +7,8 @@ import { useFetchNotes } from "@/hooks/useFetchNotes";
 import { PieceCard } from "@/components/PieceCard/PieceCard";
 
 const Notes: NextPageWithLayout = () => {
-  const { published_piece_view } = useFetchNotes();
-  console.log(published_piece_view);
+  const { notes } = useFetchNotes();
+  console.log(notes);
 
   return (
     <>
@@ -19,23 +19,17 @@ const Notes: NextPageWithLayout = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <PageHeader title={"some header"} subtitle={"some subtitle header"} />
+      <PageHeader
+        title={"Notes"}
+        subtitle={
+          "A collection of atomic notes, i.e. a single idea or a single object of attention."
+        }
+      />
 
-      {published_piece_view &&
-        published_piece_view?.map((p) => {
+      {notes &&
+        notes?.map((n) => {
           <PieceCard
-            piece={{
-              id: p.id,
-              title: p.title,
-              growth_stage: p.growth_stage,
-              cover_url: p.cover_url,
-              created_at: p.created_at,
-              description: p.description,
-              type: p.type,
-              updated_at: p.updated_at,
-              url_key: p.url_key,
-              content: p.content,
-            }}
+            piece={n}
             contributor={{
               id: "1",
               avatar_url: "",

@@ -4,7 +4,7 @@ import { useSupabaseClient } from '@supabase/auth-helpers-react'
 import { Database } from '../types/generated';
 
   export const useFetchNotes = () => {
-  const [published_piece_view, setPublishedPieceView] = useState<Published_Piece_View[] | null>(null);
+  const [notes, setNotes] = useState<Published_Piece_View[] | null>(null);
   const supabaseClient = useSupabaseClient<Database>();
 
    const fetchNotes = async () => {
@@ -14,7 +14,7 @@ import { Database } from '../types/generated';
       .eq('type', 'Note')
     if (data) {
       console.log("fetchNotes - data -", data);
-      setPublishedPieceView(data);
+      setNotes(data);
     }
     if (error) {
       console.log("error -", error);
@@ -24,7 +24,7 @@ import { Database } from '../types/generated';
 
   useEffect(() => {
     fetchNotes();
-  }, []);
+  }, );
 
-  return { published_piece_view };
+  return { notes };
 }
