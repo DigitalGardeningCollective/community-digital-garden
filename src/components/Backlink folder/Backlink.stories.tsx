@@ -2,7 +2,7 @@
 
 import Backlink from "./Backlink";
 
-export const WithDescription = () => {
+export const withDescription = () => {
   const backlink1 = {
     avatarUrl:
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSMVh2ALrbWhU_kdcsEqP_ECUASOOANyYd8NAoDOllt3A&s",
