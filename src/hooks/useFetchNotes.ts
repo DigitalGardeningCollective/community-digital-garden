@@ -24,7 +24,7 @@ import { Database } from '../types/generated';
 
   useEffect(() => {
     fetchNotes();
-  }, );
+  }, []);
 
   return { notes };
 }
