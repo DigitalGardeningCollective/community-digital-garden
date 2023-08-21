@@ -7,13 +7,13 @@ import { Database } from '../types/generated';
   const [notes, setNotes] = useState<Published_Piece_View[] | null>(null);
   const supabaseClient = useSupabaseClient<Database>();
 
-   const fetchNotes = async () => {
+  useEffect(() => {
+    const fetchNotes = async () => {
     const { data, error } = await supabaseClient
       .from('published_piece_view')
       .select('*')
       .eq('type', 'Note')
     if (data) {
-      console.log("fetchNotes - data -", data);
       setNotes(data);
     }
     if (error) {
@@ -22,9 +22,8 @@ import { Database } from '../types/generated';
     
   };
 
-  useEffect(() => {
     fetchNotes();
-  }, []);
+  }, [supabaseClient]);
 
   return { notes };
 }

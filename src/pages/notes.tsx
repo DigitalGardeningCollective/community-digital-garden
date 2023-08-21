@@ -5,7 +5,7 @@ import { Layout } from "@/components/layouts/Layout";
 import Head from "next/head";
 import { useFetchNotes } from "@/hooks/useFetchNotes";
 import { PieceCard } from "@/components/PieceCard/PieceCard";
-
+import { Container } from "@chakra-ui/react";
 const Notes: NextPageWithLayout = () => {
   const { notes } = useFetchNotes();
   console.log(notes);
@@ -19,28 +19,33 @@ const Notes: NextPageWithLayout = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <PageHeader
-        title={"Notes"}
-        subtitle={
-          "A collection of atomic notes, i.e. a single idea or a single object of attention."
-        }
-      />
+      <Container maxW={"4xl"} padding={0}>
+        <PageHeader
+          title={"Notes"}
+          subtitle={
+            "A collection of atomic notes, i.e. a single idea or a single object of attention."
+          }
+        />
 
-      {notes &&
-        notes?.map((n) => {
-          <PieceCard
-            piece={n}
-            contributor={{
-              id: "1",
-              avatar_url: "",
-              bio: "I like Coding",
-              username: "TheeSamSmith01",
-              full_name: "Sam Smith",
-              created_at: "",
-              updated_at: "",
-            }}
-          ></PieceCard>;
-        })}
+        {notes &&
+          notes?.map((n) => {
+            return (
+              <PieceCard
+                key={n.id}
+                piece={n}
+                contributor={{
+                  id: "1",
+                  avatar_url: "",
+                  bio: "I like Coding",
+                  username: "TheeSamSmith01",
+                  full_name: "Sam Smith",
+                  created_at: "",
+                  updated_at: "",
+                }}
+              ></PieceCard>
+            );
+          })}
+      </Container>
     </>
   );
 };
