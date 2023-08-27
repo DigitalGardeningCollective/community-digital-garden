@@ -8,7 +8,6 @@ import PersonCard from '@/components/PersonCard/PersonCard'
 import { Stack } from '@chakra-ui/react'
 import { Contributor } from '@/types/manual'
 
-const useContributors = () => useFetchContributors().contributors || []
 const contributor = (contributor: Contributor) => <PersonCard {...{contributor}}></PersonCard>
 
 const Contributors: NextPageWithLayout = () => <Layout>
@@ -19,7 +18,7 @@ const Contributors: NextPageWithLayout = () => <Layout>
         <link rel="icon" href="/favicon.ico" />
     </Head>
     <PageHeader title="Contributors" subtitle="A collection of contributors." />
-    <Stack spacing={4}>{useContributors().map(contributor)}</Stack>
+    <Stack spacing={4}>{useFetchContributors().contributors.map(contributor)}</Stack>
 </Layout>
 
 export default Contributors

@@ -4,7 +4,7 @@ import { useSupabaseClient } from '@supabase/auth-helpers-react'
 import { Database } from '../types/generated'
 
 export const useFetchContributors = () => {
-    const [contributors, setContributors] = useState<Contributor[] | null>(null)
+    const [contributors, setContributors] = useState<Contributor[]>([])
     const supabaseClient = useSupabaseClient<Database>()
 
     const fetchContributors = async () => {
