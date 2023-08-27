@@ -10,13 +10,7 @@ export const Logo = ({ user, isDark }: Props) => {
 
   return (
     <HStack>
-      <Text
-        fontSize="2xl"
-        fontFamily="monospace"
-        fontWeight="bold"
-        >
-        <Image width={20} src={isDark ? "/co-x3-logo-dark.png" : "/co-x3-logo-white.png"} alt='Co-x3 Logo' />
-      </Text>
+      <Image width={20} src={isDark ? "/co-x3-logo-dark.png" : "/co-x3-logo-white.png"} alt='Co-x3 Logo' />
       { user && 
         <Box
           as='button'

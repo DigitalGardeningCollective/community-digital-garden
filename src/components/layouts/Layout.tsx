@@ -19,7 +19,7 @@ export const Layout = ({ children }: PropsWithChildren) => {
   
   return (
     <ChakraProvider theme={extendedTheme}>
-      <Flex minH="100vh" bg='white' flexDirection={'column'} >
+      <Flex minH="100vh" bg='white' flexDirection={'column'}>
         <Drawer
           autoFocus={false}
           isOpen={isOpen}
