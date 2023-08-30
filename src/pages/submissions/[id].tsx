@@ -25,19 +25,44 @@ const SubmissionPage: NextPageWithLayout = () => {
     const { submission } = useFetchSubmission(router.query.id);
     const { insertPiece } = useInsertNewPiece();
 
+    const getPieceTypeID = (pieceType: string) => {
+        switch (pieceType) {
+            case 'note':
+                return 1;
+            case 'essay':
+                return 2;
+            default:
+                throw Error('Piece type is not valid.');
+        }
+    }
+
+    const getGrowthStageID = (growthStage: string) => {
+        switch (growthStage) {
+            case 'seedling':
+                return 1;
+            case 'budding':
+                return 2;
+            case 'evergreen':
+                return 3;
+            default:
+                throw Error('Growth stage is not valid.');
+        }
+    }
+
     const handleAccept = (changeDetails: Json) => {
-        if (isChangeDetails(changeDetails)) { // Note: I will need to remove the tags property from the changeDetails object if I want to make this cleaner.
+        if (isChangeDetails(changeDetails)) {
             insertPiece({ 
                 id: uuidv4(), // TODO: Check if the id is available in the piece table
                 title: changeDetails.metadata.title,
                 description: changeDetails.metadata.description,
                 url_key: changeDetails.metadata.url_key,
-                piece_type_id: changeDetails.metadata.piece_type_id,
-                growth_stage_id: changeDetails.metadata.growth_stage_id,
+                piece_type_id: getPieceTypeID(changeDetails.metadata.piece_type.toLowerCase()),
+                growth_stage_id: getGrowthStageID(changeDetails.metadata.growth_stage.toLowerCase()),
                 cover_url: changeDetails.metadata.cover_url,
                 open_to_collab: changeDetails.metadata.open_to_collab,
                 content: changeDetails.content,
             });
+            // TODO: Insert any new tags and add the piece_tag relationships
         }
     }
 
@@ -52,7 +77,7 @@ const SubmissionPage: NextPageWithLayout = () => {
       <Container maxW={'4xl'} padding={0}>
         { submission && isChangeDetails(submission.change_details) &&
             <Grid 
-                h='200px'
+                h='100vh'
                 templateRows='repeat(3, 1fr)'
                 templateColumns='repeat(2, 1fr)'
                 gap={5}
@@ -108,51 +133,53 @@ const SubmissionPage: NextPageWithLayout = () => {
                         <Text fontWeight={'bold'} color='white'>Submission Details</Text>
                     </Box>
                     <VStack width='100%' padding={4} border='1px' borderColor='gray.200'>
-                        <Avatar size="sm" name={submission.change_details.contributor.name} src={'https://joshwin.dev/img/joshwin-linkedin-photo.JPG'} />
-                        <Text>{ submission.change_details.contributor.name }</Text>
+                        <Avatar size="sm" name={submission.change_details.contributor.full_name} src={'https://joshwin.dev/img/joshwin-linkedin-photo.JPG'} />
+                        <Text>{ submission.change_details.contributor.full_name }</Text>
                     </VStack>
-                    <TableContainer width={'100%'}>
-                        <Box overflowX={'auto'}>
-                            <Table variant='striped' colorScheme='gray' size={'sm'}>
-                                <Thead>
-                                <Tr>
-                                    <Th>Property</Th>
-                                    <Th>Value</Th>
-                                </Tr>
-                                </Thead>
-                                <Tbody>
+                    <Container overflow={'scroll'} padding={0} maxWidth={'lg'}>
+                        <TableContainer>
+                            <Box>
+                                <Table variant='striped' colorScheme='gray' size={'sm'}>
+                                    <Thead>
                                     <Tr>
-                                        <Td>Title</Td>
-                                        <Td>{ submission.change_details.metadata.title }</Td>
+                                        <Th>Property</Th>
+                                        <Th>Value</Th>
                                     </Tr>
-                                    <Tr>
-                                        <Td>Description</Td>
-                                        <Td>{ submission.change_details.metadata.description }</Td>
-                                    </Tr>
-                                    <Tr>
-                                        <Td>Tags</Td>
-                                        <Td>{ submission.change_details.metadata.tags.join(",") }</Td>
-                                    </Tr>
-                                    <Tr>
-                                        <Td>Type</Td>
-                                        <Td>{ submission.change_details.metadata.piece_type_id }</Td>
-                                    </Tr>
-                                    <Tr>
-                                        <Td>Growth Stage</Td>
-                                        <Td>{ submission.change_details.metadata.growth_stage_id }</Td>
-                                    </Tr>
-                                    <Tr>
-                                        <Td>Open to Collaboration</Td>
-                                        <Td>{ submission.change_details.metadata.open_to_collab }</Td>
-                                    </Tr>
-                                    <Tr>
-                                        <Td>Cover URL</Td>
-                                        <Td>{ submission.change_details.metadata.cover_url }</Td>
-                                    </Tr>
-                                </Tbody>
-                            </Table>
-                        </Box>
-                    </TableContainer>
+                                    </Thead>
+                                    <Tbody>
+                                        <Tr>
+                                            <Td>Title</Td>
+                                            <Td>{ submission.change_details.metadata.title }</Td>
+                                        </Tr>
+                                        <Tr>
+                                            <Td>Description</Td>
+                                            <Td>{ submission.change_details.metadata.description }</Td>
+                                        </Tr>
+                                        <Tr>
+                                            <Td>Tags</Td>
+                                            <Td>{ submission.change_details.metadata.tags.join(", ") }</Td>
+                                        </Tr>
+                                        <Tr>
+                                            <Td>Type</Td>
+                                            <Td>{ submission.change_details.metadata.piece_type }</Td>
+                                        </Tr>
+                                        <Tr>
+                                            <Td>Growth Stage</Td>
+                                            <Td>{ submission.change_details.metadata.growth_stage }</Td>
+                                        </Tr>
+                                        <Tr>
+                                            <Td>Open to Collaboration</Td>
+                                            <Td>{ submission.change_details.metadata.open_to_collab }</Td>
+                                        </Tr>
+                                        <Tr>
+                                            <Td>Cover URL</Td>
+                                            <Td>{ submission.change_details.metadata.cover_url }</Td>
+                                        </Tr>
+                                    </Tbody>
+                                </Table>
+                            </Box>
+                        </TableContainer>
+                    </Container>
                 </GridItem>
             </Grid>
         }
