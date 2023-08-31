@@ -14,6 +14,8 @@ export type Tag = Database['public']['Tables']['tag']['Row'];
 
 export type Moderator = Database['public']['Tables']['moderator']['Row'];
 
+export type Leading_Contributors = Database['public']['Tables']['leading_contributors']['Row'];
+
 export interface ContributorDetails {
     full_name: string;
     bio: string;

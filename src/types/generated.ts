@@ -54,6 +54,79 @@ export interface Database {
         }
         Relationships: []
       }
+      leading_contributors: {
+        Row: {
+          contrib_id_1: string
+          contrib_id_2: string | null
+          contrib_id_3: string | null
+          contrib_id_4: string | null
+          contrib_id_5: string | null
+          id: number
+          published_piece_id: string
+        }
+        Insert: {
+          contrib_id_1: string
+          contrib_id_2?: string | null
+          contrib_id_3?: string | null
+          contrib_id_4?: string | null
+          contrib_id_5?: string | null
+          id?: number
+          published_piece_id: string
+        }
+        Update: {
+          contrib_id_1?: string
+          contrib_id_2?: string | null
+          contrib_id_3?: string | null
+          contrib_id_4?: string | null
+          contrib_id_5?: string | null
+          id?: number
+          published_piece_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "leading_contributors_contrib_id_1_fkey"
+            columns: ["contrib_id_1"]
+            referencedRelation: "contributor"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "leading_contributors_contrib_id_2_fkey"
+            columns: ["contrib_id_2"]
+            referencedRelation: "contributor"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "leading_contributors_contrib_id_3_fkey"
+            columns: ["contrib_id_3"]
+            referencedRelation: "contributor"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "leading_contributors_contrib_id_4_fkey"
+            columns: ["contrib_id_4"]
+            referencedRelation: "contributor"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "leading_contributors_contrib_id_5_fkey"
+            columns: ["contrib_id_5"]
+            referencedRelation: "contributor"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "leading_contributors_published_piece_id_fkey"
+            columns: ["published_piece_id"]
+            referencedRelation: "published_piece"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "leading_contributors_published_piece_id_fkey"
+            columns: ["published_piece_id"]
+            referencedRelation: "published_piece_view"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       moderator: {
         Row: {
           avatar_url: string | null

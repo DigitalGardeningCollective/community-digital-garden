@@ -27,9 +27,9 @@ const SubmissionPage: NextPageWithLayout = () => {
 
     const getPieceTypeID = (pieceType: string) => {
         switch (pieceType) {
-            case 'note':
+            case 'Note':
                 return 1;
-            case 'essay':
+            case 'Essay':
                 return 2;
             default:
                 throw Error('Piece type is not valid.');
@@ -38,11 +38,11 @@ const SubmissionPage: NextPageWithLayout = () => {
 
     const getGrowthStageID = (growthStage: string) => {
         switch (growthStage) {
-            case 'seedling':
+            case 'Seedling':
                 return 1;
-            case 'budding':
+            case 'Budding':
                 return 2;
-            case 'evergreen':
+            case 'Evergreen':
                 return 3;
             default:
                 throw Error('Growth stage is not valid.');
@@ -56,12 +56,13 @@ const SubmissionPage: NextPageWithLayout = () => {
                 title: changeDetails.metadata.title,
                 description: changeDetails.metadata.description,
                 url_key: changeDetails.metadata.url_key,
-                piece_type_id: getPieceTypeID(changeDetails.metadata.piece_type.toLowerCase()),
-                growth_stage_id: getGrowthStageID(changeDetails.metadata.growth_stage.toLowerCase()),
+                piece_type_id: getPieceTypeID(changeDetails.metadata.piece_type),
+                growth_stage_id: getGrowthStageID(changeDetails.metadata.growth_stage),
                 cover_url: changeDetails.metadata.cover_url,
                 open_to_collab: changeDetails.metadata.open_to_collab,
                 content: changeDetails.content,
             });
+            // TODO: Insert a new row into the leading contributors table
             // TODO: Insert any new tags and add the piece_tag relationships
         }
     }
@@ -87,18 +88,18 @@ const SubmissionPage: NextPageWithLayout = () => {
                         header={{
                             title: submission.change_details.metadata.title,
                             description: submission.change_details.metadata.description,
-                            cover_url: null,
-                            growth_stage: 'Seedling',
+                            cover_url: null, // TODO: Need to deal with this
+                            growth_stage: submission.change_details.metadata.growth_stage,
                             created_at: submission.created_at,
-                            updated_at: null,
+                            updated_at: null, // TODO: May not need since this is the creation step
                             contributor: {
-                                id: 'slkfjsf',
-                                full_name: 'Joshwin Greene',
-                                avatar_url: 'https://joshwin.dev/img/joshwin-linkedin-photo.JPG',
-                                bio: "Hello World!",
-                                created_at: '2023-07-23 21:05:28.699666+00',
-                                updated_at: '2023-07-24 21:05:28.699666+00',
-                                username: 'joshwin_green'
+                                id: submission.change_details.contributor.id,
+                                full_name: submission.change_details.contributor.full_name,
+                                avatar_url: submission.change_details.contributor.avatar_url,
+                                bio: submission.change_details.contributor.bio,
+                                created_at: '2023-07-23 21:05:28.699666+00', // TODO: Think about
+                                updated_at: '2023-07-24 21:05:28.699666+00', // // TODO: Think about
+                                username: submission.change_details.contributor.username
                             },
                             tags: submission.change_details.metadata.tags,
                           }}
