@@ -12,6 +12,7 @@ import { Json } from '@/types/generated';
 import { v4 as uuidv4 } from 'uuid';
 import { PieceHeader } from '@/components/PieceHeader/PieceHeader';
 import PieceContent from '@/components/PieceContent/PieceContent';
+import { useInsertLeadingContributors } from '@/hooks/useInsertLeadingContributors';
 
 const SubmissionPage: NextPageWithLayout = () => {
     const router = useRouter();
@@ -24,6 +25,7 @@ const SubmissionPage: NextPageWithLayout = () => {
 
     const { submission } = useFetchSubmission(router.query.id);
     const { insertPiece } = useInsertNewPiece();
+    const { insertLeadingContributorRow } = useInsertLeadingContributors();
 
     const getPieceTypeID = (pieceType: string) => {
         switch (pieceType) {
@@ -49,9 +51,9 @@ const SubmissionPage: NextPageWithLayout = () => {
         }
     }
 
-    const handleAccept = (changeDetails: Json) => {
+    const handleAccept = async (changeDetails: Json) => {
         if (isChangeDetails(changeDetails)) {
-            insertPiece({ 
+            const createdPiece = await insertPiece({ 
                 id: uuidv4(), // TODO: Check if the id is available in the piece table
                 title: changeDetails.metadata.title,
                 description: changeDetails.metadata.description,
@@ -62,7 +64,11 @@ const SubmissionPage: NextPageWithLayout = () => {
                 open_to_collab: changeDetails.metadata.open_to_collab,
                 content: changeDetails.content,
             });
+            // TODO: Add the contributor to the contributor if this is their first time
             // TODO: Insert a new row into the leading contributors table
+            if (createdPiece) { // TODO: Add a bulk create method
+                await insertLeadingContributorRow(createdPiece.id, changeDetails.contributor.id);
+            }
             // TODO: Insert any new tags and add the piece_tag relationships
         }
     }

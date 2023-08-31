@@ -11,8 +11,10 @@ export const useInsertNewPiece = () => {
         .from('published_piece')
         .insert(piece)
         .select()
+        .single()
         if (data) {
             console.log('insertPiece - data -', data);
+            return data;
         }
         if (error) {
             console.log('insertPiece - error -', error);
