@@ -13,6 +13,8 @@ import { v4 as uuidv4 } from 'uuid';
 import { PieceHeader } from '@/components/PieceHeader/PieceHeader';
 import PieceContent from '@/components/PieceContent/PieceContent';
 import { useInsertLeadingContributors } from '@/hooks/useInsertLeadingContributors';
+import { useInsertVersion } from '@/hooks/useInsertVersion';
+import * as Diff from 'diff';
 
 const SubmissionPage: NextPageWithLayout = () => {
     const router = useRouter();
@@ -26,6 +28,7 @@ const SubmissionPage: NextPageWithLayout = () => {
     const { submission } = useFetchSubmission(router.query.id);
     const { insertPiece } = useInsertNewPiece();
     const { insertLeadingContributorRow } = useInsertLeadingContributors();
+    const { insertVersion } = useInsertVersion();
 
     const getPieceTypeID = (pieceType: string) => {
         switch (pieceType) {
@@ -51,10 +54,10 @@ const SubmissionPage: NextPageWithLayout = () => {
         }
     }
 
+    // TODO: Check for the type of submission
     const handleAccept = async (changeDetails: Json) => {
         if (isChangeDetails(changeDetails)) {
             const createdPiece = await insertPiece({ 
-                id: uuidv4(), // TODO: Check if the id is available in the piece table
                 title: changeDetails.metadata.title,
                 description: changeDetails.metadata.description,
                 url_key: changeDetails.metadata.url_key,
@@ -64,12 +67,37 @@ const SubmissionPage: NextPageWithLayout = () => {
                 open_to_collab: changeDetails.metadata.open_to_collab,
                 content: changeDetails.content,
             });
-            // TODO: Add the contributor to the contributor if this is their first time
-            // TODO: Insert a new row into the leading contributors table
-            if (createdPiece) { // TODO: Add a bulk create method
+
+            if (createdPiece) {
+                // Create the associated version
+                const changeDiff: Json = {
+                    metadata: changeDetails.metadata,
+                    content: Diff.diffChars('', changeDetails.content).map<Json>(c => {
+
+                        let result = { value: c.value, count: c.count ?? 0 };
+
+                        if (c.added) {
+                            return { ...result, added: c.added, removed: undefined };
+                        } else if (c.removed) {
+                            return { ...result, removed: c.removed, added: undefined };
+                        } else {
+                            return result;
+                        }
+                    })
+                };
+
+                const createdVersion = await insertVersion(createdPiece.id, null, changeDiff);
+
+                // TODO: Add the contributor to the contributor if this is their first time
+
+                // TODO: Create version_contributor relationship
+
                 await insertLeadingContributorRow(createdPiece.id, changeDetails.contributor.id);
+
+                // TODO: Insert any new tags and add the piece_tag relationships
             }
-            // TODO: Insert any new tags and add the piece_tag relationships
+
+            
         }
     }
 

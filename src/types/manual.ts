@@ -1,4 +1,4 @@
-import { Database } from "./generated";
+import { Database, Json } from "./generated";
 
 export type Submission = Database['public']['Tables']['submission']['Row'];
 
@@ -15,6 +15,8 @@ export type Tag = Database['public']['Tables']['tag']['Row'];
 export type Moderator = Database['public']['Tables']['moderator']['Row'];
 
 export type Leading_Contributors = Database['public']['Tables']['piece_leading_contributor']['Row'];
+
+export type Version = Database['public']['Tables']['version']['Row'];
 
 export interface ContributorDetails {
     full_name: string;
@@ -37,7 +39,7 @@ export interface MetadataDetails {
 }
 
 export interface ChangeDetails {
-    contributor: ContributorDetails;
-    metadata: MetadataDetails;
+    contributor: ContributorDetails & Json;
+    metadata: MetadataDetails & Json;
     content: string;
 }
