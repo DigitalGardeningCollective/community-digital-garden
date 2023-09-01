@@ -1,11 +1,16 @@
 import { useSupabaseClient } from '@supabase/auth-helpers-react'
 import { Database  } from '../types/generated';
 import { useEffect, useState } from 'react';
-import { Submission_View } from '@/types/manual';
+import { Contributor, Submission_View } from '@/types/manual';
 import { isChangeDetails } from '@/types/utilities';
 
+interface Props {
+    isExistingContributor: boolean;
+    existingContributor: Contributor | null;
+}
+
 export const useCheckIfNewContributor = (submissionView: Submission_View | null) => {
-    const [isExistingContributor, setIsExistingContributor] = useState<boolean | null>(null);
+    const [result, setResult] = useState<Props | null>(null);
     const supabaseClient = useSupabaseClient<Database>();
 
     useEffect(() => {
@@ -19,9 +24,15 @@ export const useCheckIfNewContributor = (submissionView: Submission_View | null)
             if (data) {
                 console.log('checkIfExistingContributor - data -', data);
                 if (data.length == 0) {
-                    setIsExistingContributor(false);
+                    setResult({
+                        isExistingContributor: false,
+                        existingContributor: null
+                    });
                 } else {
-                    setIsExistingContributor(true);
+                    setResult({
+                        isExistingContributor: true,
+                        existingContributor: data[0]
+                    });
                 }
             }
             if (error) {
@@ -37,5 +48,9 @@ export const useCheckIfNewContributor = (submissionView: Submission_View | null)
     }, [supabaseClient, submissionView]);
     
 
-    return { isExistingContributor };
+    return { 
+        isExistingContributor: result?.isExistingContributor,
+        existingContributor: result?.existingContributor
+
+    };
 }

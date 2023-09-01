@@ -16,8 +16,10 @@ export const useInsertContributor = () => {
             updated_at: undefined
         })
         .select()
+        .single();
         if (data) {
             console.log('insertContributor - data -', data);
+            return data;
         }
         if (error) {
             console.log('insertContributor - error -', error);

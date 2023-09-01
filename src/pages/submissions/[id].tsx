@@ -17,6 +17,7 @@ import { useInsertVersion } from '@/hooks/useInsertVersion';
 import * as Diff from 'diff';
 import { useCheckIfNewContributor } from '@/hooks/useCheckIfNewContributor';
 import { useInsertContributor } from '@/hooks/useInsertContributor';
+import { useInsertVersionContributor } from '@/hooks/useInsertVersionContributor';
 
 const SubmissionPage: NextPageWithLayout = () => {
     const router = useRouter();
@@ -29,7 +30,7 @@ const SubmissionPage: NextPageWithLayout = () => {
 
     const { submissionView } = useFetchSubmission(router.query.id);
 
-    const { isExistingContributor } = useCheckIfNewContributor(submissionView);
+    const { isExistingContributor, existingContributor } = useCheckIfNewContributor(submissionView);
 
     console.log('isExistingContributor -', isExistingContributor);
 
@@ -38,6 +39,7 @@ const SubmissionPage: NextPageWithLayout = () => {
     const { insertLeadingContributorRow } = useInsertLeadingContributors();
     const { insertVersion } = useInsertVersion();
     const { insertContributor } = useInsertContributor();
+    const { insertVersionContributor } = useInsertVersionContributor();
 
     const getPieceTypeID = (pieceType: string) => {
         switch (pieceType) {
@@ -96,12 +98,15 @@ const SubmissionPage: NextPageWithLayout = () => {
                 };
 
                 const createdVersion = await insertVersion(createdPiece.id, null, changeDiff);
+                let contributor = existingContributor;
 
                 if (isExistingContributor != null && !isExistingContributor) {
-                    await insertContributor(changeDetails.contributor);
+                    contributor = await insertContributor(changeDetails.contributor);
                 }
 
-                // TODO: Create version_contributor relationship
+                if (createdVersion && contributor) {
+                    await insertVersionContributor(createdVersion.id, contributor.id, 1);
+                }
 
                 await insertLeadingContributorRow(createdPiece.id, changeDetails.contributor.id);
 
