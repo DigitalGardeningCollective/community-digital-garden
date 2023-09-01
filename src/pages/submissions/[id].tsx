@@ -15,6 +15,8 @@ import PieceContent from '@/components/PieceContent/PieceContent';
 import { useInsertLeadingContributors } from '@/hooks/useInsertLeadingContributors';
 import { useInsertVersion } from '@/hooks/useInsertVersion';
 import * as Diff from 'diff';
+import { useCheckIfNewContributor } from '@/hooks/useCheckIfNewContributor';
+import { useInsertContributor } from '@/hooks/useInsertContributor';
 
 const SubmissionPage: NextPageWithLayout = () => {
     const router = useRouter();
@@ -25,10 +27,17 @@ const SubmissionPage: NextPageWithLayout = () => {
         throw Error();
     }
 
-    const { submission } = useFetchSubmission(router.query.id);
+    const { submissionView } = useFetchSubmission(router.query.id);
+
+    const { isExistingContributor } = useCheckIfNewContributor(submissionView);
+
+    console.log('isExistingContributor -', isExistingContributor);
+
+    // Methods
     const { insertPiece } = useInsertNewPiece();
     const { insertLeadingContributorRow } = useInsertLeadingContributors();
     const { insertVersion } = useInsertVersion();
+    const { insertContributor } = useInsertContributor();
 
     const getPieceTypeID = (pieceType: string) => {
         switch (pieceType) {
@@ -54,7 +63,7 @@ const SubmissionPage: NextPageWithLayout = () => {
         }
     }
 
-    // TODO: Check for the type of submission
+    // Edit Update - TODO: Check for the type of submission
     const handleAccept = async (changeDetails: Json) => {
         if (isChangeDetails(changeDetails)) {
             const createdPiece = await insertPiece({ 
@@ -88,7 +97,9 @@ const SubmissionPage: NextPageWithLayout = () => {
 
                 const createdVersion = await insertVersion(createdPiece.id, null, changeDiff);
 
-                // TODO: Add the contributor to the contributor if this is their first time
+                if (isExistingContributor != null && !isExistingContributor) {
+                    await insertContributor(changeDetails.contributor);
+                }
 
                 // TODO: Create version_contributor relationship
 
@@ -110,7 +121,7 @@ const SubmissionPage: NextPageWithLayout = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Container maxW={'4xl'} padding={0}>
-        { submission && isChangeDetails(submission.change_details) &&
+        { isExistingContributor != null && submissionView && submissionView.created_at && isChangeDetails(submissionView.change_details) &&
             <Grid 
                 h='100vh'
                 templateRows='repeat(3, 1fr)'
@@ -120,27 +131,27 @@ const SubmissionPage: NextPageWithLayout = () => {
                 <GridItem rowSpan={3} colSpan={1} border='1px' borderColor='gray.200' padding={4}>
                     <PieceHeader
                         header={{
-                            title: submission.change_details.metadata.title,
-                            description: submission.change_details.metadata.description,
+                            title: submissionView.change_details.metadata.title,
+                            description: submissionView.change_details.metadata.description,
                             cover_url: null, // TODO: Need to deal with this
-                            growth_stage: submission.change_details.metadata.growth_stage,
-                            created_at: submission.created_at,
+                            growth_stage: submissionView.change_details.metadata.growth_stage,
+                            created_at: submissionView.created_at,
                             updated_at: null, // TODO: May not need since this is the creation step
                             contributor: {
-                                id: submission.change_details.contributor.id,
-                                full_name: submission.change_details.contributor.full_name,
-                                avatar_url: submission.change_details.contributor.avatar_url,
-                                bio: submission.change_details.contributor.bio,
+                                id: submissionView.change_details.contributor.id,
+                                full_name: submissionView.change_details.contributor.full_name,
+                                avatar_url: submissionView.change_details.contributor.avatar_url,
+                                bio: submissionView.change_details.contributor.bio,
                                 created_at: '2023-07-23 21:05:28.699666+00', // TODO: Think about
                                 updated_at: '2023-07-24 21:05:28.699666+00', // // TODO: Think about
-                                username: submission.change_details.contributor.username
+                                username: submissionView.change_details.contributor.username
                             },
-                            tags: submission.change_details.metadata.tags,
+                            tags: submissionView.change_details.metadata.tags,
                           }}
                         isPreview
                     />
                     <PieceContent 
-                        body={submission.change_details.content}
+                        body={submissionView.change_details.content}
                     />
                 </GridItem>
                 <GridItem rowSpan={1} colSpan={1}>
@@ -157,8 +168,8 @@ const SubmissionPage: NextPageWithLayout = () => {
                         <Text fontWeight={'bold'} color='white'>Approve?</Text>
                     </Box>
                     <HStack>
-                        <Button width={'100%'} height='40' colorScheme='green' disabled={ !submission.change_details } onClick={
-                            () => handleAccept(submission.change_details)
+                        <Button width={'100%'} height='40' colorScheme='green' disabled={ !submissionView.change_details } onClick={
+                            () => handleAccept(submissionView.change_details)
                             }>Accept</Button>
                         <Button width={'100%'} height='40' colorScheme='gray'>Reject</Button>
                     </HStack>
@@ -168,8 +179,9 @@ const SubmissionPage: NextPageWithLayout = () => {
                         <Text fontWeight={'bold'} color='white'>Submission Details</Text>
                     </Box>
                     <VStack width='100%' padding={4} border='1px' borderColor='gray.200'>
-                        <Avatar size="sm" name={submission.change_details.contributor.full_name} src={'https://joshwin.dev/img/joshwin-linkedin-photo.JPG'} />
-                        <Text>{ submission.change_details.contributor.full_name }</Text>
+                        <Avatar size="sm" name={submissionView.change_details.contributor.full_name} src={'https://joshwin.dev/img/joshwin-linkedin-photo.JPG'} />
+                        <Text>{ submissionView.change_details.contributor.full_name }</Text>
+                        <Text fontWeight={'bold'}>{ isExistingContributor ? 'Existing Contributor' : 'New Contributor' }</Text>
                     </VStack>
                     <Container overflow={'scroll'} padding={0} maxWidth={'lg'}>
                         <TableContainer>
@@ -184,31 +196,31 @@ const SubmissionPage: NextPageWithLayout = () => {
                                     <Tbody>
                                         <Tr>
                                             <Td>Title</Td>
-                                            <Td>{ submission.change_details.metadata.title }</Td>
+                                            <Td>{ submissionView.change_details.metadata.title }</Td>
                                         </Tr>
                                         <Tr>
                                             <Td>Description</Td>
-                                            <Td>{ submission.change_details.metadata.description }</Td>
+                                            <Td>{ submissionView.change_details.metadata.description }</Td>
                                         </Tr>
                                         <Tr>
                                             <Td>Tags</Td>
-                                            <Td>{ submission.change_details.metadata.tags.join(", ") }</Td>
+                                            <Td>{ submissionView.change_details.metadata.tags.join(", ") }</Td>
                                         </Tr>
                                         <Tr>
                                             <Td>Type</Td>
-                                            <Td>{ submission.change_details.metadata.piece_type }</Td>
+                                            <Td>{ submissionView.change_details.metadata.piece_type }</Td>
                                         </Tr>
                                         <Tr>
                                             <Td>Growth Stage</Td>
-                                            <Td>{ submission.change_details.metadata.growth_stage }</Td>
+                                            <Td>{ submissionView.change_details.metadata.growth_stage }</Td>
                                         </Tr>
                                         <Tr>
                                             <Td>Open to Collaboration</Td>
-                                            <Td>{ submission.change_details.metadata.open_to_collab }</Td>
+                                            <Td>{ submissionView.change_details.metadata.open_to_collab }</Td>
                                         </Tr>
                                         <Tr>
                                             <Td>Cover URL</Td>
-                                            <Td>{ submission.change_details.metadata.cover_url }</Td>
+                                            <Td>{ submissionView.change_details.metadata.cover_url }</Td>
                                         </Tr>
                                     </Tbody>
                                 </Table>

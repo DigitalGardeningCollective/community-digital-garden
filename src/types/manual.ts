@@ -2,6 +2,8 @@ import { Database, Json } from "./generated";
 
 export type Submission = Database['public']['Tables']['submission']['Row'];
 
+export type Submission_View = Database['public']['Views']['submission_view']['Row'];
+
 export type Published_Piece = Database['public']['Tables']['published_piece']['Row'];
 
 export type Published_Piece_View = Database['public']['Views']['published_piece_view']['Row'];
@@ -39,7 +41,7 @@ export interface MetadataDetails {
 }
 
 export interface ChangeDetails {
-    contributor: ContributorDetails & Json;
+    contributor: Contributor & Json;
     metadata: MetadataDetails & Json;
     content: string;
 }
