@@ -7,6 +7,7 @@ import { useInsertVersion } from './useInsertVersion';
 import { useInsertContributor } from './useInsertContributor';
 import { useInsertVersionContributor } from './useInsertVersionContributor';
 import { useInsertLeadingContributors } from './useInsertLeadingContributors';
+import { useAddTags } from './useAddTags';
 
 const getPieceTypeID = (pieceType: string) => {
     switch (pieceType) {
@@ -40,6 +41,7 @@ export const useAcceptPiece = () => {
     const { insertContributor } = useInsertContributor();
     const { insertVersionContributor } = useInsertVersionContributor();
     const { insertLeadingContributorRow } = useInsertLeadingContributors();
+    const { addTagsToPiece } = useAddTags();
 
     const acceptPiece = async (changeDetails: ChangeDetails & Json, isExistingContributor: boolean | undefined, existingContributor: Contributor | undefined | null) => {
         setIsLoading(true);
@@ -87,6 +89,9 @@ export const useAcceptPiece = () => {
             await insertLeadingContributorRow(createdPiece.id, changeDetails.contributor.id);
 
             // TODO: Insert any new tags and add the piece_tag relationships
+            if (changeDetails.metadata.tags.length > 0) {
+                await addTagsToPiece(changeDetails.metadata.tags, createdPiece.id);
+            }
 
             setIsLoading(false);
         }
