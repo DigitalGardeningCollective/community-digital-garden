@@ -6,18 +6,11 @@ import { Avatar, Box, Button, Container, Grid, GridItem, HStack, Table, TableCon
 import { useRouter } from 'next/router';
 import { useFetchSubmission } from '@/hooks/useFetchSubmission';
 import { isChangeDetails } from '@/types/utilities';
-import { useInsertNewPiece } from '@/hooks/useInsertNewPiece';
-import { ChangeDetails, Published_Piece, Submission } from '@/types/manual';
 import { Json } from '@/types/generated';
-import { v4 as uuidv4 } from 'uuid';
 import { PieceHeader } from '@/components/PieceHeader/PieceHeader';
 import PieceContent from '@/components/PieceContent/PieceContent';
-import { useInsertLeadingContributors } from '@/hooks/useInsertLeadingContributors';
-import { useInsertVersion } from '@/hooks/useInsertVersion';
-import * as Diff from 'diff';
 import { useCheckIfNewContributor } from '@/hooks/useCheckIfNewContributor';
-import { useInsertContributor } from '@/hooks/useInsertContributor';
-import { useInsertVersionContributor } from '@/hooks/useInsertVersionContributor';
+import { useAcceptPiece } from '@/hooks/useAcceptPiece';
 
 const SubmissionPage: NextPageWithLayout = () => {
     const router = useRouter();
@@ -32,88 +25,15 @@ const SubmissionPage: NextPageWithLayout = () => {
 
     const { isExistingContributor, existingContributor } = useCheckIfNewContributor(submissionView);
 
-    console.log('isExistingContributor -', isExistingContributor);
+    // console.log('isExistingContributor -', isExistingContributor);
 
     // Methods
-    const { insertPiece } = useInsertNewPiece();
-    const { insertLeadingContributorRow } = useInsertLeadingContributors();
-    const { insertVersion } = useInsertVersion();
-    const { insertContributor } = useInsertContributor();
-    const { insertVersionContributor } = useInsertVersionContributor();
-
-    const getPieceTypeID = (pieceType: string) => {
-        switch (pieceType) {
-            case 'Note':
-                return 1;
-            case 'Essay':
-                return 2;
-            default:
-                throw Error('Piece type is not valid.');
-        }
-    }
-
-    const getGrowthStageID = (growthStage: string) => {
-        switch (growthStage) {
-            case 'Seedling':
-                return 1;
-            case 'Budding':
-                return 2;
-            case 'Evergreen':
-                return 3;
-            default:
-                throw Error('Growth stage is not valid.');
-        }
-    }
+    const { acceptPiece, isLoading } = useAcceptPiece();
 
     // Edit Update - TODO: Check for the type of submission
     const handleAccept = async (changeDetails: Json) => {
         if (isChangeDetails(changeDetails)) {
-            const createdPiece = await insertPiece({ 
-                title: changeDetails.metadata.title,
-                description: changeDetails.metadata.description,
-                url_key: changeDetails.metadata.url_key,
-                piece_type_id: getPieceTypeID(changeDetails.metadata.piece_type),
-                growth_stage_id: getGrowthStageID(changeDetails.metadata.growth_stage),
-                cover_url: changeDetails.metadata.cover_url,
-                open_to_collab: changeDetails.metadata.open_to_collab,
-                content: changeDetails.content,
-            });
-
-            if (createdPiece) {
-                // Create the associated version
-                const changeDiff: Json = {
-                    metadata: changeDetails.metadata,
-                    content: Diff.diffChars('', changeDetails.content).map<Json>(c => {
-
-                        let result = { value: c.value, count: c.count ?? 0 };
-
-                        if (c.added) {
-                            return { ...result, added: c.added, removed: undefined };
-                        } else if (c.removed) {
-                            return { ...result, removed: c.removed, added: undefined };
-                        } else {
-                            return result;
-                        }
-                    })
-                };
-
-                const createdVersion = await insertVersion(createdPiece.id, null, changeDiff);
-                let contributor = existingContributor;
-
-                if (isExistingContributor != null && !isExistingContributor) {
-                    contributor = await insertContributor(changeDetails.contributor);
-                }
-
-                if (createdVersion && contributor) {
-                    await insertVersionContributor(createdVersion.id, contributor.id, 1);
-                }
-
-                await insertLeadingContributorRow(createdPiece.id, changeDetails.contributor.id);
-
-                // TODO: Insert any new tags and add the piece_tag relationships
-            }
-
-            
+            await acceptPiece(changeDetails, isExistingContributor, existingContributor);
         }
     }
 
@@ -173,7 +93,7 @@ const SubmissionPage: NextPageWithLayout = () => {
                         <Text fontWeight={'bold'} color='white'>Approve?</Text>
                     </Box>
                     <HStack>
-                        <Button width={'100%'} height='40' colorScheme='green' disabled={ !submissionView.change_details } onClick={
+                        <Button width={'100%'} height='40' colorScheme='green' isLoading={ isLoading } disabled={ !submissionView.change_details } onClick={
                             () => handleAccept(submissionView.change_details)
                             }>Accept</Button>
                         <Button width={'100%'} height='40' colorScheme='gray'>Reject</Button>
