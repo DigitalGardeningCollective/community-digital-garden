@@ -36,7 +36,7 @@ const Submissions: NextPageWithLayout = () => {
                         { isChangeDetails(s.change_details) ?
                             <>
                                 <Td>{ s.change_details.metadata.title }</Td>
-                                <Td>{ s.change_details.contributor.name }</Td>
+                                <Td>{ s.change_details.contributor.full_name }</Td>
                             </>
                             :
                             <>
