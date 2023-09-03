@@ -7,15 +7,17 @@ export const useFetchContributors = () => {
     const [contributors, setContributors] = useState<Contributor[]>([])
     const supabaseClient = useSupabaseClient<Database>()
 
-    const fetchContributors = async () => {
-        const { data, error } = await supabaseClient
-            .from('contributor')
-            .select()
-        if (data) setContributors(data)
-        if (error) throw Error(error.message)
-    }
-
-    useEffect(() => {fetchContributors()})
+    
+    useEffect(() => {
+        const fetchContributors = async () => {
+            const { data, error } = await supabaseClient
+                .from('contributor')
+                .select()
+            if (data) setContributors(data)
+            if (error) throw Error(error.message)
+        }
+        fetchContributors()
+    }, [supabaseClient])
 
     return { contributors }
 }

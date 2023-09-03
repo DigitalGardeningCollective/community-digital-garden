@@ -15,24 +15,21 @@ import Contributors from '@/pages/contributors'
 
 interface Props { contributor: Contributor }
 
-const PersonCard = ({ contributor }: Props) => <>
-    {
-        <Card size='sm' width='sm'>
-            <CardHeader>
-                <Flex>
-                    <Avatar src={contributor.avatar_url} />
-                    <Box ml='3'>
-                       <Text fontWeight='bold'>{contributor.full_name}</Text>
-                       <Link>@{contributor.username}</Link>
-                    </Box>
-                </Flex>
-            </CardHeader>
-            <Divider color='silver' />
-            <CardBody>
-               <Text fontSize='sm'>{contributor.bio}</Text>
-            </CardBody>
-        </Card>
-    }
-</>
+const PersonCard = ({ contributor }: Props) => 
+<Card size='sm' width='sm'>
+    <CardHeader>
+        <Flex>
+            <Avatar src={contributor.avatar_url} />
+            <Box ml='3'>
+                <Text fontWeight='bold'>{contributor.full_name}</Text>
+                <Link>@{contributor.username}</Link>
+            </Box>
+        </Flex>
+    </CardHeader>
+    <Divider color='silver' />
+    <CardBody>
+        <Text fontSize='sm'>{contributor.bio}</Text>
+    </CardBody>
+</Card>    
 
 export default PersonCard
