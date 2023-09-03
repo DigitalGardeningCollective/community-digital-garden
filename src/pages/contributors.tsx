@@ -8,8 +8,6 @@ import PersonCard from '@/components/PersonCard/PersonCard'
 import { Container, Stack } from '@chakra-ui/react'
 import { Contributor } from '@/types/manual'
 
-const contributor = (contributor: Contributor) => <PersonCard {...{contributor}}/>
-
 const Contributors: NextPageWithLayout = () => {
     const  {contributors} = useFetchContributors()
 
