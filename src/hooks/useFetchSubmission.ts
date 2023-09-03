@@ -1,21 +1,22 @@
 import { useEffect, useState } from "react";
 import { useSupabaseClient } from '@supabase/auth-helpers-react'
 import { Database } from '../types/generated';
-import { Submission } from "@/types/manual";
+import { Submission_View } from "@/types/manual";
 
 export const useFetchSubmission = (id: string | undefined) => {
-    const [submission, setSubmission] = useState<Submission | null>(null);
+    const [submissionView, setSubmissionView] = useState<Submission_View | null>(null);
     const supabaseClient = useSupabaseClient<Database>();
 
     useEffect(() => {
-        const fetchSubmission = async (id: number) => {
+        const fetchSubmissionView = async (id: number) => {
             const { data, error } = await supabaseClient
-            .from('submission')
+            .from('submission_view')
             .select()
-            .eq('id', id);
+            .eq('id', id)
+            .single();
             if (data) {
                 // console.log('fetchSubmission - data -', data);
-                setSubmission(data[0]);
+                setSubmissionView(data);
             }
             if (error) {
                 console.log('error -', error);
@@ -23,9 +24,9 @@ export const useFetchSubmission = (id: string | undefined) => {
         }
 
         if (id) {
-            fetchSubmission(parseInt(id));
+            fetchSubmissionView(parseInt(id));
         }
     }, [id, supabaseClient]);
 
-    return { submission };
+    return { submissionView };
 }
