@@ -4,7 +4,7 @@ import { useSupabaseClient } from '@supabase/auth-helpers-react'
 import { Database } from '../types/generated';
 
 export const useFetchEssays = () => {
-    const [essays, setEssays] = useState<Piece[] | null>([])
+    const [essays, setEssays] = useState<Piece[]>([])
     const supabaseClient = useSupabaseClient<Database>();
     
     const fetchEssays = async () => {
