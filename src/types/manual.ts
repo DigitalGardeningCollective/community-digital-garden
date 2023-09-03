@@ -41,6 +41,7 @@ export interface MetadataDetails {
 }
 
 export interface ChangeDetails {
+    submission_source_id: number;
     contributor: Contributor & Json;
     metadata: MetadataDetails & Json;
     content: string;

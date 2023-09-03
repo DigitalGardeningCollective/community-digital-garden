@@ -8,6 +8,7 @@ import { useInsertContributor } from './useInsertContributor';
 import { useInsertVersionContributor } from './useInsertVersionContributor';
 import { useInsertLeadingContributors } from './useInsertLeadingContributors';
 import { useAddTags } from './useAddTags';
+import { useUpdateSubmission } from './useUpdateSubmission';
 
 const getPieceTypeID = (pieceType: string) => {
     switch (pieceType) {
@@ -33,7 +34,7 @@ const getGrowthStageID = (growthStage: string) => {
     }
 }
 
-export const useAcceptPiece = () => {
+export const useAcceptSubmission = () => {
     const [isLoading, setIsLoading] = useState(false);
 
     const { insertPiece } = useInsertNewPiece();
@@ -43,7 +44,9 @@ export const useAcceptPiece = () => {
     const { insertLeadingContributorRow } = useInsertLeadingContributors();
     const { addTagsToPiece } = useAddTags();
 
-    const acceptPiece = async (changeDetails: ChangeDetails & Json, isExistingContributor: boolean | undefined, existingContributor: Contributor | undefined | null) => {
+    const { markSubmissionAsAccepted } = useUpdateSubmission();
+
+    const acceptSubmission = async (submissionID: number, changeDetails: ChangeDetails & Json, isExistingContributor: boolean | undefined, existingContributor: Contributor | undefined | null) => {
         setIsLoading(true);
         
         const createdPiece = await insertPiece({ 
@@ -88,14 +91,15 @@ export const useAcceptPiece = () => {
 
             await insertLeadingContributorRow(createdPiece.id, changeDetails.contributor.id);
 
-            // TODO: Insert any new tags and add the piece_tag relationships
             if (changeDetails.metadata.tags.length > 0) {
                 await addTagsToPiece(changeDetails.metadata.tags, createdPiece.id);
             }
+
+            await markSubmissionAsAccepted(submissionID);
 
             setIsLoading(false);
         }
     }
 
-    return { acceptPiece, isLoading };
+    return { acceptSubmission, isLoading };
 }

@@ -10,7 +10,7 @@ import { Json } from '@/types/generated';
 import { PieceHeader } from '@/components/PieceHeader/PieceHeader';
 import PieceContent from '@/components/PieceContent/PieceContent';
 import { useCheckIfNewContributor } from '@/hooks/useCheckIfNewContributor';
-import { useAcceptPiece } from '@/hooks/useAcceptPiece';
+import { useAcceptSubmission } from '@/hooks/useAcceptSubmission';
 
 const SubmissionPage: NextPageWithLayout = () => {
     const router = useRouter();
@@ -28,12 +28,12 @@ const SubmissionPage: NextPageWithLayout = () => {
     // console.log('isExistingContributor -', isExistingContributor);
 
     // Methods
-    const { acceptPiece, isLoading } = useAcceptPiece();
+    const { acceptSubmission, isLoading } = useAcceptSubmission();
 
     // Edit Update - TODO: Check for the type of submission
     const handleAccept = async (changeDetails: Json) => {
-        if (isChangeDetails(changeDetails)) {
-            await acceptPiece(changeDetails, isExistingContributor, existingContributor);
+        if (submissionView && submissionView.id && isChangeDetails(changeDetails)) {
+            await acceptSubmission(submissionView.id, changeDetails, isExistingContributor, existingContributor);
         }
     }
 
