@@ -18,7 +18,7 @@ export const useFetchEssays = () => {
         if(error) console.error('error -', error)
     }
     
-    useEffect(() => { fetchEssays() }, []);
+    useEffect(() => { fetchEssays() }, [supabaseClient]);
 
     return { essays };
 }

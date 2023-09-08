@@ -27,7 +27,7 @@ const Essays: NextPageWithLayout = () => {
                     avatar_url: "", 
                     bio: "I like coding", 
                     username: "TheeSamSmith01", 
-                    full_nme: "Sam Smith", 
+                    full_name: "Sam Smith", 
                     created_at:"", 
                     updated_at:""
                 }}/>)
