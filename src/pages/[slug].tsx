@@ -36,7 +36,7 @@ const Piece: NextPageWithLayout = () => {
       </Head>
       { pieceView && tags &&
           pieceView.title && pieceView.growth_stage && pieceView.created_at && pieceView.content &&
-        <Container maxW={'4xl'} padding={0}>
+        <Container maxW={'5xl'} padding={0}>
           <PieceHeader 
             header={{
               title: pieceView.title,
