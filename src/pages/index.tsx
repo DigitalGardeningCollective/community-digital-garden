@@ -37,7 +37,7 @@ const Landing: NextPageWithLayout = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Container maxW={'4xl'}>
+      <Container maxW={'5xl'} padding={0}>
         <Box>
           <HStack spacing={2}>
             <HiSpeakerphone />

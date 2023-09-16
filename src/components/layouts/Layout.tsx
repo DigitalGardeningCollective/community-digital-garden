@@ -34,7 +34,7 @@ export const Layout = ({ children }: PropsWithChildren) => {
           </DrawerContent>
         </Drawer>
         <Container
-          maxW={'4xl'}
+          maxW={'5xl'}
           >
           <Header linkItems={items} onOpen={onOpen} />
           <Flex direction={'column'} align={'center'} pt="4">
