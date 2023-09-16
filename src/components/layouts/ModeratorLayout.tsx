@@ -5,21 +5,18 @@ import { Header } from "../Header/Header";
 import { FiHome, FiStar } from "react-icons/fi";
 import { LinkItem } from "../CustomNavLink/CustomNavLink";
 import * as theme from "../../../.chakra/chakra.config";
-import { Footer } from "../Footer/Footer";
 
 const extendedTheme = extendTheme(theme)
 
-export const Layout = ({ children }: PropsWithChildren) => {
+export const ModeratorLayout = ({ children }: PropsWithChildren) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const items: LinkItem[] = [
-    { label: "Notes", href: "/" },
-    { label: "Essays", href: "/" },
-    { label: "Contributors", href: "/" },
+    { label: "Submissions", href: "/submissions" },
   ];
-  
+
   return (
     <ChakraProvider theme={extendedTheme}>
-      <Flex minH="100vh" bg='white' flexDirection={'column'}>
+      <Box minH="100vh" bg='white' >
         <Drawer
           autoFocus={false}
           isOpen={isOpen}
@@ -34,15 +31,13 @@ export const Layout = ({ children }: PropsWithChildren) => {
           </DrawerContent>
         </Drawer>
         <Container
-          maxW={'4xl'}
-          >
+          maxW={'4xl'}>
           <Header linkItems={items} onOpen={onOpen} />
           <Flex direction={'column'} align={'center'} pt="4">
             {children}
           </Flex>
         </Container>
-        <Footer />
-      </Flex>
+      </Box>
     </ChakraProvider>
   )
 }

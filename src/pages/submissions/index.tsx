@@ -1,14 +1,15 @@
 import { ReactElement, useEffect } from 'react';
 import Head from 'next/head';
 import { NextPageWithLayout } from '../_app';
-import { UserLayout } from '@/components/layouts/UserLayout';
+import { ModeratorLayout } from '@/components/layouts/ModeratorLayout';
 import { useFetchSubmissions } from '@/hooks/useFetchSubmissions';
-import { Table, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
+import { Box, Table, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
 import { isChangeDetails } from '@/types/utilities';
 import { format } from 'date-fns';
+import { useRouter } from 'next/router';
 
 const Submissions: NextPageWithLayout = () => {
-
+    const router = useRouter();
     const { submissions } = useFetchSubmissions();
 
     return (
@@ -19,7 +20,8 @@ const Submissions: NextPageWithLayout = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <TableContainer minW={'4xl'}>
+      <TableContainer width={'100%'}>
+        <Box overflowX={'auto'}>
             <Table variant='striped' colorScheme='teal'>
                 <Thead>
                 <Tr>
@@ -30,11 +32,11 @@ const Submissions: NextPageWithLayout = () => {
                 </Thead>
                 <Tbody>
                 { submissions && submissions.map((s, index) =>
-                    <Tr key={s.id} cursor={'pointer'} /*onClick={() => navigate(`/submissions/${s.id}`)}*/>
+                    <Tr key={s.id} cursor={'pointer'} onClick={() => router.push(`/submissions/${encodeURIComponent(s.id)}`)}>
                         { isChangeDetails(s.change_details) ?
                             <>
                                 <Td>{ s.change_details.metadata.title }</Td>
-                                <Td>{ s.change_details.contributor.name }</Td>
+                                <Td>{ s.change_details.contributor.full_name }</Td>
                             </>
                             :
                             <>
@@ -47,16 +49,17 @@ const Submissions: NextPageWithLayout = () => {
                 ) }
                 </Tbody>
             </Table>
-        </TableContainer>
+        </Box>
+    </TableContainer>
     </>
   )
 }
 
 Submissions.getLayout = function getLayout(page: ReactElement) {
   return (
-    <UserLayout>
+    <ModeratorLayout>
       {page}
-    </UserLayout>
+    </ModeratorLayout>
   )
 }
 

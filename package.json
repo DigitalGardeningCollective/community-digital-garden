@@ -18,10 +18,12 @@
     "@supabase/auth-helpers-nextjs": "^0.7.2",
     "@supabase/auth-helpers-react": "^0.4.0",
     "@supabase/supabase-js": "^2.26.0",
+    "@types/diff": "^5.0.3",
     "@types/node": "20.3.1",
     "@types/react": "18.2.14",
     "@types/react-dom": "18.2.6",
     "date-fns": "^2.30.0",
+    "diff": "^5.1.0",
     "eslint": "8.43.0",
     "eslint-config-next": "13.4.7",
     "framer-motion": "^10.12.17",
@@ -30,7 +32,10 @@
     "react-dom": "18.2.0",
     "react-hook-form": "^7.45.1",
     "react-icons": "^4.10.1",
-    "typescript": "5.1.3"
+    "react-markdown": "^8.0.7",
+    "remark-breaks": "^3.0.3",
+    "typescript": "5.1.3",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@chakra-ui/storybook-addon": "^5.0.0",
@@ -41,6 +46,7 @@
     "@storybook/nextjs": "^7.0.23",
     "@storybook/react": "^7.0.23",
     "@storybook/testing-library": "^0.0.14-next.2",
+    "@types/uuid": "^9.0.2",
     "eslint-plugin-storybook": "^0.6.12",
     "storybook": "^7.0.23"
   }
