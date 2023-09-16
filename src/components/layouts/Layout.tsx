@@ -1,4 +1,4 @@
-import { Box, ChakraProvider, Drawer, DrawerContent, Flex, useDisclosure, extendTheme, Container } from "@chakra-ui/react";
+import { ChakraProvider, Drawer, DrawerContent, Flex, useDisclosure, extendTheme, Container } from "@chakra-ui/react";
 import { PropsWithChildren } from "react";
 import { Sidebar } from "../Sidebar/Sidebar";
 import { Header } from "../Header/Header";
