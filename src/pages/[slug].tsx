@@ -20,7 +20,7 @@ const Piece: NextPageWithLayout = () => {
     }
 
     const { pieceView } = useFetchPiece(router.query.slug);
-    const { contributor } = useFetchContributorForPiece(router.query.slug);
+    // const { contributor } = useFetchContributorForPiece(router.query.slug);
     const { tags } = useFetchTagsForPiece(router.query.slug);
 
     console.log('pieceView -', pieceView);
@@ -34,7 +34,7 @@ const Piece: NextPageWithLayout = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      { pieceView && contributor && tags &&
+      { pieceView && tags &&
           pieceView.title && pieceView.growth_stage && pieceView.created_at && pieceView.content &&
         <Container maxW={'4xl'} padding={0}>
           <PieceHeader 
@@ -45,7 +45,15 @@ const Piece: NextPageWithLayout = () => {
               growth_stage: pieceView.growth_stage,
               created_at: pieceView.created_at,
               updated_at: pieceView.updated_at,
-              contributor: contributor,
+              contributor: { 
+                full_name: "Joshwin Greene", 
+                avatar_url: "https://joshwin.dev/img/joshwin-linkedin-photo.JPG",
+                id: 'sdlkfjsdlf',
+                bio: "Hello World!",
+                created_at: "2023-07-23 17:50:44.769474+00",
+                updated_at: null,
+                username: "joshwin_greene"
+              },
               tags: tags
             }}
           />
