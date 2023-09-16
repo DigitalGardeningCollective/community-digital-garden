@@ -17,7 +17,8 @@ import {
 } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
-import { supabaseClient } from './api/auth';
+import { useSupabaseClient } from '@supabase/auth-helpers-react';
+import { Database } from '@/types/generated';
 
 type UpdatePasswordFormInputs = {
   password: string;
@@ -39,6 +40,7 @@ export const UpdatePassword: NextPageWithLayout = () => {
   });
   const [submissionError, setSubmissionError] = React.useState<string | null>(null);
   const router = useRouter();
+  const supabaseClient = useSupabaseClient<Database>();
 
   const onSubmit = async (data: any) => {
     console.log('onSubmit - data -', data);
