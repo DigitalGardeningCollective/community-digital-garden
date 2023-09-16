@@ -21,9 +21,9 @@ const items: LinkItem[] = [
   ]
 
 export const NotInSideBar: Story = {
-    render: () => <NavigationTabs linkItems={items} isInSidebar={false} />,
+    render: () => <NavigationTabs user={null} linkItems={items} isInSidebar={false} hasCenteredTabs />,
   };
 
 export const InSideBar: Story = {
-render: () => <NavigationTabs linkItems={items} isInSidebar />,
+render: () => <NavigationTabs user={null} linkItems={items} isInSidebar hasCenteredTabs={false} />,
 };
