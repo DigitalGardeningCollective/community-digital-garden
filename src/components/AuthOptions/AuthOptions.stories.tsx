@@ -16,14 +16,18 @@ export const SignedOutNotSideBar: Story = {
     render: () => <AuthOptions user={null} isInSideBar={false} />,
   };
 
+/*
 export const SignedInNotSideBar: Story = {
   render: () => <AuthOptions user={{}} isInSideBar={false} />,
 };
+*/
 
 export const SignedOutInSideBar: Story = {
   render: () => <AuthOptions user={null} isInSideBar />,
 };
 
+/*
 export const SignedInInSideBar: Story = {
 render: () => <AuthOptions user={{}} isInSideBar />,
 };
+*/
