@@ -129,9 +129,9 @@ const Landing: NextPageWithLayout = () => {
           <br />
           <Text>You can watch the entire livestream that he did here:</Text>
           <br />
-          <EmbeddedVideo
+          {/* <EmbeddedVideo
             videoId='pm0mhkWj5ac'
-          />
+          /> */}
           <br />
           <Heading as='h3' size='md'>What if this was an app?</Heading>
           <br />
@@ -217,9 +217,9 @@ const Landing: NextPageWithLayout = () => {
           <br />
           <Text>You can watch that livestream here:</Text>
           <br />
-          <EmbeddedVideo
+          {/* <EmbeddedVideo
             videoId='ms3VjY2Va7c'
-          />
+          /> */}
           <br />
           <Heading as='h3' size='md'>n8n workflow</Heading>
           <br />
@@ -323,9 +323,9 @@ const Landing: NextPageWithLayout = () => {
           <br />
           <Text><Text as={'span'} fontWeight='bold'>Note:</Text> The demo shows how you would submit an edit to a piece that you had already published. The demo doesn&apos;t include any audio.</Text>
           <br />
-          <EmbeddedVideo
+          {/* <EmbeddedVideo
             videoId='PWeOS8-Jqh8'
-          />
+          /> */}
           <br />
           <Heading as='h3' size='md'>Recognizing the Project Leader</Heading>
           <br />
@@ -357,9 +357,9 @@ const Landing: NextPageWithLayout = () => {
           <br />
           <Text>Here&apos;s the livestream that Conrad and Joshwin did:</Text>
           <br />
-          <EmbeddedVideo
+          {/* <EmbeddedVideo
             videoId='1yOnRAkMwpc'
-          />
+          /> */}
           <br />
           <Heading as='h3' size='md'>Laying the Foundation for this Project and our Projects Going Forward</Heading>
           <br />
@@ -417,9 +417,9 @@ const Landing: NextPageWithLayout = () => {
           <br />
           <Text><Text as={'span'} fontWeight='bold'>Note:</Text> The intro for the demo begins at 26:19.</Text>
           <br />
-          <EmbeddedVideo
+          {/* <EmbeddedVideo
             videoId='LowOdmZLF1E?t=1578'
-          />
+          /> */}
           <br />
           <Heading as='h3' size='md'>What&apos;s Next</Heading>
           <br />
