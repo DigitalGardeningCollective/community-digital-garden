@@ -22,7 +22,7 @@ const HeaderWithHook = () => {
         { label: "Tab 3", icon: FiStar, href: "/" },
         { label: "Tab 4", icon: FiStar, href: "/" },
       ]
-    return <Header linkItems={items} onOpen={onOpen} />;
+    return <Header linkItems={items} onOpen={onOpen} search={"hello"} />;
 }
 
 export const Example: Story = {
