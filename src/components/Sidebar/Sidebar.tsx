@@ -31,7 +31,7 @@ export const Sidebar = ({ linkItems, onClose }: Props) => {
           <Logo user={user} isDark />
           <CloseButton display="flex" onClick={onClose} />
         </Flex>
-        <NavigationTabs linkItems={linkItems} isInSidebar/>
+        <NavigationTabs user={user} linkItems={linkItems} isInSidebar hasCenteredTabs={false} />
         <AuthOptions user={user} isInSideBar />
       </Box>
     )

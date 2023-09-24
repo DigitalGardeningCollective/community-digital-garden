@@ -239,6 +239,7 @@ export interface Database {
           change_details: Json
           created_at: string
           id: number
+          source_id: string | null
           submission_status_id: number
           submission_type_id: number
           updated_at: string | null
@@ -247,6 +248,7 @@ export interface Database {
           change_details: Json
           created_at?: string
           id?: number
+          source_id?: string | null
           submission_status_id?: number
           submission_type_id: number
           updated_at?: string | null
@@ -255,6 +257,7 @@ export interface Database {
           change_details?: Json
           created_at?: string
           id?: number
+          source_id?: string | null
           submission_status_id?: number
           submission_type_id?: number
           updated_at?: string | null
@@ -501,6 +504,7 @@ export interface Database {
           change_details: Json | null
           created_at: string | null
           id: number | null
+          source_id: string | null
           status: string | null
           type: string | null
           updated_at: string | null
