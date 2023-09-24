@@ -24,7 +24,7 @@ export interface Database {
           bio: string
           created_at?: string
           full_name: string
-          id: string
+          id?: string
           updated_at?: string | null
           username: string
         }
@@ -73,63 +73,33 @@ export interface Database {
         Row: {
           avatar_url: string | null
           created_at: string
+          first_name: string | null
           id: string
+          last_name: string | null
           modified_at: string | null
         }
         Insert: {
           avatar_url?: string | null
           created_at?: string
+          first_name?: string | null
           id: string
+          last_name?: string | null
           modified_at?: string | null
         }
         Update: {
           avatar_url?: string | null
           created_at?: string
+          first_name?: string | null
           id?: string
+          last_name?: string | null
           modified_at?: string | null
         }
         Relationships: []
       }
-      piece_leading_contributor: {
-        Row: {
-          contributor_id: string
-          id: number
-          published_piece_id: string
-        }
-        Insert: {
-          contributor_id: string
-          id?: number
-          published_piece_id: string
-        }
-        Update: {
-          contributor_id?: string
-          id?: number
-          published_piece_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "piece_leading_contributor_contributor_id_fkey"
-            columns: ["contributor_id"]
-            referencedRelation: "contributor"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "piece_leading_contributor_published_piece_id_fkey"
-            columns: ["published_piece_id"]
-            referencedRelation: "published_piece"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "piece_leading_contributor_published_piece_id_fkey"
-            columns: ["published_piece_id"]
-            referencedRelation: "published_piece_view"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
       published_piece: {
         Row: {
           content: string
+          copyright_agreement: string | null
           cover_url: string | null
           created_at: string
           description: string | null
@@ -143,6 +113,7 @@ export interface Database {
         }
         Insert: {
           content: string
+          copyright_agreement?: string | null
           cover_url?: string | null
           created_at?: string
           description?: string | null
@@ -156,6 +127,7 @@ export interface Database {
         }
         Update: {
           content?: string
+          copyright_agreement?: string | null
           cover_url?: string | null
           created_at?: string
           description?: string | null
@@ -178,6 +150,52 @@ export interface Database {
             foreignKeyName: "published_piece_piece_type_id_fkey"
             columns: ["piece_type_id"]
             referencedRelation: "published_piece_type"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      published_piece_contributor: {
+        Row: {
+          contributor_id: string
+          contributor_type_id: number
+          id: number
+          published_piece_id: string
+        }
+        Insert: {
+          contributor_id: string
+          contributor_type_id: number
+          id?: number
+          published_piece_id: string
+        }
+        Update: {
+          contributor_id?: string
+          contributor_type_id?: number
+          id?: number
+          published_piece_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "published_piece_contributor_contributor_id_fkey"
+            columns: ["contributor_id"]
+            referencedRelation: "contributor"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "published_piece_contributor_contributor_type_id_fkey"
+            columns: ["contributor_type_id"]
+            referencedRelation: "contributor_type"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "published_piece_contributor_published_piece_id_fkey"
+            columns: ["published_piece_id"]
+            referencedRelation: "published_piece"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "published_piece_contributor_published_piece_id_fkey"
+            columns: ["published_piece_id"]
+            referencedRelation: "published_piece_view"
             referencedColumns: ["id"]
           }
         ]
@@ -238,8 +256,10 @@ export interface Database {
         Row: {
           change_details: Json
           created_at: string
+          decision_moderator_id: string | null
           id: number
-          source_id: string | null
+          rejection_reason: string | null
+          source_id: string
           submission_status_id: number
           submission_type_id: number
           updated_at: string | null
@@ -247,8 +267,10 @@ export interface Database {
         Insert: {
           change_details: Json
           created_at?: string
+          decision_moderator_id?: string | null
           id?: number
-          source_id?: string | null
+          rejection_reason?: string | null
+          source_id: string
           submission_status_id?: number
           submission_type_id: number
           updated_at?: string | null
@@ -256,13 +278,21 @@ export interface Database {
         Update: {
           change_details?: Json
           created_at?: string
+          decision_moderator_id?: string | null
           id?: number
-          source_id?: string | null
+          rejection_reason?: string | null
+          source_id?: string
           submission_status_id?: number
           submission_type_id?: number
           updated_at?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "submission_decision_moderator_id_fkey"
+            columns: ["decision_moderator_id"]
+            referencedRelation: "moderator"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "submission_submission_status_id_fkey"
             columns: ["submission_status_id"]
@@ -273,43 +303,6 @@ export interface Database {
             foreignKeyName: "submission_submission_type_id_fkey"
             columns: ["submission_type_id"]
             referencedRelation: "submission_type"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
-      submission_moderator: {
-        Row: {
-          id: number
-          moderator_id: string
-          submission_id: number
-        }
-        Insert: {
-          id?: number
-          moderator_id: string
-          submission_id: number
-        }
-        Update: {
-          id?: number
-          moderator_id?: string
-          submission_id?: number
-        }
-        Relationships: [
-          {
-            foreignKeyName: "submission_moderator_moderator_id_fkey"
-            columns: ["moderator_id"]
-            referencedRelation: "moderator"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "submission_moderator_submission_id_fkey"
-            columns: ["submission_id"]
-            referencedRelation: "submission"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "submission_moderator_submission_id_fkey"
-            columns: ["submission_id"]
-            referencedRelation: "submission_view"
             referencedColumns: ["id"]
           }
         ]
@@ -350,6 +343,43 @@ export interface Database {
         }
         Relationships: []
       }
+      submission_viewing: {
+        Row: {
+          id: number
+          moderator_id: string
+          submission_id: number
+        }
+        Insert: {
+          id?: number
+          moderator_id: string
+          submission_id: number
+        }
+        Update: {
+          id?: number
+          moderator_id?: string
+          submission_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "submission_viewing_moderator_id_fkey"
+            columns: ["moderator_id"]
+            referencedRelation: "moderator"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "submission_viewing_submission_id_fkey"
+            columns: ["submission_id"]
+            referencedRelation: "submission"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "submission_viewing_submission_id_fkey"
+            columns: ["submission_id"]
+            referencedRelation: "submission_view"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       tag: {
         Row: {
           created_at: string
@@ -367,43 +397,6 @@ export interface Database {
           title?: string
         }
         Relationships: []
-      }
-      temp_piece_contributor: {
-        Row: {
-          contributor_id: string
-          id: number
-          published_piece_id: string
-        }
-        Insert: {
-          contributor_id: string
-          id?: number
-          published_piece_id: string
-        }
-        Update: {
-          contributor_id?: string
-          id?: number
-          published_piece_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "temp_piece_contributor_contributor_id_fkey"
-            columns: ["contributor_id"]
-            referencedRelation: "contributor"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "temp_piece_contributor_published_piece_id_fkey"
-            columns: ["published_piece_id"]
-            referencedRelation: "published_piece"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "temp_piece_contributor_published_piece_id_fkey"
-            columns: ["published_piece_id"]
-            referencedRelation: "published_piece_view"
-            referencedColumns: ["id"]
-          }
-        ]
       }
       version: {
         Row: {
@@ -504,7 +497,6 @@ export interface Database {
           change_details: Json | null
           created_at: string | null
           id: number | null
-          source_id: string | null
           status: string | null
           type: string | null
           updated_at: string | null
