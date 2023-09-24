@@ -39,6 +39,21 @@ export interface Database {
         }
         Relationships: []
       }
+      contributor_type: {
+        Row: {
+          id: number
+          title: string
+        }
+        Insert: {
+          id?: number
+          title: string
+        }
+        Update: {
+          id?: number
+          title?: string
+        }
+        Relationships: []
+      }
       growth_stage: {
         Row: {
           id: number
@@ -74,6 +89,43 @@ export interface Database {
           modified_at?: string | null
         }
         Relationships: []
+      }
+      piece_leading_contributor: {
+        Row: {
+          contributor_id: string
+          id: number
+          published_piece_id: string
+        }
+        Insert: {
+          contributor_id: string
+          id?: number
+          published_piece_id: string
+        }
+        Update: {
+          contributor_id?: string
+          id?: number
+          published_piece_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "piece_leading_contributor_contributor_id_fkey"
+            columns: ["contributor_id"]
+            referencedRelation: "contributor"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "piece_leading_contributor_published_piece_id_fkey"
+            columns: ["published_piece_id"]
+            referencedRelation: "published_piece"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "piece_leading_contributor_published_piece_id_fkey"
+            columns: ["published_piece_id"]
+            referencedRelation: "published_piece_view"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       published_piece: {
         Row: {
@@ -187,6 +239,7 @@ export interface Database {
           change_details: Json
           created_at: string
           id: number
+          source_id: string | null
           submission_status_id: number
           submission_type_id: number
           updated_at: string | null
@@ -195,6 +248,7 @@ export interface Database {
           change_details: Json
           created_at?: string
           id?: number
+          source_id?: string | null
           submission_status_id?: number
           submission_type_id: number
           updated_at?: string | null
@@ -203,6 +257,7 @@ export interface Database {
           change_details?: Json
           created_at?: string
           id?: number
+          source_id?: string | null
           submission_status_id?: number
           submission_type_id?: number
           updated_at?: string | null
@@ -350,6 +405,83 @@ export interface Database {
           }
         ]
       }
+      version: {
+        Row: {
+          change_diff: Json
+          change_title: string | null
+          created_at: string
+          id: number
+          published_piece_id: string
+        }
+        Insert: {
+          change_diff: Json
+          change_title?: string | null
+          created_at?: string
+          id?: number
+          published_piece_id: string
+        }
+        Update: {
+          change_diff?: Json
+          change_title?: string | null
+          created_at?: string
+          id?: number
+          published_piece_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "version_published_piece_id_fkey"
+            columns: ["published_piece_id"]
+            referencedRelation: "published_piece"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "version_published_piece_id_fkey"
+            columns: ["published_piece_id"]
+            referencedRelation: "published_piece_view"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      version_contributor: {
+        Row: {
+          contributor_id: string
+          contributor_type_id: number
+          id: number
+          version_id: number
+        }
+        Insert: {
+          contributor_id: string
+          contributor_type_id: number
+          id?: number
+          version_id: number
+        }
+        Update: {
+          contributor_id?: string
+          contributor_type_id?: number
+          id?: number
+          version_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "version_contributor_contributor_id_fkey"
+            columns: ["contributor_id"]
+            referencedRelation: "contributor"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "version_contributor_contributor_type_id_fkey"
+            columns: ["contributor_type_id"]
+            referencedRelation: "contributor_type"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "version_contributor_version_id_fkey"
+            columns: ["version_id"]
+            referencedRelation: "version"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
     }
     Views: {
       published_piece_view: {
@@ -372,6 +504,7 @@ export interface Database {
           change_details: Json | null
           created_at: string | null
           id: number | null
+          source_id: string | null
           status: string | null
           type: string | null
           updated_at: string | null

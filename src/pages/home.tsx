@@ -2,7 +2,6 @@ import { ReactElement } from 'react';
 import Head from 'next/head';
 import { NextPageWithLayout } from './_app';
 import { ModeratorLayout } from '@/components/layouts/ModeratorLayout';
-import { Button, Link } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import { PageHeader } from '@/components/PageHeader/PageHeader';
 

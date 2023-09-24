@@ -1,4 +1,4 @@
-import { Box, ChakraProvider, Drawer, DrawerContent, Flex, useDisclosure, extendTheme, Container } from "@chakra-ui/react";
+import { ChakraProvider, Drawer, DrawerContent, Flex, useDisclosure, extendTheme, Container } from "@chakra-ui/react";
 import { PropsWithChildren } from "react";
 import { Sidebar } from "../Sidebar/Sidebar";
 import { Header } from "../Header/Header";
@@ -34,7 +34,7 @@ export const Layout = ({ children }: PropsWithChildren) => {
           </DrawerContent>
         </Drawer>
         <Container
-          maxW={'4xl'}
+          maxW={'5xl'}
           >
           <Header linkItems={items} onOpen={onOpen} />
           <Flex direction={'column'} align={'center'} pt="4">

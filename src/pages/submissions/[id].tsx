@@ -6,12 +6,11 @@ import { Avatar, Box, Button, Container, Grid, GridItem, HStack, Table, TableCon
 import { useRouter } from 'next/router';
 import { useFetchSubmission } from '@/hooks/useFetchSubmission';
 import { isChangeDetails } from '@/types/utilities';
-import { useInsertNewPiece } from '@/hooks/useInsertNewPiece';
-import { ChangeDetails, Published_Piece, Submission } from '@/types/manual';
 import { Json } from '@/types/generated';
-import { v4 as uuidv4 } from 'uuid';
 import { PieceHeader } from '@/components/PieceHeader/PieceHeader';
 import PieceContent from '@/components/PieceContent/PieceContent';
+import { useCheckIfNewContributor } from '@/hooks/useCheckIfNewContributor';
+import { useAcceptSubmission } from '@/hooks/useAcceptSubmission';
 
 const SubmissionPage: NextPageWithLayout = () => {
     const router = useRouter();
@@ -22,22 +21,19 @@ const SubmissionPage: NextPageWithLayout = () => {
         throw Error();
     }
 
-    const { submission } = useFetchSubmission(router.query.id);
-    const { insertPiece } = useInsertNewPiece();
+    const { submissionView } = useFetchSubmission(router.query.id);
 
-    const handleAccept = (changeDetails: Json) => {
-        if (isChangeDetails(changeDetails)) { // Note: I will need to remove the tags property from the changeDetails object if I want to make this cleaner.
-            insertPiece({ 
-                id: uuidv4(), // TODO: Check if the id is available in the piece table
-                title: changeDetails.metadata.title,
-                description: changeDetails.metadata.description,
-                url_key: changeDetails.metadata.url_key,
-                piece_type_id: changeDetails.metadata.piece_type_id,
-                growth_stage_id: changeDetails.metadata.growth_stage_id,
-                cover_url: changeDetails.metadata.cover_url,
-                open_to_collab: changeDetails.metadata.open_to_collab,
-                content: changeDetails.content,
-            });
+    const { isExistingContributor, existingContributor } = useCheckIfNewContributor(submissionView);
+
+    // console.log('isExistingContributor -', isExistingContributor);
+
+    // Methods
+    const { acceptSubmission, isLoading } = useAcceptSubmission();
+
+    // Edit Update - TODO: Check for the type of submission
+    const handleAccept = async (changeDetails: Json) => {
+        if (submissionView && submissionView.id && isChangeDetails(changeDetails)) {
+            await acceptSubmission(submissionView.id, changeDetails, isExistingContributor, existingContributor);
         }
     }
 
@@ -50,9 +46,9 @@ const SubmissionPage: NextPageWithLayout = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Container maxW={'4xl'} padding={0}>
-        { submission && isChangeDetails(submission.change_details) &&
+        { isExistingContributor != null && submissionView && submissionView.created_at && isChangeDetails(submissionView.change_details) &&
             <Grid 
-                h='200px'
+                h='100vh'
                 templateRows='repeat(3, 1fr)'
                 templateColumns='repeat(2, 1fr)'
                 gap={5}
@@ -60,27 +56,27 @@ const SubmissionPage: NextPageWithLayout = () => {
                 <GridItem rowSpan={3} colSpan={1} border='1px' borderColor='gray.200' padding={4}>
                     <PieceHeader
                         header={{
-                            title: submission.change_details.metadata.title,
-                            description: submission.change_details.metadata.description,
-                            cover_url: null,
-                            growth_stage: 'Seedling',
-                            created_at: submission.created_at,
-                            updated_at: null,
+                            title: submissionView.change_details.metadata.title,
+                            description: submissionView.change_details.metadata.description,
+                            cover_url: null, // TODO: Need to deal with this
+                            growth_stage: submissionView.change_details.metadata.growth_stage,
+                            created_at: submissionView.created_at,
+                            updated_at: null, // TODO: May not need since this is the creation step
                             contributor: {
-                                id: 'slkfjsf',
-                                full_name: 'Joshwin Greene',
-                                avatar_url: 'https://joshwin.dev/img/joshwin-linkedin-photo.JPG',
-                                bio: "Hello World!",
-                                created_at: '2023-07-23 21:05:28.699666+00',
-                                updated_at: '2023-07-24 21:05:28.699666+00',
-                                username: 'joshwin_green'
+                                id: submissionView.change_details.contributor.id,
+                                full_name: submissionView.change_details.contributor.full_name,
+                                avatar_url: submissionView.change_details.contributor.avatar_url,
+                                bio: submissionView.change_details.contributor.bio,
+                                created_at: '2023-07-23 21:05:28.699666+00', // TODO: Think about
+                                updated_at: '2023-07-24 21:05:28.699666+00', // // TODO: Think about
+                                username: submissionView.change_details.contributor.username
                             },
-                            tags: submission.change_details.metadata.tags,
+                            tags: submissionView.change_details.metadata.tags,
                           }}
                         isPreview
                     />
                     <PieceContent 
-                        body={submission.change_details.content}
+                        body={submissionView.change_details.content}
                     />
                 </GridItem>
                 <GridItem rowSpan={1} colSpan={1}>
@@ -97,8 +93,8 @@ const SubmissionPage: NextPageWithLayout = () => {
                         <Text fontWeight={'bold'} color='white'>Approve?</Text>
                     </Box>
                     <HStack>
-                        <Button width={'100%'} height='40' colorScheme='green' disabled={ !submission.change_details } onClick={
-                            () => handleAccept(submission.change_details)
+                        <Button width={'100%'} height='40' colorScheme='green' isLoading={ isLoading } disabled={ !submissionView.change_details } onClick={
+                            () => handleAccept(submissionView.change_details)
                             }>Accept</Button>
                         <Button width={'100%'} height='40' colorScheme='gray'>Reject</Button>
                     </HStack>
@@ -108,51 +104,54 @@ const SubmissionPage: NextPageWithLayout = () => {
                         <Text fontWeight={'bold'} color='white'>Submission Details</Text>
                     </Box>
                     <VStack width='100%' padding={4} border='1px' borderColor='gray.200'>
-                        <Avatar size="sm" name={submission.change_details.contributor.name} src={'https://joshwin.dev/img/joshwin-linkedin-photo.JPG'} />
-                        <Text>{ submission.change_details.contributor.name }</Text>
+                        <Avatar size="sm" name={submissionView.change_details.contributor.full_name} src={'https://joshwin.dev/img/joshwin-linkedin-photo.JPG'} />
+                        <Text>{ submissionView.change_details.contributor.full_name }</Text>
+                        <Text fontWeight={'bold'}>{ isExistingContributor ? 'Existing Contributor' : 'New Contributor' }</Text>
                     </VStack>
-                    <TableContainer width={'100%'}>
-                        <Box overflowX={'auto'}>
-                            <Table variant='striped' colorScheme='gray' size={'sm'}>
-                                <Thead>
-                                <Tr>
-                                    <Th>Property</Th>
-                                    <Th>Value</Th>
-                                </Tr>
-                                </Thead>
-                                <Tbody>
+                    <Container overflow={'scroll'} padding={0} maxWidth={'lg'}>
+                        <TableContainer>
+                            <Box>
+                                <Table variant='striped' colorScheme='gray' size={'sm'}>
+                                    <Thead>
                                     <Tr>
-                                        <Td>Title</Td>
-                                        <Td>{ submission.change_details.metadata.title }</Td>
+                                        <Th>Property</Th>
+                                        <Th>Value</Th>
                                     </Tr>
-                                    <Tr>
-                                        <Td>Description</Td>
-                                        <Td>{ submission.change_details.metadata.description }</Td>
-                                    </Tr>
-                                    <Tr>
-                                        <Td>Tags</Td>
-                                        <Td>{ submission.change_details.metadata.tags.join(",") }</Td>
-                                    </Tr>
-                                    <Tr>
-                                        <Td>Type</Td>
-                                        <Td>{ submission.change_details.metadata.piece_type_id }</Td>
-                                    </Tr>
-                                    <Tr>
-                                        <Td>Growth Stage</Td>
-                                        <Td>{ submission.change_details.metadata.growth_stage_id }</Td>
-                                    </Tr>
-                                    <Tr>
-                                        <Td>Open to Collaboration</Td>
-                                        <Td>{ submission.change_details.metadata.open_to_collab }</Td>
-                                    </Tr>
-                                    <Tr>
-                                        <Td>Cover URL</Td>
-                                        <Td>{ submission.change_details.metadata.cover_url }</Td>
-                                    </Tr>
-                                </Tbody>
-                            </Table>
-                        </Box>
-                    </TableContainer>
+                                    </Thead>
+                                    <Tbody>
+                                        <Tr>
+                                            <Td>Title</Td>
+                                            <Td>{ submissionView.change_details.metadata.title }</Td>
+                                        </Tr>
+                                        <Tr>
+                                            <Td>Description</Td>
+                                            <Td>{ submissionView.change_details.metadata.description }</Td>
+                                        </Tr>
+                                        <Tr>
+                                            <Td>Tags</Td>
+                                            <Td>{ submissionView.change_details.metadata.tags.join(", ") }</Td>
+                                        </Tr>
+                                        <Tr>
+                                            <Td>Type</Td>
+                                            <Td>{ submissionView.change_details.metadata.piece_type }</Td>
+                                        </Tr>
+                                        <Tr>
+                                            <Td>Growth Stage</Td>
+                                            <Td>{ submissionView.change_details.metadata.growth_stage }</Td>
+                                        </Tr>
+                                        <Tr>
+                                            <Td>Open to Collaboration</Td>
+                                            <Td>{ submissionView.change_details.metadata.open_to_collab }</Td>
+                                        </Tr>
+                                        <Tr>
+                                            <Td>Cover URL</Td>
+                                            <Td>{ submissionView.change_details.metadata.cover_url }</Td>
+                                        </Tr>
+                                    </Tbody>
+                                </Table>
+                            </Box>
+                        </TableContainer>
+                    </Container>
                 </GridItem>
             </Grid>
         }

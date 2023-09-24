@@ -18,7 +18,7 @@ export const AuthOptions = ({ user, isInSideBar }: Props) => {
       >
         { !user ? 
           <>
-            <Link href="/signup" style={{ color: 'white' }}>Sign Up</Link>
+            {/* <Link href="/signup" style={{ color: 'white' }}>Sign Up</Link> */}
             <Link href="/signin" style={{ color: 'white' }}>Sign In</Link>
           </> : 
           <>
