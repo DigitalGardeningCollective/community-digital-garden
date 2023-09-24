@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import {IconButton, Input, InputGroup, InputLeftElement, InputRightElement} from "@chakra-ui/react";
-import {useFetchPieces} from "../../hooks/useFetchPieces";
-import {SearchIcon, SmallCloseIcon} from "@chakra-ui/icons";
+import { IconButton, Input, InputGroup, InputLeftElement, InputRightElement } from "@chakra-ui/react";
+import { useFetchPieces } from "../../hooks/useFetchPieces";
+import { SearchIcon, SmallCloseIcon } from "@chakra-ui/icons";
 
 interface Props {
-    search: String;
+    search: string;
 }
 
 const Search = ({ search }: Props) => {
@@ -13,9 +13,11 @@ const Search = ({ search }: Props) => {
 
     const [searchTerm, setSearchTerm] = useState(search || "");
 
-    const filteredEntries = fetchedEntries.filter(entry =>
-        entry.title.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    const filteredEntries = (searchTerm.trim() !== "")
+        ? fetchedEntries.filter(entry =>
+            (entry.title?.toLowerCase() ?? '').includes(searchTerm.toLowerCase())
+        )
+        : [];
 
     const clearSearch = () => {
         setSearchTerm("");
@@ -46,7 +48,7 @@ const Search = ({ search }: Props) => {
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                         placeholder='Search by title'
-                        marginBottom={'5'}/>
+                        marginBottom={'5'} />
                 </InputGroup>
 
             </div>

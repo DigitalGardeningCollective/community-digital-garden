@@ -25,7 +25,7 @@ import {Published_Piece_View} from "../../types/manual";
 interface Props {
     linkItems: LinkItem[];
     onOpen: () => void;
-    search: String;
+    search: string;
 }
 
 export const Header = ({linkItems, onOpen, search}: Props) => {
@@ -82,7 +82,7 @@ export const Header = ({linkItems, onOpen, search}: Props) => {
                         <ModalOverlay />
                         <ModalContent>
                             <ModalBody>
-                               <SearchComponent search={search} onClose={handleSearchClose} />
+                               <SearchComponent search={search} />
                             </ModalBody>
                         </ModalContent>
                     </Modal>
