@@ -32,7 +32,7 @@ export const ModeratorLayout = ({ children }: PropsWithChildren) => {
         </Drawer>
         <Container
           maxW={'4xl'}>
-          <Header linkItems={items} onOpen={onOpen} />
+          <Header linkItems={items} onOpen={onOpen} search=""/>
           <Flex direction={'column'} align={'center'} pt="4">
             {children}
           </Flex>
