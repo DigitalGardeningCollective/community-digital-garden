@@ -36,7 +36,7 @@ export const Layout = ({ children }: PropsWithChildren) => {
         <Container
           maxW={'5xl'}
           >
-          <Header linkItems={items} onOpen={onOpen} />
+          <Header linkItems={items} onOpen={onOpen} search=""/>
           <Flex direction={'column'} align={'center'} pt="4">
             {children}
           </Flex>
