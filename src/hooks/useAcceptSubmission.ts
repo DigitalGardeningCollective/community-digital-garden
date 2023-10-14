@@ -95,7 +95,9 @@ export const useAcceptSubmission = () => {
                 await addTagsToPiece(changeDetails.metadata.tags, createdPiece.id);
             }
 
-            await markSubmissionAsAccepted(submissionID);
+            if (contributor) {
+                await markSubmissionAsAccepted(submissionID, contributor.id);
+            }
 
             setIsLoading(false);
         }
