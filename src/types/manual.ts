@@ -8,15 +8,11 @@ export type Published_Piece = Database['public']['Tables']['published_piece']['R
 
 export type Published_Piece_View = Database['public']['Views']['published_piece_view']['Row'];
 
-export type Temp_Piece_Contributor = Database['public']['Tables']['temp_piece_contributor']['Row'];
-
 export type Contributor = Database['public']['Tables']['contributor']['Row'];
 
 export type Tag = Database['public']['Tables']['tag']['Row'];
 
 export type Moderator = Database['public']['Tables']['moderator']['Row'];
-
-export type Leading_Contributors = Database['public']['Tables']['piece_leading_contributor']['Row'];
 
 export type Version = Database['public']['Tables']['version']['Row'];
 

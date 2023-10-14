@@ -6,7 +6,7 @@ import * as Diff from 'diff';
 import { useInsertVersion } from './useInsertVersion';
 import { useInsertContributor } from './useInsertContributor';
 import { useInsertVersionContributor } from './useInsertVersionContributor';
-import { useInsertLeadingContributors } from './useInsertLeadingContributors';
+import { useInsertLeadingContributor } from './useInsertLeadingContributor';
 import { useAddTags } from './useAddTags';
 import { useUpdateSubmission } from './useUpdateSubmission';
 
@@ -41,7 +41,7 @@ export const useAcceptSubmission = () => {
     const { insertVersion } = useInsertVersion();
     const { insertContributor } = useInsertContributor();
     const { insertVersionContributor } = useInsertVersionContributor();
-    const { insertLeadingContributorRow } = useInsertLeadingContributors();
+    const { insertLeadingContributor } = useInsertLeadingContributor();
     const { addTagsToPiece } = useAddTags();
 
     const { markSubmissionAsAccepted } = useUpdateSubmission();
@@ -89,7 +89,7 @@ export const useAcceptSubmission = () => {
                 await insertVersionContributor(createdVersion.id, contributor.id, 1);
             }
 
-            await insertLeadingContributorRow(createdPiece.id, changeDetails.contributor.id);
+            await insertLeadingContributor(createdPiece.id, changeDetails.contributor.id);
 
             if (changeDetails.metadata.tags.length > 0) {
                 await addTagsToPiece(changeDetails.metadata.tags, createdPiece.id);
