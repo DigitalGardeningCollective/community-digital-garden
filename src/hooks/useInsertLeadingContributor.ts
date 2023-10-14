@@ -9,7 +9,8 @@ export const useInsertLeadingContributor = () => {
         .from('published_piece_contributor')
         .insert({ 
             published_piece_id: pieceID, 
-            contributor_id: contributorID
+            contributor_id: contributorID,
+            contributor_type_id: 1
          })
         .select()
         if (data) {

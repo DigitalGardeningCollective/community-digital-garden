@@ -151,16 +151,19 @@ export interface Database {
       published_piece_contributor: {
         Row: {
           contributor_id: string
+          contributor_type_id: number
           id: number
           published_piece_id: string
         }
         Insert: {
           contributor_id: string
+          contributor_type_id: number
           id?: number
           published_piece_id: string
         }
         Update: {
           contributor_id?: string
+          contributor_type_id?: number
           id?: number
           published_piece_id?: string
         }
@@ -169,6 +172,12 @@ export interface Database {
             foreignKeyName: "published_piece_contributor_contributor_id_fkey"
             columns: ["contributor_id"]
             referencedRelation: "contributor"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "published_piece_contributor_contributor_type_id_fkey"
+            columns: ["contributor_type_id"]
+            referencedRelation: "contributor_type"
             referencedColumns: ["id"]
           },
           {
