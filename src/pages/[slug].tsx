@@ -32,7 +32,7 @@ const Piece: NextPageWithLayout = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      { pieceView && tags &&
+      { pieceView && tags && pieceView.published_piece_contributor  &&
           pieceView.title && pieceView.growth_stage && pieceView.created_at && pieceView.content &&
         <Container maxW={'5xl'} padding={0}>
           <PieceHeader 
@@ -43,15 +43,7 @@ const Piece: NextPageWithLayout = () => {
               growth_stage: pieceView.growth_stage,
               created_at: pieceView.created_at,
               updated_at: pieceView.updated_at,
-              contributor: { 
-                full_name: "Joshwin Greene", 
-                avatar_url: "https://joshwin.dev/img/joshwin-linkedin-photo.JPG",
-                id: 'sdlkfjsdlf',
-                bio: "Hello World!",
-                created_at: "2023-07-23 17:50:44.769474+00",
-                updated_at: null,
-                username: "joshwin_greene"
-              },
+              contributor: pieceView.published_piece_contributor[0].contributor,
               tags: tags
             }}
           />

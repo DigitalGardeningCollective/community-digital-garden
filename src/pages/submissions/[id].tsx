@@ -124,7 +124,7 @@ const SubmissionPage: NextPageWithLayout = () => {
                         <Text fontWeight={'bold'} color='white'>Submission Details</Text>
                     </Box>
                     <VStack width='100%' padding={4} border='1px' borderColor='gray.200'>
-                        <Avatar size="sm" name={submissionView.change_details.contributor.full_name} src={'https://joshwin.dev/img/joshwin-linkedin-photo.JPG'} />
+                        <Avatar size="sm" name={submissionView.change_details.contributor.full_name} src={submissionView.change_details.contributor.avatar_url} />
                         <Text>{ submissionView.change_details.contributor.full_name }</Text>
                         <Text fontWeight={'bold'}>{ isExistingContributor ? 'Existing Contributor' : 'New Contributor' }</Text>
                     </VStack>
