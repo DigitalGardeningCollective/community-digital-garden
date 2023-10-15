@@ -250,7 +250,9 @@ export interface Database {
         Row: {
           change_details: Json
           created_at: string
+          decision_moderator_id: string | null
           id: number
+          rejection_reason: string | null
           source_id: string
           submission_status_id: number
           submission_type_id: number
@@ -259,7 +261,9 @@ export interface Database {
         Insert: {
           change_details: Json
           created_at?: string
+          decision_moderator_id?: string | null
           id?: number
+          rejection_reason?: string | null
           source_id: string
           submission_status_id?: number
           submission_type_id: number
@@ -268,13 +272,21 @@ export interface Database {
         Update: {
           change_details?: Json
           created_at?: string
+          decision_moderator_id?: string | null
           id?: number
+          rejection_reason?: string | null
           source_id?: string
           submission_status_id?: number
           submission_type_id?: number
           updated_at?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "submission_decision_moderator_id_fkey"
+            columns: ["decision_moderator_id"]
+            referencedRelation: "moderator"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "submission_submission_status_id_fkey"
             columns: ["submission_status_id"]

@@ -1,8 +1,10 @@
 import { useSupabaseClient } from '@supabase/auth-helpers-react'
 import { Database } from '../types/generated';
+import { useState } from 'react';
 
 export const useUpdateSubmission = () => {
     const supabaseClient = useSupabaseClient<Database>();
+    const [isLoading, setIsLoading] = useState(false);
 
     const markSubmissionAsAccepted = async (submissionID: number, contributorID: string) => {
         const { data, error } = await supabaseClient
@@ -37,11 +39,15 @@ export const useUpdateSubmission = () => {
         } 
     }
 
-    const markSubmissionAsRejected = async (submissionID: number, contributorID: string, reason: string) => {
+    const markSubmissionAsRejected = async (moderatorID: string, submissionID: number, reason: string) => {
+        setIsLoading(true);
+        
         const { data, error } = await supabaseClient
         .from('submission')
         .update({
             submission_status_id: 3,
+            rejection_reason: reason,
+            decision_moderator_id: moderatorID,
             updated_at: (new Date()).toISOString(),
         })
         .eq('id', submissionID)
@@ -54,7 +60,6 @@ export const useUpdateSubmission = () => {
                     body: JSON.stringify({  
                         type: "Reject",
                         submissionID: data.source_id,
-                        contributorID: contributorID,
                         reason: reason
                     })
                 });
@@ -68,7 +73,9 @@ export const useUpdateSubmission = () => {
             console.log('markSubmissionAsRejected - error -', error);
             throw Error(error.message);
         } 
+
+        setIsLoading(false);
     }
 
-    return { markSubmissionAsAccepted, markSubmissionAsRejected };
+    return { isLoading, markSubmissionAsAccepted, markSubmissionAsRejected };
 }

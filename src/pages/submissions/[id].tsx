@@ -2,7 +2,7 @@ import { ReactElement } from 'react';
 import Head from 'next/head';
 import { NextPageWithLayout } from '../_app';
 import { ModeratorLayout } from '@/components/layouts/ModeratorLayout';
-import { Avatar, Box, Button, Container, Grid, GridItem, HStack, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, VStack } from '@chakra-ui/react';
+import { Avatar, Box, Button, Container, Grid, GridItem, HStack, Modal, ModalOverlay, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, VStack, useDisclosure } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import { useFetchSubmission } from '@/hooks/useFetchSubmission';
 import { isChangeDetails } from '@/types/utilities';
@@ -11,8 +11,15 @@ import { PieceHeader } from '@/components/PieceHeader/PieceHeader';
 import PieceContent from '@/components/PieceContent/PieceContent';
 import { useCheckIfNewContributor } from '@/hooks/useCheckIfNewContributor';
 import { useAcceptSubmission } from '@/hooks/useAcceptSubmission';
+import { useUpdateSubmission } from '@/hooks/useUpdateSubmission';
+import { RejectSubmissionForm, RejectSubmissionInput } from '@/components/RejectSubmissionForm/RejectSubmissionForm';
+import { useUser } from '@supabase/auth-helpers-react';
+import { useFetchModerator } from '@/hooks/useFetchModerator';
 
 const SubmissionPage: NextPageWithLayout = () => {
+    const authUser = useUser();
+    const { moderator } = useFetchModerator(authUser);
+    const { isOpen, onOpen, onClose } = useDisclosure();
     const router = useRouter();
     
     console.log('router.query.id -', router.query.id);
@@ -29,12 +36,21 @@ const SubmissionPage: NextPageWithLayout = () => {
 
     // Methods
     const { acceptSubmission, isLoading } = useAcceptSubmission();
+    const { markSubmissionAsRejected, isLoading: loadingRejectionResult } = useUpdateSubmission();
 
     // Edit Update - TODO: Check for the type of submission
     const handleAccept = async (changeDetails: Json) => {
         if (submissionView && submissionView.id && isChangeDetails(changeDetails)) {
             await acceptSubmission(submissionView.id, changeDetails, isExistingContributor, existingContributor);
         }
+    }
+
+    const handleReject = async (data: RejectSubmissionInput) => {
+        // console.log('data -', data);
+        if (moderator && submissionView && submissionView.id) {
+            await markSubmissionAsRejected(moderator.id, submissionView.id, data.reason);
+        }
+        onClose();
     }
 
     return (
@@ -93,10 +109,14 @@ const SubmissionPage: NextPageWithLayout = () => {
                         <Text fontWeight={'bold'} color='white'>Approve?</Text>
                     </Box>
                     <HStack>
-                        <Button width={'100%'} height='40' colorScheme='green' isLoading={ isLoading } disabled={ !submissionView.change_details } onClick={
-                            () => handleAccept(submissionView.change_details)
-                            }>Accept</Button>
-                        <Button width={'100%'} height='40' colorScheme='gray'>Reject</Button>
+                        <Button width={'100%'} height='40' colorScheme='green' isLoading={ isLoading } disabled={ !submissionView.change_details } 
+                            onClick={() => handleAccept(submissionView.change_details)}>
+                                Accept
+                        </Button>
+                        <Button width={'100%'} height='40' colorScheme='gray'
+                            onClick={onOpen}>
+                            Reject
+                        </Button>
                     </HStack>
                 </GridItem>
                 <GridItem rowSpan={1} colSpan={1}>
@@ -156,6 +176,17 @@ const SubmissionPage: NextPageWithLayout = () => {
             </Grid>
         }
       </Container>
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <RejectSubmissionForm
+            isLoading={loadingRejectionResult}
+            onClose={onClose}
+            onSubmit={handleReject}
+            defaultValues={{
+                reason: ""
+            }}
+        />
+      </Modal>
     </>
   )
 }
