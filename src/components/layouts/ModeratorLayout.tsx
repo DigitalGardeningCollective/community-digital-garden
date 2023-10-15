@@ -11,7 +11,7 @@ const extendedTheme = extendTheme(theme)
 export const ModeratorLayout = ({ children }: PropsWithChildren) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const items: LinkItem[] = [
-    { label: "Submissions", href: "/submissions" },
+    { label: "Pending Submissions", href: "/submissions" },
   ];
 
   return (

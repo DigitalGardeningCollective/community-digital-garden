@@ -2,7 +2,7 @@ import { ReactElement, useEffect } from 'react';
 import Head from 'next/head';
 import { NextPageWithLayout } from '../_app';
 import { ModeratorLayout } from '@/components/layouts/ModeratorLayout';
-import { useFetchSubmissions } from '@/hooks/useFetchSubmissions';
+import { useFetchPendingSubmissions } from '@/hooks/useFetchPendingSubmissions';
 import { Box, Table, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
 import { isChangeDetails } from '@/types/utilities';
 import { format } from 'date-fns';
@@ -10,7 +10,7 @@ import { useRouter } from 'next/router';
 
 const Submissions: NextPageWithLayout = () => {
     const router = useRouter();
-    const { submissions } = useFetchSubmissions();
+    const { submissions } = useFetchPendingSubmissions();
 
     return (
     <>

@@ -3,17 +3,18 @@ import { Submission } from "@/types/manual";
 import { useSupabaseClient } from '@supabase/auth-helpers-react'
 import { Database } from '../types/generated';
 
-export const useFetchSubmissions = () => {
+export const useFetchPendingSubmissions = () => {
     const [submissions, setSubmissions] = useState<Submission[] | null>(null);
     const supabaseClient = useSupabaseClient<Database>();
 
     useEffect(() => {
-        const fetchSubmissions = async () => {
+        const fetchPendingSubmissions = async () => {
             const { data, error } = await supabaseClient
             .from('submission')
-            .select();
+            .select()
+            .eq('submission_status_id', 1);
             if (data) {
-                console.log('fetchSubmissions - data -', data);
+                console.log('fetchPendingSubmissions - data -', data);
                 setSubmissions(data);
             }
             if (error) {
@@ -21,7 +22,7 @@ export const useFetchSubmissions = () => {
             }
         }
 
-        fetchSubmissions();
+        fetchPendingSubmissions();
     }, [supabaseClient]);
 
     return { submissions };
