@@ -5,7 +5,6 @@ import { Container, Stack } from '@chakra-ui/react';
 import { PageHeader } from '@/components/PageHeader/PageHeader';
 import { useFetchEssays } from '@/hooks/useFetchEssays';
 import { PieceCard } from '@/components/PieceCard/PieceCard';
-// import { useFetchContributorForPiece } from '@/hooks/useFetchContributorForPiece'; //may use later when we add contributors in
 import { Published_Piece_View } from '../types/manual';
 import { Layout } from '@/components/layouts/Layout';
 // Add the page's header using the PageHeader component

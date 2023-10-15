@@ -7,7 +7,6 @@ import { Layout } from '@/components/layouts/Layout';
 import { useFetchPiece } from '@/hooks/useFetchPiece';
 import { PieceHeader } from '@/components/PieceHeader/PieceHeader';
 import PieceContent from '@/components/PieceContent/PieceContent';
-import { useFetchContributorForPiece } from '@/hooks/useFetchContributorForPiece';
 import { useFetchTagsForPiece } from '@/hooks/useFetchTagsForPiece';
 
 const Piece: NextPageWithLayout = () => {
@@ -20,7 +19,6 @@ const Piece: NextPageWithLayout = () => {
     }
 
     const { pieceView } = useFetchPiece(router.query.slug);
-    // const { contributor } = useFetchContributorForPiece(router.query.slug);
     const { tags } = useFetchTagsForPiece(router.query.slug);
 
     console.log('pieceView -', pieceView);
