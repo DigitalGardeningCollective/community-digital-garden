@@ -42,7 +42,14 @@ export const useCheckIfNewContributor = (submissionView: Submission_View | null)
         }
 
         if (submissionView && isChangeDetails(submissionView.change_details)) {
-            checkIfExistingContributor(submissionView.change_details.contributor.id);
+            if (submissionView.change_details.contributor.id == null) {
+                setResult({
+                    isExistingContributor: false,
+                    existingContributor: null
+                });
+            } else {
+                checkIfExistingContributor(submissionView.change_details.contributor.id);
+            }
         }
 
     }, [supabaseClient, submissionView]);

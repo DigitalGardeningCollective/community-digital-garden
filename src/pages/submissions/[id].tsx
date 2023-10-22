@@ -40,8 +40,8 @@ const SubmissionPage: NextPageWithLayout = () => {
 
     // Edit Update - TODO: Check for the type of submission
     const handleAccept = async (changeDetails: Json) => {
-        if (submissionView && submissionView.id && isChangeDetails(changeDetails)) {
-            await acceptSubmission(submissionView.id, changeDetails, isExistingContributor, existingContributor);
+        if (moderator && submissionView && submissionView.id && isChangeDetails(changeDetails)) {
+            await acceptSubmission(moderator.id, submissionView.id, changeDetails, isExistingContributor, existingContributor);
         }
     }
 

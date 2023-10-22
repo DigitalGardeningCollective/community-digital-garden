@@ -6,11 +6,12 @@ export const useUpdateSubmission = () => {
     const supabaseClient = useSupabaseClient<Database>();
     const [isLoading, setIsLoading] = useState(false);
 
-    const markSubmissionAsAccepted = async (submissionID: number, contributorID: string) => {
+    const markSubmissionAsAccepted = async (moderatorID: string, submissionID: number, contributorID: string) => {
         const { data, error } = await supabaseClient
         .from('submission')
         .update({
             submission_status_id: 2,
+            decision_moderator_id: moderatorID,
             updated_at: (new Date()).toISOString()
         })
         .eq('id', submissionID)
