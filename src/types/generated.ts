@@ -337,6 +337,43 @@ export interface Database {
         }
         Relationships: []
       }
+      submission_viewing: {
+        Row: {
+          id: number
+          moderator_id: string
+          submission_id: number
+        }
+        Insert: {
+          id?: number
+          moderator_id: string
+          submission_id: number
+        }
+        Update: {
+          id?: number
+          moderator_id?: string
+          submission_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "submission_viewing_moderator_id_fkey"
+            columns: ["moderator_id"]
+            referencedRelation: "moderator"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "submission_viewing_submission_id_fkey"
+            columns: ["submission_id"]
+            referencedRelation: "submission"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "submission_viewing_submission_id_fkey"
+            columns: ["submission_id"]
+            referencedRelation: "submission_view"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       tag: {
         Row: {
           created_at: string
