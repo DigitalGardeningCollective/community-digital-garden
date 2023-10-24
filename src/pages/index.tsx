@@ -64,7 +64,7 @@ const Landing: NextPageWithLayout = () => {
               </HStack>
               <VStack p={0} width='25%' align='flex-start' display={isMobile ? 'none' : 'block'}>
                 <Text fontSize='xs'><Text as={'span'} fontWeight='bold'>Published:</Text> Tuesday, May 2nd</Text>
-                <Text fontSize='xs'><Text as={'span'} fontWeight='bold'>Updated:</Text> Thursday, June 1st</Text>
+                <Text fontSize='xs'><Text as={'span'} fontWeight='bold'>Updated:</Text> Tuesday, Oct 24th</Text>
               </VStack>
             </HStack>
             <HStack display={isMobile ? 'block' : 'none'}>
@@ -431,14 +431,11 @@ const Landing: NextPageWithLayout = () => {
           <br />
           <Heading as='h3' size='md'>A word about sustainability</Heading>
           <br />
-          <Text>Since it is so important, here’s our message on the Digital Gardening Collective’s landing page about sustainability and sustainable entrepreneurship:</Text>
-          <br />
-          <Text>&quot;For starters, Co-x3 is a Non-Profit that is Building the Future of Collaborative Work. We aren’t going to be at the mercy of VCs and we will never be for sale. Our goal is to help people do the work that they are passionate about while also being paid a fair, but competitive wage.&quot;
-          </Text>
+          <Text>Since it is so important, here’s our message on the Digital Gardening Collective’s landing page about sustainability:</Text>
           <br />
           <Text>&quot;The Digital Gardening Collective and the Co-x3 Community Digital Garden will be supported through the use of ads and sponsorships. More specifically, ads won&apos;t be shown on published pieces unless individual authors give us permission to do so. Other locations within both apps and in our newsletters will be fair game. However, our goal is to always ensure that the user experience takes absolute priority.&quot;</Text>
           <br />
-          <Text>We don’t want to annoy our users with annual requests for donations. So, we believe ads and sponsorships are the answer. As stated above, the user experience takes absolute priority. Unlike for-profit companies, your feedback and ideas will much more likely be integrated into what we are building.</Text>
+          <Text>We don’t want to annoy our users with annual requests for donations. So, we believe ads and sponsorships are the answer.</Text>
           <br />
           <Text>In the end, we want the digital gardening community to be a big part of this initiative. As stated on the landing page for the Digital Gardening Collective, this initiative is being…</Text>
           <br />
