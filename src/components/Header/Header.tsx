@@ -5,7 +5,7 @@ import {LinkItem} from "../CustomNavLink/CustomNavLink";
 import {Logo} from "../Logo/Logo";
 import {useUser} from "@supabase/auth-helpers-react";
 import {SignOutBtn} from "../SideOutBtn/SignOutBtn";
-import SearchComponent from "../Search/Search";
+import {useSearchModal} from "../SearchModal/SearchModal"
 import {useState} from "react";
 
 import {
@@ -31,16 +31,10 @@ interface Props {
 export const Header = ({linkItems, onOpen, search}: Props) => {
     const user = useUser();
 
-    //search state
-    const [isSearchOpen, setIsSearchOpen] = useState(false);
-
-    const handleSearchOpen = () => {
-        setIsSearchOpen(true);
-    };
-
-    const handleSearchClose = () => {
-        setIsSearchOpen(false);
-    };
+    const {
+        searchButton,
+        searchModal, 
+    } = useSearchModal();
 
     return (
         <Flex
@@ -51,12 +45,19 @@ export const Header = ({linkItems, onOpen, search}: Props) => {
             bg="white"
             justifyContent="space-between"
         >
-            <IconButton
+            {/* <IconButton
                 display={{base: "flex", md: "none"}}
                 onClick={onOpen}
                 variant="outline"
                 aria-label="open menu"
                 icon={<FiSearch/>}
+            /> */}
+            <IconButton
+                display={{ base: "flex", md: "none" }}
+                onClick={onOpen}
+                variant="outline"
+                aria-label="open menu"
+                icon={<FiMenu />}
             />
             <Logo user={user} isDark/>
             <Box display={{base: "flex", md: "none"}}/>
@@ -67,26 +68,18 @@ export const Header = ({linkItems, onOpen, search}: Props) => {
                 <SignOutBtn />
             ) : (
                 <HStack>
-                    <IconButton
+                    {/* <IconButton
                         display={{ base: "flex"}}
-                        onClick={handleSearchOpen}
+                        onClick={openSearch}
                         outline="none"
                         background={"white"}
                         aria-label="open search"
                         _hover={{ backgroundColor: "transparent" }}
                         icon={<FiSearch />}
-                    />
-
-                    {/* Modal for the SearchComponent */}
-                    <Modal isOpen={isSearchOpen} onClose={handleSearchClose} size="lg">
-                        <ModalOverlay />
-                        <ModalContent>
-                            <ModalBody>
-                               <SearchComponent search={search} />
-                            </ModalBody>
-                        </ModalContent>
-                    </Modal>
-
+                    /> */}
+                    { [searchButton, searchModal] }
+                    {/* {searchModal} */}
+                    {/* <SearchModal search={search}/> */}
                     <Tooltip label="Coming Soon!">
                         <Button colorScheme="cyan" color="white">
                             Submit Content
