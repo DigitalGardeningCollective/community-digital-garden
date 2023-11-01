@@ -17,15 +17,24 @@ import {
     Button,
     Flex
 } from "@chakra-ui/react";
-import {useSearchModal} from "../SearchModal/SearchModal"
-import Search from '@/components/Search/Search'
+import { useSearchModal } from "../SearchModal/SearchModal"
+// import Search from '@/components/Search/Search'
+import { useFetchContributors } from '@/hooks/useFetchContributors'
 
 
-interface Props {}
+// interface Props {}
 
-  /* The Never Stop Learning Component */
+/* The Never Stop Learning Component */
 export const NeverStopLearning = () => {
   const { onOpen, setSearchTerm, searchModal } = useSearchModal()
+  const [ searchText, setSearchText ] = useState('')
+  const { contributors } = useFetchContributors()
+  const members = contributors.length
+  const performSearch = () => {
+    setSearchTerm(searchText)
+    onOpen()
+    setSearchText('')
+  }
 
   return <Card size='sm' 
     bg='#111' 
@@ -45,12 +54,13 @@ export const NeverStopLearning = () => {
           <InputGroup size='md'>
             <Input variant='filled' 
               placeholder='I am interested in...' 
-              onChange={event => setSearchTerm(event.target.value)}
+              onChange={event => setSearchText(event.target.value)}
+              value={searchText}
               borderRadius='full'/>
             {searchModal}
             <InputRightElement width='4.5rem'>
               <Button size='sm' h='1.75rem' marginRight='10px'
-                onClick={onOpen}
+                onClick={performSearch}
                 borderRadius='full'
                 colorScheme='cyan' 
                 color='white'>
@@ -66,7 +76,10 @@ export const NeverStopLearning = () => {
               {/* <Avatar name='Conrad Lin' src='/images/conrad.png' /> */}
             </AvatarGroup>
             <Center>
-              <Text marginLeft='10px'>{15} Contributors</Text>
+              {
+                members > 0 &&
+                <Text marginLeft='10px'>{members} Contributors</Text>
+              }
             </Center>
           </Flex>
         </Stack>

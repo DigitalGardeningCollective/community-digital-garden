@@ -8,7 +8,7 @@ type Story = StoryObj<typeof LinkCard>
 
 export const Default: Story = {
     render: () => <LinkCard 
-        imageSrc='/images/co-x3-graphic.png'
+        imageSrc='https://miro.medium.com/v2/resize:fill:176:176/0*SCbUIuPVPJMm82S4.png'
         headerText='Link Card'
         footerLink='https://the.x3.family/'
         footerText='Welcome ->'/>

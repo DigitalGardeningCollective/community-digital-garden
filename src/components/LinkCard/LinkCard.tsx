@@ -21,7 +21,7 @@ export const LinkCard = ({
   footerLink, 
   footerText
   }: Props) =>
-<Card>
+<Card maxW='sm'>
   <AspectRatio ratio={4/3}>
     <Image alt={headerText} src={imageSrc} fit='cover'/>
   </AspectRatio>

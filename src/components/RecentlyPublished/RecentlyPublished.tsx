@@ -21,7 +21,7 @@ export const RecentlyPublished = () => {
   const latest_three = latest.slice(0, 3)
   return <Stack>
     <Heading marginBottom='8'>Recently Published</Heading>
-    {latest_three.map((piece, index) => 
+    {latest_three.length > 0 ? latest_three.map((piece, index) => 
     <Card key={index} variant='unstyled'>
       <Flex>
         <Center>
@@ -40,7 +40,13 @@ export const RecentlyPublished = () => {
           <CardBody>{piece.description}</CardBody>
         </Stack>
       </Flex>
-    </Card>)}
+    </Card>) : <Card variant='unstyled'>
+      <CardHeader>
+        <Heading>No Pieces Found</Heading>
+      </CardHeader>
+      <CardBody>Sorry there are no published pieces.</CardBody>
+    </Card>
+    }
     {/* <Card variant='unstyled'>
       <Flex>
         <Center>
