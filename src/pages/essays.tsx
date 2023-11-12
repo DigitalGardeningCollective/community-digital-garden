@@ -7,6 +7,7 @@ import { useFetchEssays } from '@/hooks/useFetchEssays';
 import { PieceCard } from '@/components/PieceCard/PieceCard';
 import { Published_Piece_View } from '../types/manual';
 import { Layout } from '@/components/layouts/Layout';
+import { Dataview } from '@/components/Dataview/Dataview';
 // Add the page's header using the PageHeader component
 // Show the fetched essays in a list (use the PieceCard component for each item)
 
@@ -19,7 +20,8 @@ const Essays: NextPageWithLayout = () => {
         </Head>
         <Container>
             <PageHeader title="Essays" subtitle="A collection of atomic notes, i.e. a single idea or a single object of attention." />
-            <Stack spacing={4}>{
+            <Dataview />
+            {/* <Stack spacing={4}>{
                 essays && essays.map((essay: Published_Piece_View, index: number) => 
                 <PieceCard key={index} piece={essay} contributor={{
                     id: "1", 
@@ -30,7 +32,7 @@ const Essays: NextPageWithLayout = () => {
                     created_at:"", 
                     updated_at:""
                 }}/>)
-            }</Stack>
+            }</Stack> */}
         </Container>
     </>
 }

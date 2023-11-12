@@ -29,8 +29,8 @@ export const PieceCard = ({piece: { title, growth_stage, cover_url }, contributo
     </AspectRatio>
   </CardHeader>
   <CardBody>
-    <Heading>{title}</Heading>
-    <Text>By {full_name}</Text>
-    <Text color='grey'>{growth_stage}</Text>
+    <Text fontSize={16} fontWeight={"bold"}>{title}</Text>
+    <Text fontSize={12}>By {full_name}</Text>
+    <Text fontSize={12} color='grey'>{growth_stage}</Text>
   </CardBody>
 </Card>
