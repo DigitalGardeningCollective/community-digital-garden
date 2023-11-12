@@ -2,7 +2,7 @@ import { ReactElement, useState } from 'react';
 import Head from 'next/head';
 import { NextPageWithLayout } from '../_app';
 import { ModeratorLayout } from '@/components/layouts/ModeratorLayout';
-import { useFetchSubmissions } from '@/hooks/useFetchPendingSubmissions';
+import { useFetchSubmissions } from '@/hooks/useFetchSubmissions';
 import { Box, Tab, TabList, Table, TableContainer, Tabs, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
 import { isChangeDetails } from '@/types/utilities';
 import { format } from 'date-fns';
