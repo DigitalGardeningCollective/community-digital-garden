@@ -17,9 +17,8 @@ import {
     ModalOverlay,
     ModalContent,
     ModalBody,
-    Tooltip,
+    Link,
 } from "@chakra-ui/react";
-import {Published_Piece_View} from "../../types/manual";
 
 interface Props {
     linkItems: LinkItem[];
@@ -86,9 +85,12 @@ export const Header = ({linkItems, onOpen, search}: Props) => {
                         </ModalContent>
                     </Modal>
 
-                    <Button colorScheme="cyan" color="white">
-                        Join Co-x3
-                    </Button>
+                    <Link
+                        href="https://the.x3.family/"
+                        isExternal
+                        >
+                        <Button colorScheme="cyan" color="white">Join Co-x3</Button>
+                    </Link>
                 </HStack>
             )}
         </Flex>
