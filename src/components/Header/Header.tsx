@@ -1,4 +1,3 @@
-// import {Box, Button, Flex, HStack, IconButton, Tooltip} from "@chakra-ui/react";
 import {NavigationTabs} from "../NavigationTabs/NavigationTabs";
 import {FiMenu, FiSearch} from "react-icons/fi";
 import {LinkItem} from "../CustomNavLink/CustomNavLink";
@@ -56,7 +55,7 @@ export const Header = ({linkItems, onOpen, search}: Props) => {
                 onClick={onOpen}
                 variant="outline"
                 aria-label="open menu"
-                icon={<FiSearch/>}
+                icon={<FiMenu />}
             />
             <Logo user={user} isDark/>
             <Box display={{base: "flex", md: "none"}}/>
@@ -87,11 +86,9 @@ export const Header = ({linkItems, onOpen, search}: Props) => {
                         </ModalContent>
                     </Modal>
 
-                    <Tooltip label="Coming Soon!">
-                        <Button colorScheme="cyan" color="white">
-                            Submit Content
-                        </Button>
-                    </Tooltip>
+                    <Button colorScheme="cyan" color="white">
+                        Join Co-x3
+                    </Button>
                 </HStack>
             )}
         </Flex>
