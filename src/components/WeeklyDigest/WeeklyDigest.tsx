@@ -1,7 +1,6 @@
 import {
     Card,
     CardHeader,
-    Center,
     CardBody,
     Heading,
     Image,
@@ -10,13 +9,11 @@ import {
 
 export const WeeklyDigest = () => 
 <Card marginBottom='50px' direction={{ base: 'column', sm: 'row' }}>
-<Center paddingLeft='1cm'>
-  {/* <Heading>Co-x3 Logo + greenery</Heading> */}
-  <Image boxSize='200px' 
+  <Image width='350px'
+    padding='16px' 
     alt='Co-x3 Logo + greenery' 
-    src='/images/dgc_512.png' 
+    src='co-x3_tree_with_overlap.png' 
     fit='scale-down'/>
-</Center>
 <Stack>
   <CardHeader>
     <Heading>

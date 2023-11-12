@@ -6,30 +6,23 @@ import { NeverStopLearning } from '@/components/NeverStopLearning/NeverStopLearn
 import { RecentlyPublished } from '@/components/RecentlyPublished/RecentlyPublished'
 import { LinkCard } from '@/components/LinkCard/LinkCard'
 import { WeeklyDigest } from '@/components/WeeklyDigest/WeeklyDigest'
-import { 
-  Card, 
-  CardHeader, 
-  CardBody, 
-  Center, 
+import {
+  Box, 
   Heading, 
   SimpleGrid, 
   Stack, 
   Text, 
-  Image,
   Divider,
-  // useMediaQuery, 
 } from '@chakra-ui/react'
 
 /* ## Component Details
 • General
   • Make sure everything is aligned, i.e. make the first component conform to everything
 • Never Stop Learning Component
-  • When a user enters in a search query and presses the search button, this should cause Swetha’s component to open and execute the search query.
-  • You will need to edit Swetha’s component.
+  • When a user enters in a search query and presses the search button, this should cause Search component to open and execute the search query.
 • Note, Essay, and Contributor Cards
   • Clicking on their “Browse —>” button should direct the user to the associated pages 
- */
-
+*/
 
 const Landing: NextPageWithLayout = () => <>
   <Head>
@@ -41,22 +34,24 @@ const Landing: NextPageWithLayout = () => <>
   <Stack spacing='16'>
     <NeverStopLearning/>
     <Divider/>
-    <Card variant='unstyled'>
-      <CardHeader>
-        <Heading>What is a Digital Garden?</Heading>
-      </CardHeader>
-      <CardBody>
-        <Text>
-        A digital garden is a collection of ideas, opinions, and notes that evolve over time. Like Wikipedia, you will be able to link to other pieces that are a part of the digital garden.
-        </Text>
-      </CardBody>
-    </Card>
+    <Box>
+      <Heading marginBottom='16px'>What is a Digital Garden?</Heading>
+      <Text>
+      A digital garden is a collection of ideas, opinions, and notes that evolve over time. Like Wikipedia, you will be able to link to other pieces that are a part of the digital garden.
+      </Text>
+    </Box>
     <Divider/> 
      {/* The Notes, Essay, and Contributor Card Components (LinkCard) */}
     <SimpleGrid columns={3} spacing={4}>
-      <LinkCard headerText='Notes' footerText='Browse →' footerLink='Notes' imageSrc='https://wallpapers.com/images/high/bank-page-student-notebook-caz8w7ly9ojyj9dg.webp' />
-      <LinkCard headerText='Essays' footerText='Browse →' footerLink='Essays' imageSrc='https://www.qinprinting.com/blog/wp-content/uploads/2022/08/Stunning-photo-and-text-book.jpg'/>
-      <LinkCard headerText='Contributors' footerText='Browse →' footerLink='Contributors' imageSrc='/images/co-x3-graphic.png'/>
+      <LinkCard headerText='Notes' footerText='Browse ➔' footerLink='Notes' 
+      descriptionText='A collection of atomic notes, i.e. a single idea or a single object of attention.'
+      imageSrc='https://wallpapers.com/images/high/bank-page-student-notebook-caz8w7ly9ojyj9dg.webp' />
+      <LinkCard headerText='Essays' footerText='Browse ➔' footerLink='Essays' 
+      descriptionText='A collection of long-form narratives and opinion pieces.'
+      imageSrc='https://www.qinprinting.com/blog/wp-content/uploads/2022/08/Stunning-photo-and-text-book.jpg'/>
+      <LinkCard headerText='Contributors' footerText='Browse ➔' footerLink='Contributors' 
+      descriptionText='The wonderful individuals who have contributed their ideas to our digital garden.'
+      imageSrc='/images/co-x3-graphic.png'/>
     </SimpleGrid>
     <Divider/>
     <RecentlyPublished/>
