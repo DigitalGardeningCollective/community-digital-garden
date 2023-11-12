@@ -6,7 +6,7 @@ import * as Diff from 'diff';
 import { useInsertVersion } from './useInsertVersion';
 import { useInsertContributor } from './useInsertContributor';
 import { useInsertVersionContributor } from './useInsertVersionContributor';
-import { useInsertLeadingContributors } from './useInsertLeadingContributors';
+import { useInsertLeadingContributor } from './useInsertLeadingContributor';
 import { useAddTags } from './useAddTags';
 import { useUpdateSubmission } from './useUpdateSubmission';
 
@@ -41,12 +41,12 @@ export const useAcceptSubmission = () => {
     const { insertVersion } = useInsertVersion();
     const { insertContributor } = useInsertContributor();
     const { insertVersionContributor } = useInsertVersionContributor();
-    const { insertLeadingContributorRow } = useInsertLeadingContributors();
+    const { insertLeadingContributor } = useInsertLeadingContributor();
     const { addTagsToPiece } = useAddTags();
 
     const { markSubmissionAsAccepted } = useUpdateSubmission();
 
-    const acceptSubmission = async (submissionID: number, changeDetails: ChangeDetails & Json, isExistingContributor: boolean | undefined, existingContributor: Contributor | undefined | null) => {
+    const acceptSubmission = async (moderatorID: string, submissionID: number, changeDetails: ChangeDetails & Json, isExistingContributor: boolean | undefined, existingContributor: Contributor | undefined | null) => {
         setIsLoading(true);
         
         const createdPiece = await insertPiece({ 
@@ -81,21 +81,23 @@ export const useAcceptSubmission = () => {
             const createdVersion = await insertVersion(createdPiece.id, null, changeDiff);
             let contributor = existingContributor;
 
-            if (isExistingContributor != null && !isExistingContributor) {
+            if (isExistingContributor != undefined && !isExistingContributor) {
                 contributor = await insertContributor(changeDetails.contributor);
             }
 
             if (createdVersion && contributor) {
                 await insertVersionContributor(createdVersion.id, contributor.id, 1);
-            }
 
-            await insertLeadingContributorRow(createdPiece.id, changeDetails.contributor.id);
+                await insertLeadingContributor(createdPiece.id, contributor.id);
+            }
 
             if (changeDetails.metadata.tags.length > 0) {
                 await addTagsToPiece(changeDetails.metadata.tags, createdPiece.id);
             }
 
-            await markSubmissionAsAccepted(submissionID);
+            if (contributor) {
+                await markSubmissionAsAccepted(moderatorID, submissionID, contributor.id);
+            }
 
             setIsLoading(false);
         }

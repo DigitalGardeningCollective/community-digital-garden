@@ -25,8 +25,7 @@ export const CustomNavLink = ({ link }: Props & { children?: ReactNode }) => {
         role="group"
         cursor="pointer"
         _hover={{
-          bg: "cyan",
-          color: "white"
+          color: "highlightBlue"
         }}
       >
         {

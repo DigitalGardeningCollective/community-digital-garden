@@ -1,16 +1,17 @@
-import { ReactElement, useEffect } from 'react';
+import { ReactElement, useState } from 'react';
 import Head from 'next/head';
 import { NextPageWithLayout } from '../_app';
 import { ModeratorLayout } from '@/components/layouts/ModeratorLayout';
 import { useFetchSubmissions } from '@/hooks/useFetchSubmissions';
-import { Box, Table, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
+import { Box, Tab, TabList, Table, TableContainer, Tabs, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
 import { isChangeDetails } from '@/types/utilities';
 import { format } from 'date-fns';
 import { useRouter } from 'next/router';
 
 const Submissions: NextPageWithLayout = () => {
+    const [tabIndex, setTabIndex] = useState(0);
     const router = useRouter();
-    const { submissions } = useFetchSubmissions();
+    const { submissions } = useFetchSubmissions(tabIndex + 1);
 
     return (
     <>
@@ -20,6 +21,13 @@ const Submissions: NextPageWithLayout = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <Tabs mb={5} variant='soft-rounded' onChange={(index) => setTabIndex(index)}>
+        <TabList>
+          <Tab _selected={{ color: 'white', bg: 'orange.500' }}>Pending</Tab>
+          <Tab _selected={{ color: 'white', bg: 'green.500' }}>Approved</Tab>
+          <Tab _selected={{ color: 'white', bg: 'red.500' }}>Rejected</Tab>
+        </TabList>
+      </Tabs>
       <TableContainer width={'100%'}>
         <Box overflowX={'auto'}>
             <Table variant='striped' colorScheme='teal'>

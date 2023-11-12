@@ -2,7 +2,6 @@ import { Box, ChakraProvider, Drawer, DrawerContent, Flex, useDisclosure, extend
 import { PropsWithChildren } from "react";
 import { Sidebar } from "../Sidebar/Sidebar";
 import { Header } from "../Header/Header";
-import { FiHome, FiStar } from "react-icons/fi";
 import { LinkItem } from "../CustomNavLink/CustomNavLink";
 import * as theme from "../../../.chakra/chakra.config";
 

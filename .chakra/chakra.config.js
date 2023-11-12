@@ -6,7 +6,8 @@ module.exports = {
         100: "#ff0000",
         900: "#1a202c",
       },
-      footerBrown: "#231201"
+      footerBrown: "#231201",
+      highlightBlue: "#6faac3"
     },
     fonts: {},
     fontSizes: {},
