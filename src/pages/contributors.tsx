@@ -41,7 +41,6 @@ const Contributors: NextPageWithLayout = () => {
         <Container>
             <PageHeader title="Contributors" subtitle="A collection of contributors." />
             { count != undefined && <Dataview<Contributor>
-                            isT={isContributor}
                             total={count} 
                             numberToShow={8}
                             numberPerRow={2}

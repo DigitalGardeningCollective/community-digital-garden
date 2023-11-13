@@ -20,7 +20,6 @@ const Essays: NextPageWithLayout = () => {
         <Container>
             <PageHeader title="Essays" subtitle="A collection of atomic notes, i.e. a single idea or a single object of attention." />
             { count != undefined && <Dataview<Published_Piece_View>
-                            isT={isPublishedPiece}
                             total={count} 
                             numberToShow={9}
                             numberPerRow={3}

@@ -30,7 +30,6 @@ const Notes: NextPageWithLayout = () => {
         />
         { count != undefined && 
             <Dataview<Published_Piece_View>
-              isT={isPublishedPiece}
               total={count} 
               numberToShow={9}
               numberPerRow={3}

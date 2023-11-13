@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { UniformDataFormat } from "../PieceCard/PieceCard";
 
 interface Props<T> {
-    isT: (data: unknown) => data is T;
     total: number;
     numberToShow: number;
     numberPerRow: number;
@@ -14,7 +13,6 @@ interface Props<T> {
 }
 
 export const Dataview = <T extends Record<string, unknown>>({
-    isT,
     total,
     numberToShow,
     numberPerRow,
@@ -32,21 +30,6 @@ export const Dataview = <T extends Record<string, unknown>>({
     console.log('page -', page);
 
     useEffect(() => {
-        const isTArray = (data: any[] | undefined ): data is T[] => {
-            if (!data) {
-                return false;
-            }
-            else if (data.length == 0) {
-                return false;
-            } else {
-                if (isT(data[0])) {
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-        }
-
         let active = true;
         load();
         return () => { active = false }
@@ -57,9 +40,7 @@ export const Dataview = <T extends Record<string, unknown>>({
           const to = (page == 1 ? (numberToShow - 1) : ((page * numberToShow) - 1));
           const res = await query(from, to);
           if (!active) { return }
-          if (isTArray(res)) {
-            setResult(res);
-          }
+          setResult(res);
         }
         // eslint-disable-next-line
       }, [page]); // intentional
