@@ -23,7 +23,7 @@ export const Dataview = <T extends Record<string, unknown>>({
     const [result, setResult] = useState<T[] | undefined>([]);
 
     const [page, onChange] = useState(1);
-    const totalPages = total <= numberToShow ? total : Math.ceil(total / numberToShow);
+    const totalPages = total <= numberToShow ? 1 : Math.ceil(total / numberToShow);
     const pagination = usePagination({ total: totalPages, page, onChange });
 
     console.log('totalPages -', totalPages);
