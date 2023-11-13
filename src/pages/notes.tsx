@@ -33,6 +33,7 @@ const Notes: NextPageWithLayout = () => {
               isT={isPublishedPiece}
               total={count} 
               numberToShow={9}
+              numberPerRow={3}
               query={fetchNotesWithinRange}
               uniformDataRetrievalMethod={pieceUniformDataRetrieval}
               Component={PieceCard}

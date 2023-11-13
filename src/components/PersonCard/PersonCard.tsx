@@ -10,26 +10,25 @@ import {
     Divider,
     Container,
 } from '@chakra-ui/react'
-import { Contributor } from '@/types/manual'
-import Contributors from '@/pages/contributors'
+import { UniformDataFormat } from '../PieceCard/PieceCard'
 
-interface Props { contributor: Contributor }
+interface Props { data: UniformDataFormat }
 
-const PersonCard = ({ contributor }: Props) => 
-<Card size='sm' width='sm'>
+const PersonCard = ({ data: { imageURL, mainText, subText, extraText } }: Props) => 
+<Card>
     <CardHeader>
         <Flex>
-            <Avatar src={contributor.avatar_url} />
+            <Avatar src={imageURL} />
             <Box ml='3'>
-                <Text fontWeight='bold'>{contributor.full_name}</Text>
+                <Text fontWeight='bold'>{mainText}</Text>
                 {/* <Link>@{contributor.username}</Link> */}
-                <Text>@{contributor.username}</Text>
+                <Text>@{subText}</Text>
             </Box>
         </Flex>
     </CardHeader>
     <Divider color='silver' />
     <CardBody>
-        <Text fontSize='sm'>{contributor.bio}</Text>
+        <Text fontSize='sm'>{extraText}</Text>
     </CardBody>
 </Card>    
 

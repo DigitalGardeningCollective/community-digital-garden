@@ -23,6 +23,7 @@ const Essays: NextPageWithLayout = () => {
                             isT={isPublishedPiece}
                             total={count} 
                             numberToShow={9}
+                            numberPerRow={3}
                             query={fetchEssaysWithinRange}
                             uniformDataRetrievalMethod={pieceUniformDataRetrieval}
                             Component={PieceCard}

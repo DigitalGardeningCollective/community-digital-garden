@@ -7,6 +7,7 @@ interface Props<T> {
     isT: (data: unknown) => data is T;
     total: number;
     numberToShow: number;
+    numberPerRow: number;
     query: (from: number, to: number) => Promise<T[] | undefined>;
     uniformDataRetrievalMethod: (data: T) => UniformDataFormat;
     Component: any;
@@ -16,6 +17,7 @@ export const Dataview = <T extends Record<string, unknown>>({
     isT,
     total,
     numberToShow,
+    numberPerRow,
     query,
     uniformDataRetrievalMethod,
     Component
@@ -75,7 +77,11 @@ export const Dataview = <T extends Record<string, unknown>>({
             <>
                 <SimpleGrid
                     // height={"100vh"} 
-                    minChildWidth={{ base: "30%", md: "30%", sm: "40%" }} 
+                    minChildWidth={
+                        numberPerRow == 3 ?
+                            { base: "30%", md: "30%", sm: "40%" } :
+                            { base: "40%", md: "40%", sm: "50%" }
+                    } 
                     spacing={5}>
                     { result.map(r => {
                                 const data = uniformDataRetrievalMethod(r);

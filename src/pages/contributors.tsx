@@ -7,9 +7,28 @@ import { useFetchContributors } from '@/hooks/useFetchContributors'
 import PersonCard from '@/components/PersonCard/PersonCard'
 import { Container, Stack } from '@chakra-ui/react'
 import { Contributor } from '@/types/manual'
+import { useContributorAPI } from '@/hooks/useContributorAPI'
+import { UniformDataFormat } from '@/components/PieceCard/PieceCard'
+import { isContributor } from '@/types/utilities'
+import { Dataview } from '@/components/Dataview/Dataview'
 
 const Contributors: NextPageWithLayout = () => {
-    const  {contributors} = useFetchContributors()
+    const { count, fetchContributorsWithinRange } = useContributorAPI();
+
+    const uniformDataRetrieval = (data: Contributor): UniformDataFormat => {
+        
+        if (!data.id || !data.avatar_url || !data.full_name || !data.username || !data.bio) {
+            throw Error("Data properties aren't valid");
+        }
+
+        return {
+            id: data.id,
+            imageURL: data.avatar_url,
+            mainText: data.full_name,
+            subText: data.username,
+            extraText: data.bio
+        };
+    }
 
     return <>
         <Head>
@@ -19,12 +38,18 @@ const Contributors: NextPageWithLayout = () => {
             <link rel="icon" href="/favicon.ico" />
         </Head>
 
-        <Container maxW="4x1" padding={0}>
+        <Container>
             <PageHeader title="Contributors" subtitle="A collection of contributors." />
-            <Stack spacing={4}>{ 
-                contributors && contributors?.map((contributor, index) => 
-                <PersonCard key={index} contributor={contributor}/>) 
-            }</Stack>
+            { count != undefined && <Dataview<Contributor>
+                            isT={isContributor}
+                            total={count} 
+                            numberToShow={8}
+                            numberPerRow={2}
+                            query={fetchContributorsWithinRange}
+                            uniformDataRetrievalMethod={uniformDataRetrieval}
+                            Component={PersonCard}
+                        />
+            }
         </Container>
     </>
 }

@@ -1,5 +1,6 @@
+import { UniformDataFormat } from "@/components/PieceCard/PieceCard";
 import { Json } from "./generated";
-import { ChangeDetails, Published_Piece_View } from "./manual";
+import { ChangeDetails, Contributor, Published_Piece_View } from "./manual";
 
 // General
 
@@ -19,6 +20,14 @@ export const isChangeDetails = (data: unknown): data is ChangeDetails & Json => 
 
 export const isPublishedPiece = (data: unknown): data is Published_Piece_View & Json => {
     if (isObject(data) && data.url_key) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+export const isContributor = (data: unknown): data is Contributor & Json => {
+    if (isObject(data) && data.username) {
         return true;
     } else {
         return false;
