@@ -2,15 +2,16 @@ import { Database } from "@/types/generated";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useEffect, useState } from "react";
 
-export const usePieceAPI = (pieceTypeID: number) => {
+export const usePieceAPI = (typeTitle: string) => {
     const supabaseClient = useSupabaseClient<Database>();
-    const [count, setCount] = useState(0);
+    const [count, setCount] = useState<number | undefined>(undefined);
 
     useEffect(() => {
-        const fetchPiecesCount = async (typeID: number) => {
+        const fetchPiecesCount = async (type: string) => {
             const { data, error } = await supabaseClient
-            .from('total_published_pieces')
+            .from('total_count')
             .select()
+            .eq("title", type)
             .single();
             if (data) {
                 console.log('fetchPiecesCount - data -', data);
@@ -21,22 +22,38 @@ export const usePieceAPI = (pieceTypeID: number) => {
             }
         }
 
-        fetchPiecesCount(pieceTypeID);
-    }, [supabaseClient, pieceTypeID]);
+        fetchPiecesCount(typeTitle);
+    }, [supabaseClient, typeTitle]);
 
-    const fetchPiecesWithinRange = async (from: number, to: number) => {
+    const fetchEssaysWithinRange = async (from: number, to: number) => {
         const { data, error } = await supabaseClient
         .from('published_piece_view')
         .select()
+        .eq("type", "Essay")
         .range(from, to);
         if (data) {
-            console.log('fetchPiecesWithRange - data -', data);
+            console.log('fetchEssaysWithinRange - data -', data);
             return data;
         }
         if (error) {
-            console.log('fetchPiecesWithRange - error -', error);
+            console.log('fetchEssaysWithinRange - error -', error);
         }
     }
 
-    return { fetchPiecesWithinRange, count };
+    const fetchNotesWithinRange = async (from: number, to: number) => {
+        const { data, error } = await supabaseClient
+        .from('published_piece_view')
+        .select()
+        .eq("type", "Note")
+        .range(from, to);
+        if (data) {
+            console.log('fetchNotesWithinRange - data -', data);
+            return data;
+        }
+        if (error) {
+            console.log('fetchNotesWithinRange - error -', error);
+        }
+    }
+
+    return { fetchEssaysWithinRange, count, fetchNotesWithinRange };
 }

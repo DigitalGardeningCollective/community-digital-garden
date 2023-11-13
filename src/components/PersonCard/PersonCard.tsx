@@ -22,7 +22,8 @@ const PersonCard = ({ contributor }: Props) =>
             <Avatar src={contributor.avatar_url} />
             <Box ml='3'>
                 <Text fontWeight='bold'>{contributor.full_name}</Text>
-                <Link>@{contributor.username}</Link>
+                {/* <Link>@{contributor.username}</Link> */}
+                <Text>@{contributor.username}</Text>
             </Box>
         </Flex>
     </CardHeader>

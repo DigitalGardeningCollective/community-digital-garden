@@ -1,5 +1,5 @@
 import { Json } from "./generated";
-import { ChangeDetails } from "./manual";
+import { ChangeDetails, Published_Piece_View } from "./manual";
 
 // General
 
@@ -17,3 +17,24 @@ export const isChangeDetails = (data: unknown): data is ChangeDetails & Json => 
     }
 }
 
+export const isPublishedPiece = (data: unknown): data is Published_Piece_View & Json => {
+    if (isObject(data) && data.url_key) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+export const pieceUniformDataRetrieval = (data: Published_Piece_View): UniformDataFormat => {
+    if (!data.id || !data.cover_url || !data.title || !data.growth_stage) {
+        throw Error("Data properties aren't valid");
+    }
+    
+    return {
+        id: data.id,
+        imageURL: data.cover_url,
+        mainText: data.title,
+        subText: "Joshwin Greene",
+        extraText: data.growth_stage
+    };
+}

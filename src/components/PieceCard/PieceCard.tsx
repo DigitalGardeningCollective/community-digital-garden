@@ -9,18 +9,26 @@ import {
   Image, 
 } from "@chakra-ui/react";
 
-interface Props {
-  piece: Published_Piece_View;
-  contributor: Contributor;
+export interface UniformDataFormat {
+  id: string | number;
+  imageURL: string;
+  mainText: string;
+  subText: string;
+  extraText: string;
 }
 
-export const PieceCard = ({piece: { title, growth_stage, cover_url }, contributor: { full_name }}: Props) =>
+interface Props {
+  data: UniformDataFormat;
+  // contributor: Contributor;
+}
+
+export const PieceCard = ({data: { imageURL, mainText, subText, extraText }}: Props) =>
 <Card maxW='sm' boxShadow={'2xl'}>
   <CardHeader padding='0'>
     <AspectRatio ratio={16 / 9}>
       <Image 
-        src={cover_url ?? undefined} 
-        alt={title ?? undefined} 
+        src={imageURL ?? undefined} 
+        alt={mainText ?? undefined} 
         boxSize='sm'
         objectFit='cover'
         borderBottom={'1px'}
@@ -29,8 +37,8 @@ export const PieceCard = ({piece: { title, growth_stage, cover_url }, contributo
     </AspectRatio>
   </CardHeader>
   <CardBody>
-    <Text fontSize={16} fontWeight={"bold"}>{title}</Text>
-    <Text fontSize={12}>By {full_name}</Text>
-    <Text fontSize={12} color='grey'>{growth_stage}</Text>
+    <Text fontSize={16} fontWeight={"bold"}>{mainText}</Text>
+    <Text fontSize={12}>By {subText}</Text>
+    <Text fontSize={12}  color='grey'>{extraText}</Text>
   </CardBody>
 </Card>

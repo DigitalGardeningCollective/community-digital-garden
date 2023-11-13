@@ -1,39 +1,63 @@
 import { Button, Flex, SimpleGrid } from "@chakra-ui/react";
 import { usePagination } from '@mantine/hooks';
 import { useEffect, useState } from "react";
-import { PieceCard } from "../PieceCard/PieceCard";
-import { usePieceAPI } from "@/hooks/usePieceAPI";
+import { UniformDataFormat } from "../PieceCard/PieceCard";
 
-interface Props {
+interface Props<T> {
+    isT: (data: unknown) => data is T;
+    total: number;
     numberToShow: number;
-//   query: (from: number, to: number) => Promise<[any]>;
-//   Component: JSX.Element;
+    query: (from: number, to: number) => Promise<T[] | undefined>;
+    uniformDataRetrievalMethod: (data: T) => UniformDataFormat;
+    Component: any;
 }
 
-export const Dataview = ({ numberToShow }: Props) => {
-    const [result, setResult] = useState<any[] | undefined>([]);
-    const { fetchPiecesWithinRange, count } = usePieceAPI(2);
+export const Dataview = <T extends Record<string, unknown>>({
+    isT,
+    total,
+    numberToShow,
+    query,
+    uniformDataRetrievalMethod,
+    Component
+}: Props<T>) => {
+    const [result, setResult] = useState<T[] | undefined>([]);
 
     const [page, onChange] = useState(1);
-    const totalPages = Math.ceil(count / numberToShow);
+    const totalPages = total <= numberToShow ? total : Math.ceil(total / numberToShow);
     const pagination = usePagination({ total: totalPages, page, onChange });
 
-    // console.log('totalPages -', totalPages);
-    // console.log('page -', page);
+    console.log('totalPages -', totalPages);
+    console.log('page -', page);
 
     useEffect(() => {
+        const isTArray = (data: any[] | undefined ): data is T[] => {
+            if (!data) {
+                return false;
+            }
+            else if (data.length == 0) {
+                return false;
+            } else {
+                if (isT(data[0])) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        }
+
         let active = true;
         load();
         return () => { active = false }
       
         async function load() {
           setResult([]); // this is optional
-        //   const res = await query(0, activePage)
           const from = (page == 1 ? 0 : ((page - 1) * numberToShow));
           const to = (page == 1 ? (numberToShow - 1) : ((page * numberToShow) - 1));
-          const res = await fetchPiecesWithinRange(from, to);
+          const res = await query(from, to);
           if (!active) { return }
-          setResult(res);
+          if (isTArray(res)) {
+            setResult(res);
+          }
         }
         // eslint-disable-next-line
       }, [page]); // intentional
@@ -53,16 +77,14 @@ export const Dataview = ({ numberToShow }: Props) => {
                     // height={"100vh"} 
                     minChildWidth={{ base: "30%", md: "30%", sm: "40%" }} 
                     spacing={5}>
-                    { result.map(r => <PieceCard key={r.id} piece={r} contributor={{ 
-                            // TODO - Replace by referencing that test hook from the DGC
-                            full_name: "Joshwin Greene", 
-                            avatar_url: "https://joshwin.dev/img/joshwin-linkedin-photo.JPG",
-                            id: 'sdlkfjsdlf',
-                            bio: "Hello World!",
-                            created_at: "2023-07-23 17:50:44.769474+00",
-                            updated_at: null,
-                            username: "joshwin_greene"
-                        }} />) }
+                    { result.map(r => {
+                                const data = uniformDataRetrievalMethod(r);
+
+                                return (
+                                    <Component key={data.id} data={ data } />
+                                )
+                            }
+                        ) }
                 </SimpleGrid>
                 <Flex width={'100%'} direction={'row'} justifyContent={'center'}>
                     <Button onClick={() => handlePrevious()} isDisabled={ page == 1 }>Previous</Button>

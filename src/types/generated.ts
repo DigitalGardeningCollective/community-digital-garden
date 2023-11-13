@@ -413,22 +413,25 @@ export interface Database {
         }
         Relationships: []
       }
-      total_published_pieces: {
+      total_count: {
         Row: {
           created_at: string
           id: number
+          title: string | null
           updated_at: string | null
           value: number
         }
         Insert: {
           created_at?: string
           id?: number
+          title?: string | null
           updated_at?: string | null
           value?: number
         }
         Update: {
           created_at?: string
           id?: number
+          title?: string | null
           updated_at?: string | null
           value?: number
         }

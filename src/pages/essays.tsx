@@ -3,16 +3,15 @@ import Head from 'next/head';
 import { NextPageWithLayout } from './_app';
 import { Container, Stack } from '@chakra-ui/react';
 import { PageHeader } from '@/components/PageHeader/PageHeader';
-import { useFetchEssays } from '@/hooks/useFetchEssays';
 import { PieceCard } from '@/components/PieceCard/PieceCard';
 import { Published_Piece_View } from '../types/manual';
 import { Layout } from '@/components/layouts/Layout';
 import { Dataview } from '@/components/Dataview/Dataview';
-// Add the page's header using the PageHeader component
-// Show the fetched essays in a list (use the PieceCard component for each item)
+import { usePieceAPI } from '@/hooks/usePieceAPI';
+import { isPublishedPiece, pieceUniformDataRetrieval } from '@/types/utilities';
 
 const Essays: NextPageWithLayout = () => {
-    const { essays } = useFetchEssays();
+    const { count, fetchEssaysWithinRange } = usePieceAPI("Essay");
 
     return <>
         <Head>
@@ -20,19 +19,15 @@ const Essays: NextPageWithLayout = () => {
         </Head>
         <Container>
             <PageHeader title="Essays" subtitle="A collection of atomic notes, i.e. a single idea or a single object of attention." />
-            <Dataview numberToShow={9} />
-            {/* <Stack spacing={4}>{
-                essays && essays.map((essay: Published_Piece_View, index: number) => 
-                <PieceCard key={index} piece={essay} contributor={{
-                    id: "1", 
-                    avatar_url: "", 
-                    bio: "I like coding", 
-                    username: "TheeSamSmith01", 
-                    full_name: "Sam Smith", 
-                    created_at:"", 
-                    updated_at:""
-                }}/>)
-            }</Stack> */}
+            { count != undefined && <Dataview<Published_Piece_View>
+                            isT={isPublishedPiece}
+                            total={count} 
+                            numberToShow={9}
+                            query={fetchEssaysWithinRange}
+                            uniformDataRetrievalMethod={pieceUniformDataRetrieval}
+                            Component={PieceCard}
+                        />
+            }
         </Container>
     </>
 }
