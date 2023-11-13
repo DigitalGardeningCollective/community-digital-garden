@@ -143,12 +143,14 @@ export interface Database {
           {
             foreignKeyName: "published_piece_growth_stage_id_fkey"
             columns: ["growth_stage_id"]
+            isOneToOne: false
             referencedRelation: "growth_stage"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "published_piece_piece_type_id_fkey"
             columns: ["piece_type_id"]
+            isOneToOne: false
             referencedRelation: "published_piece_type"
             referencedColumns: ["id"]
           }
@@ -177,24 +179,28 @@ export interface Database {
           {
             foreignKeyName: "published_piece_contributor_contributor_id_fkey"
             columns: ["contributor_id"]
+            isOneToOne: false
             referencedRelation: "contributor"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "published_piece_contributor_contributor_type_id_fkey"
             columns: ["contributor_type_id"]
+            isOneToOne: false
             referencedRelation: "contributor_type"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "published_piece_contributor_published_piece_id_fkey"
             columns: ["published_piece_id"]
+            isOneToOne: false
             referencedRelation: "published_piece"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "published_piece_contributor_published_piece_id_fkey"
             columns: ["published_piece_id"]
+            isOneToOne: false
             referencedRelation: "published_piece_view"
             referencedColumns: ["id"]
           }
@@ -220,18 +226,21 @@ export interface Database {
           {
             foreignKeyName: "published_piece_tag_published_piece_id_fkey"
             columns: ["published_piece_id"]
+            isOneToOne: false
             referencedRelation: "published_piece"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "published_piece_tag_published_piece_id_fkey"
             columns: ["published_piece_id"]
+            isOneToOne: false
             referencedRelation: "published_piece_view"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "published_piece_tag_tag_id_fkey"
             columns: ["tag_id"]
+            isOneToOne: false
             referencedRelation: "tag"
             referencedColumns: ["id"]
           }
@@ -290,18 +299,21 @@ export interface Database {
           {
             foreignKeyName: "submission_decision_moderator_id_fkey"
             columns: ["decision_moderator_id"]
+            isOneToOne: false
             referencedRelation: "moderator"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "submission_submission_status_id_fkey"
             columns: ["submission_status_id"]
+            isOneToOne: false
             referencedRelation: "submission_status"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "submission_submission_type_id_fkey"
             columns: ["submission_type_id"]
+            isOneToOne: false
             referencedRelation: "submission_type"
             referencedColumns: ["id"]
           }
@@ -363,18 +375,21 @@ export interface Database {
           {
             foreignKeyName: "submission_viewing_moderator_id_fkey"
             columns: ["moderator_id"]
+            isOneToOne: false
             referencedRelation: "moderator"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "submission_viewing_submission_id_fkey"
             columns: ["submission_id"]
+            isOneToOne: false
             referencedRelation: "submission"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "submission_viewing_submission_id_fkey"
             columns: ["submission_id"]
+            isOneToOne: false
             referencedRelation: "submission_view"
             referencedColumns: ["id"]
           }
@@ -395,6 +410,27 @@ export interface Database {
           created_at?: string
           id?: number
           title?: string
+        }
+        Relationships: []
+      }
+      total_published_pieces: {
+        Row: {
+          created_at: string
+          id: number
+          updated_at: string | null
+          value: number
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          updated_at?: string | null
+          value?: number
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          updated_at?: string | null
+          value?: number
         }
         Relationships: []
       }
@@ -424,12 +460,14 @@ export interface Database {
           {
             foreignKeyName: "version_published_piece_id_fkey"
             columns: ["published_piece_id"]
+            isOneToOne: false
             referencedRelation: "published_piece"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "version_published_piece_id_fkey"
             columns: ["published_piece_id"]
+            isOneToOne: false
             referencedRelation: "published_piece_view"
             referencedColumns: ["id"]
           }
@@ -458,18 +496,21 @@ export interface Database {
           {
             foreignKeyName: "version_contributor_contributor_id_fkey"
             columns: ["contributor_id"]
+            isOneToOne: false
             referencedRelation: "contributor"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "version_contributor_contributor_type_id_fkey"
             columns: ["contributor_type_id"]
+            isOneToOne: false
             referencedRelation: "contributor_type"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "version_contributor_version_id_fkey"
             columns: ["version_id"]
+            isOneToOne: false
             referencedRelation: "version"
             referencedColumns: ["id"]
           }

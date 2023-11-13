@@ -20,7 +20,7 @@ const Essays: NextPageWithLayout = () => {
         </Head>
         <Container>
             <PageHeader title="Essays" subtitle="A collection of atomic notes, i.e. a single idea or a single object of attention." />
-            <Dataview />
+            <Dataview numberToShow={9} />
             {/* <Stack spacing={4}>{
                 essays && essays.map((essay: Published_Piece_View, index: number) => 
                 <PieceCard key={index} piece={essay} contributor={{
