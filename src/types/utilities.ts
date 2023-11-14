@@ -34,16 +34,21 @@ export const isContributor = (data: unknown): data is Contributor & Json => {
     }
 }
 
-export const pieceUniformDataRetrieval = (data: Published_Piece_View): UniformDataFormat => {
+// Data's type was Published_Piece_View originally
+export const pieceUniformDataRetrieval = (data: any): UniformDataFormat => {
     if (!data.id || !data.cover_url || !data.title || !data.growth_stage) {
         throw Error("Data properties aren't valid");
     }
     
+    const contributorName = data.version && data.version.length != 0 ? 
+        data.version[0].version_contributor[0].contributor.full_name : 
+        "Unknown";
+
     return {
         id: data.id,
         imageURL: data.cover_url,
         mainText: data.title,
-        subText: "Joshwin Greene",
+        subText:  contributorName,
         extraText: data.growth_stage
     };
 }

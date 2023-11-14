@@ -7,7 +7,7 @@ interface Props<T> {
     total: number;
     numberToShow: number;
     numberPerRow: number;
-    query: (from: number, to: number) => Promise<T[] | undefined>;
+    query: (from: number, to: number) => Promise<any>; // before T[] | undefined
     uniformDataRetrievalMethod: (data: T) => UniformDataFormat;
     Component: any;
 }
@@ -28,6 +28,7 @@ export const Dataview = <T extends Record<string, unknown>>({
 
     console.log('totalPages -', totalPages);
     console.log('page -', page);
+    console.log('result -', result);
 
     useEffect(() => {
         let active = true;

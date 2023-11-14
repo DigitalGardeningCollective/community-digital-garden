@@ -1,15 +1,13 @@
-import { Key, ReactElement } from 'react'
+import { ReactElement } from 'react'
 import Head from 'next/head'
 import { Layout } from '@/components/layouts/Layout'
 import { NextPageWithLayout } from './_app'
 import { PageHeader } from '@/components/PageHeader/PageHeader'
-import { useFetchContributors } from '@/hooks/useFetchContributors'
 import PersonCard from '@/components/PersonCard/PersonCard'
 import { Container, Stack } from '@chakra-ui/react'
 import { Contributor } from '@/types/manual'
 import { useContributorAPI } from '@/hooks/useContributorAPI'
 import { UniformDataFormat } from '@/components/PieceCard/PieceCard'
-import { isContributor } from '@/types/utilities'
 import { Dataview } from '@/components/Dataview/Dataview'
 
 const Contributors: NextPageWithLayout = () => {
