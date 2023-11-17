@@ -20,26 +20,13 @@ type Story = StoryObj<typeof PieceCard>;
 
 
 // shows the example displayed in the wireframe
-export const ExampleCard: Story = {
+export const Default: Story = {
   render: () => 
-    <PieceCard piece={{
+    <PieceCard data={{
       id: 'slfkjsf',
-      title: 'Sample Productivity Piece',
-      description: 'This is a description.',
-      growth_stage: 'Evergreen',
-      type: 'Essay',
-      updated_at: null,
-      created_at: '2023-07-23 18:07:48.679761+00',
-      url_key: 'productivity',
-      cover_url: 'https://joshwin.dev/img/hero-image.png',
-      content: ''
-    }} contributor={{ 
-      full_name: "Joshwin Greene", 
-      avatar_url: "https://joshwin.dev/img/joshwin-linkedin-photo.JPG",
-      id: 'sdlkfjsdlf',
-      bio: "Hello World!",
-      created_at: "2023-07-23 17:50:44.769474+00",
-      updated_at: null,
-      username: "joshwin_greene"
+      mainText: 'Sample Productivity Piece',
+      subText: 'This is a description.',
+      extraText: 'Evergreen',
+      imageURL: 'https://joshwin.dev/img/hero-image.png',
     }} />
 }

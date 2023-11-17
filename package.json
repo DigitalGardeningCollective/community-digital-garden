@@ -50,5 +50,6 @@
     "@types/uuid": "^9.0.2",
     "eslint-plugin-storybook": "^0.6.12",
     "storybook": "^7.0.23"
-  }
+  },
+  "packageManager": "yarn@4.0.2"
 }

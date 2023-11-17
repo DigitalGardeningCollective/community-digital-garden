@@ -7,9 +7,11 @@ interface Props<T> {
     total: number;
     numberToShow: number;
     numberPerRow: number;
-    query: (from: number, to: number) => Promise<any>; // before T[] | undefined
-    uniformDataRetrievalMethod: (data: T) => UniformDataFormat;
+    query?: (from: number, to: number) => Promise<any>; // before T[] | undefined
+    uniformDataRetrievalMethod: (data: T, hasMockData?: boolean) => UniformDataFormat;
     Component: any;
+    hasMockData?: boolean;
+    mockData?: T[];
 }
 
 export const Dataview = <T extends Record<string, unknown>>({
@@ -18,7 +20,9 @@ export const Dataview = <T extends Record<string, unknown>>({
     numberPerRow,
     query,
     uniformDataRetrievalMethod,
-    Component
+    Component,
+    hasMockData,
+    mockData
 }: Props<T>) => {
     const [result, setResult] = useState<T[] | undefined>([]);
 
@@ -32,14 +36,30 @@ export const Dataview = <T extends Record<string, unknown>>({
 
     useEffect(() => {
         let active = true;
-        load();
+        if (hasMockData && mockData) {
+            loadMockData(mockData);
+        } else {
+            loadAPIData();
+        }
         return () => { active = false }
       
-        async function load() {
+        function loadMockData(mockData: T[]) {
+            setResult([]); // this is optional
+            const from = (page == 1 ? 0 : ((page - 1) * numberToShow));
+            const to = (page == 1 ? (numberToShow - 1) : ((page * numberToShow) - 1));
+            const res = mockData.slice(from, to + 1);
+            if (!active) { return }
+            setResult(res);
+        }
+
+        async function loadAPIData() {
+          let res;
           setResult([]); // this is optional
           const from = (page == 1 ? 0 : ((page - 1) * numberToShow));
           const to = (page == 1 ? (numberToShow - 1) : ((page * numberToShow) - 1));
-          const res = await query(from, to);
+          if (query) {
+            res = await query(from, to);
+          }          
           if (!active) { return }
           setResult(res);
         }
@@ -66,7 +86,7 @@ export const Dataview = <T extends Record<string, unknown>>({
                     } 
                     spacing={5}>
                     { result.map(r => {
-                                const data = uniformDataRetrievalMethod(r);
+                                const data = uniformDataRetrievalMethod(r, hasMockData);
 
                                 return (
                                     <Component key={data.id} data={ data } />

@@ -9,6 +9,7 @@ import { Layout } from '@/components/layouts/Layout';
 import { Dataview } from '@/components/Dataview/Dataview';
 import { usePieceAPI } from '@/hooks/usePieceAPI';
 import { isPublishedPiece, pieceUniformDataRetrieval } from '@/types/utilities';
+import { essays } from '@/components/Dataview/mockData';
 
 const Essays: NextPageWithLayout = () => {
     const { count, fetchEssaysWithinRange } = usePieceAPI("Essay");
@@ -20,12 +21,16 @@ const Essays: NextPageWithLayout = () => {
         <Container>
             <PageHeader title="Essays" subtitle="A collection of atomic notes, i.e. a single idea or a single object of attention." />
             { count != undefined && <Dataview<Published_Piece_View>
-                            total={count} 
+                            total={11} 
                             numberToShow={9}
                             numberPerRow={3}
-                            query={fetchEssaysWithinRange}
+                            // query={fetchEssaysWithinRange}
                             uniformDataRetrievalMethod={pieceUniformDataRetrieval}
                             Component={PieceCard}
+                            hasMockData
+                            mockData={
+                                essays
+                            }
                         />
             }
         </Container>
