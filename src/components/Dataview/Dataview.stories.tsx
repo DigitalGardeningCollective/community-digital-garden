@@ -1,9 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Dataview } from './Dataview';
+import { DataLayout, Dataview } from './Dataview';
 import { Published_Piece_View } from '@/types/manual';
 import { PieceCard } from '../PieceCard/PieceCard';
 import { pieceUniformDataRetrieval } from '@/types/utilities';
 import { essays } from './mockData';
+
+// Note: Storybook isn't working for me at the moment.
 
 
 const meta: Meta<typeof Dataview> = {
@@ -28,6 +30,7 @@ export const Default: Story = {
 
   render: () => 
     <Dataview<Published_Piece_View>
+        layout={DataLayout.Grid}
         total={10} 
         numberToShow={9}
         numberPerRow={3}

@@ -6,7 +6,7 @@ import Head from "next/head";
 import { PieceCard } from "@/components/PieceCard/PieceCard";
 import { Container } from "@chakra-ui/react";
 import { usePieceAPI } from "@/hooks/usePieceAPI";
-import { Dataview } from "@/components/Dataview/Dataview";
+import { DataLayout, Dataview } from "@/components/Dataview/Dataview";
 import { isPublishedPiece, pieceUniformDataRetrieval } from "@/types/utilities";
 import { Published_Piece_View } from "@/types/manual";
 const Notes: NextPageWithLayout = () => {
@@ -30,6 +30,7 @@ const Notes: NextPageWithLayout = () => {
         />
         { count != undefined && 
             <Dataview<Published_Piece_View>
+              layout={DataLayout.Grid}
               total={count} 
               numberToShow={9}
               numberPerRow={3}

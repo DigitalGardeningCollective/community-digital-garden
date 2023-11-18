@@ -8,7 +8,7 @@ import { Container, Stack } from '@chakra-ui/react'
 import { Contributor } from '@/types/manual'
 import { useContributorAPI } from '@/hooks/useContributorAPI'
 import { UniformDataFormat } from '@/components/PieceCard/PieceCard'
-import { Dataview } from '@/components/Dataview/Dataview'
+import { DataLayout, Dataview } from '@/components/Dataview/Dataview'
 
 const Contributors: NextPageWithLayout = () => {
     const { count, fetchContributorsWithinRange } = useContributorAPI();
@@ -39,6 +39,7 @@ const Contributors: NextPageWithLayout = () => {
         <Container>
             <PageHeader title="Contributors" subtitle="A collection of contributors." />
             { count != undefined && <Dataview<Contributor>
+                            layout={DataLayout.Grid}
                             total={count} 
                             numberToShow={8}
                             numberPerRow={2}

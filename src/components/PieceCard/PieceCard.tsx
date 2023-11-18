@@ -19,7 +19,6 @@ export interface UniformDataFormat {
 
 interface Props {
   data: UniformDataFormat;
-  // contributor: Contributor;
 }
 
 export const PieceCard = ({data: { imageURL, mainText, subText, extraText }}: Props) =>

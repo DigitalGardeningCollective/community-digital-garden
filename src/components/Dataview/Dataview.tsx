@@ -1,26 +1,34 @@
-import { Button, Flex, SimpleGrid } from "@chakra-ui/react";
+import { Button, Divider, Flex, SimpleGrid, VStack } from "@chakra-ui/react";
 import { usePagination } from '@mantine/hooks';
 import { useEffect, useState } from "react";
 import { UniformDataFormat } from "../PieceCard/PieceCard";
 
+export enum DataLayout {
+    Grid = "GRID",
+    List = "LIST",
+    Table = "TABLE"
+}
+
 interface Props<T> {
+    layout: DataLayout;
     total: number;
     numberToShow: number;
-    numberPerRow: number;
-    query?: (from: number, to: number) => Promise<any>; // before T[] | undefined
+    numberPerRow?: number;
     uniformDataRetrievalMethod: (data: T, hasMockData?: boolean) => UniformDataFormat;
     Component: any;
+    query?: (from: number, to: number) => Promise<any>; // before T[] | undefined
     hasMockData?: boolean;
     mockData?: T[];
 }
 
 export const Dataview = <T extends Record<string, unknown>>({
+    layout,
     total,
     numberToShow,
     numberPerRow,
-    query,
     uniformDataRetrievalMethod,
     Component,
+    query,
     hasMockData,
     mockData
 }: Props<T>) => {
@@ -77,23 +85,41 @@ export const Dataview = <T extends Record<string, unknown>>({
     return (
         result && result.length !== 0 && 
             <>
-                <SimpleGrid
-                    // height={"100vh"} 
-                    minChildWidth={
-                        numberPerRow == 3 ?
-                            { base: "30%", md: "30%", sm: "40%" } :
-                            { base: "40%", md: "40%", sm: "50%" }
-                    } 
-                    spacing={5}>
-                    { result.map(r => {
-                                const data = uniformDataRetrievalMethod(r, hasMockData);
+                { layout == DataLayout.Grid && 
+                    <SimpleGrid
+                        // height={"100vh"} 
+                        minChildWidth={
+                            numberPerRow == 3 ?
+                                { base: "30%", md: "30%", sm: "40%" } :
+                                { base: "40%", md: "40%", sm: "50%" }
+                        } 
+                        spacing={5}
+                        >
+                        { result.map(r => {
+                                    const data = uniformDataRetrievalMethod(r, hasMockData);
 
-                                return (
-                                    <Component key={data.id} data={ data } />
-                                )
-                            }
+                                    return (
+                                        <Component key={data.id} data={data} />
+                                    )
+                                }
+                            ) }
+                    </SimpleGrid>
+                }
+                { layout == DataLayout.List &&
+                    <VStack>
+                        { result.map(r => {
+                                    const data = uniformDataRetrievalMethod(r, hasMockData);
+
+                                    return (
+                                        <>
+                                            <Component key={data.id} data={data} />
+                                            <Divider />
+                                        </>
+                                    )
+                                }
                         ) }
-                </SimpleGrid>
+                    </VStack>
+                }
                 <Flex width={'100%'} direction={'row'} justifyContent={'center'}>
                     <Button onClick={() => handlePrevious()} isDisabled={ page == 1 }>Previous</Button>
                     <Button onClick={() => handleNext()} isDisabled={ page == totalPages }>Next</Button>
