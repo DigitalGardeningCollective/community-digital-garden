@@ -1,4 +1,4 @@
-import { Box, Button, Divider, Flex, SimpleGrid, Skeleton, SkeletonCircle, SkeletonText, VStack } from "@chakra-ui/react";
+import { Box, Button, Divider, Flex, SimpleGrid, SkeletonCircle, SkeletonText, Text, VStack } from "@chakra-ui/react";
 import { usePagination } from '@mantine/hooks';
 import { useEffect, useState } from "react";
 import { UniformDataFormat } from "../PieceCard/PieceCard";
@@ -25,18 +25,22 @@ interface Props<T> {
 
     // Grid Layout
     numberPerRow?: number;
+
+    // Table Layout
+    tableHeaderNames?: string[];
 }
 
 export const Dataview = <T extends Record<string, unknown>>({
+    hasMockData,
+    mockData,
     layout,
     totalCount,
     numberToShow,
-    numberPerRow,
     uniformDataRetrievalMethod,
     Component,
     query,
-    hasMockData,
-    mockData
+    numberPerRow,
+    tableHeaderNames
 }: Props<T>) => {
     const [result, setResult] = useState<T[] | undefined>([]);
 
@@ -98,40 +102,40 @@ export const Dataview = <T extends Record<string, unknown>>({
         (totalCount && result && result.length !== 0) ?
             // When not loading
             <>
-                { layout == DataLayout.Grid && 
-                    <SimpleGrid
-                        // height={"100vh"} 
-                        minChildWidth={
-                            numberPerRow == 3 ?
-                                { base: "30%", md: "30%", sm: "40%" } :
-                                { base: "40%", md: "40%", sm: "50%" }
-                        } 
-                        spacing={5}
-                        >
-                        { result.map(r => {
-                                    const data = uniformDataRetrievalMethod(r, hasMockData);
-
-                                    return (
-                                        <Component key={data.id} data={data} />
-                                    )
-                                }
-                            ) }
-                    </SimpleGrid>
-                }
-                { layout == DataLayout.List &&
-                    <VStack>
-                        { result.map(r => {
-                                    const data = uniformDataRetrievalMethod(r, hasMockData);
-
-                                    return (
-                                        <>
-                                            <Component key={data.id} data={data} />
-                                            <Divider />
-                                        </>
-                                    )
-                                }
-                        ) }
-                    </VStack>
+                {
+                    { "GRID":
+                            <SimpleGrid
+                                // height={"100vh"} 
+                                minChildWidth={
+                                    numberPerRow == 3 ?
+                                        { base: "30%", md: "30%", sm: "40%" } :
+                                        { base: "40%", md: "40%", sm: "50%" }
+                                } 
+                                spacing={5}
+                                >
+                                { result.map(r => {
+                                            const data = uniformDataRetrievalMethod(r, hasMockData);
+                                            return (
+                                                <Component key={data.id} data={data} />
+                                            )
+                                        }
+                                    ) }
+                            </SimpleGrid>,
+                        "LIST":
+                                <VStack>
+                                    { result.map(r => {
+                                                const data = uniformDataRetrievalMethod(r, hasMockData);
+                                                return (
+                                                    <>
+                                                        <Component key={data.id} data={data} />
+                                                        <Divider />
+                                                    </>
+                                                )
+                                            }
+                                    ) }
+                                </VStack>,
+                        "TABLE": <Text>TODO</Text>
+                    } [layout]
                 }
                 <Flex width={'100%'} direction={'row'} justifyContent={'center'}>
                     <Button onClick={() => handlePrevious()} isDisabled={ page == 1 }>Previous</Button>
@@ -140,34 +144,32 @@ export const Dataview = <T extends Record<string, unknown>>({
             </> 
             :
             // When Loading
-            (layout == DataLayout.Grid ?
-                (
-                    <SimpleGrid
-                        minChildWidth={
-                            numberPerRow == 3 ?
-                                { base: "30%", md: "30%", sm: "40%" } :
-                                { base: "40%", md: "40%", sm: "50%" }
-                        } 
-                        spacing={5}
+            {  "GRID":  
+                (<SimpleGrid
+                    minChildWidth={
+                        numberPerRow == 3 ?
+                            { base: "30%", md: "30%", sm: "40%" } :
+                            { base: "40%", md: "40%", sm: "50%" }
+                    } 
+                    spacing={5}
                     >
                         {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((index) => 
                             <Box key={index} padding='6' boxShadow='lg' bg='white'>
                                 <SkeletonCircle size='10' />
                                 <SkeletonText mt='4' noOfLines={4} spacing='4' skeletonHeight='2' />
-                        </Box>)
+                            </Box>)
                         }
-                    </SimpleGrid>
-            ) :
-            (
-                <VStack>
-                    {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((index) => 
-                            <Box key={index} padding='6' boxShadow='lg' bg='white'>
-                                <SkeletonCircle size='10' />
-                                <SkeletonText mt='4' noOfLines={4} spacing='4' skeletonHeight='2' />
-                        </Box>)
-                    }
-                </VStack>
-            )   
+                    </SimpleGrid>),
+                "LIST":
+                    (<VStack>
+                        {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((index) => 
+                                <Box key={index} padding='6' boxShadow='lg' bg='white'>
+                                    <SkeletonCircle size='10' />
+                                    <SkeletonText mt='4' noOfLines={4} spacing='4' skeletonHeight='2' />
+                            </Box>)
+                        }
+                    </VStack>),
+                "TABLE": (<Text>TODO</Text>)
+              } [layout]
         )
-    )
 }
