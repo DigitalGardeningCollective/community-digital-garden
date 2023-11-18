@@ -1,4 +1,4 @@
-import { Box, Button, Divider, Flex, SimpleGrid, SkeletonCircle, SkeletonText, Text, VStack } from "@chakra-ui/react";
+import { Box, Button, Divider, Flex, SimpleGrid, SkeletonCircle, SkeletonText, Table, TableContainer, Tbody, Th, Thead, Tr, VStack } from "@chakra-ui/react";
 import { usePagination } from '@mantine/hooks';
 import { useEffect, useState } from "react";
 import { UniformDataFormat } from "../PieceCard/PieceCard";
@@ -20,6 +20,7 @@ interface Props<T> {
     numberToShow: number;
     uniformDataRetrievalMethod: (data: T, hasMockData?: boolean) => UniformDataFormat;
     Component: any;
+    handleOnClick: (id: string | number) => void;
     query?: (from: number, to: number) => Promise<any>; // before T[] | undefined
     // Note: Don't set this when providing mock data
 
@@ -38,6 +39,7 @@ export const Dataview = <T extends Record<string, unknown>>({
     numberToShow,
     uniformDataRetrievalMethod,
     Component,
+    handleOnClick,
     query,
     numberPerRow,
     tableHeaderNames
@@ -88,7 +90,7 @@ export const Dataview = <T extends Record<string, unknown>>({
           setResult(res);
         }
         // eslint-disable-next-line
-      }, [page]); // intentional
+      }, [page, query]); // intentional
 
     const handlePrevious = () => {
         pagination.setPage(page - 1);
@@ -123,18 +125,40 @@ export const Dataview = <T extends Record<string, unknown>>({
                             </SimpleGrid>,
                         "LIST":
                                 <VStack>
-                                    { result.map(r => {
+                                    { result.map((r, index) => {
                                                 const data = uniformDataRetrievalMethod(r, hasMockData);
                                                 return (
                                                     <>
                                                         <Component key={data.id} data={data} />
-                                                        <Divider />
+                                                        <Divider key={index} />
                                                     </>
                                                 )
                                             }
                                     ) }
                                 </VStack>,
-                        "TABLE": <Text>TODO</Text>
+                        "TABLE": 
+                            <TableContainer width={'100%'}>
+                                    <Box overflowX={'auto'}>
+                                        <Table variant='striped' colorScheme='teal'>
+                                            <Thead>
+                                                <Tr>
+                                                    { tableHeaderNames?.map((name, index) => 
+                                                            <Th key={index}>{ name }</Th>
+                                                        )
+                                                    }
+                                                </Tr>
+                                            </Thead>
+                                            <Tbody>
+                                                {
+                                                    result.map(r => {
+                                                        const data = uniformDataRetrievalMethod(r);
+                                                        return <Component key={data.id} data={data} func={handleOnClick} />
+                                                    })
+                                                }
+                                            </Tbody>
+                                        </Table>
+                                    </Box>
+                                </TableContainer>
                     } [layout]
                 }
                 <Flex width={'100%'} direction={'row'} justifyContent={'center'}>
@@ -169,7 +193,13 @@ export const Dataview = <T extends Record<string, unknown>>({
                             </Box>)
                         }
                     </VStack>),
-                "TABLE": (<Text>TODO</Text>)
+                "TABLE": 
+                    ((<VStack width={"100%"}>
+                        {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((index) => 
+                                <Box key={index} width={"100%"} padding='6' boxShadow='lg' bg='white'>                                    <SkeletonText mt='4' noOfLines={4} spacing='4' skeletonHeight='2' />
+                            </Box>)
+                        }
+                    </VStack>))
               } [layout]
         )
 }

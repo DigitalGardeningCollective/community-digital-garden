@@ -12,6 +12,10 @@ import { Published_Piece_View } from "@/types/manual";
 const Notes: NextPageWithLayout = () => {
   const { count, fetchNotesWithinRange } = usePieceAPI("Note");
 
+  const handleClick = (id: string | number) => {
+
+  }
+
   return (
     <>
       <Head>
@@ -33,6 +37,7 @@ const Notes: NextPageWithLayout = () => {
           totalCount={count} 
           numberToShow={9}
           numberPerRow={3}
+          handleOnClick={handleClick}
           query={fetchNotesWithinRange}
           uniformDataRetrievalMethod={pieceUniformDataRetrieval}
           Component={PieceCard}

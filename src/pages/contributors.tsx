@@ -28,6 +28,10 @@ const Contributors: NextPageWithLayout = () => {
         };
     }
 
+    const handleClick = (id: string | number) => {
+
+    }
+
     return <>
         <Head>
             <title>Contributors</title>
@@ -37,12 +41,13 @@ const Contributors: NextPageWithLayout = () => {
         </Head>
 
         <Container>
-            <PageHeader title="Contributors" subtitle="A collection of contributors." />
+            <PageHeader title="Contributors" subtitle="The wonderful individuals who have contributed their ideas to our digital garden." />
             <Dataview<Contributor>
                 layout={DataLayout.Grid}
                 totalCount={count} 
                 numberToShow={8}
                 numberPerRow={2}
+                handleOnClick={handleClick}
                 query={fetchContributorsWithinRange}
                 uniformDataRetrievalMethod={uniformDataRetrieval}
                 Component={PersonCard}

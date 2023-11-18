@@ -15,17 +15,22 @@ import { PieceListItem } from '@/components/PieceListItem/PieceListItem';
 const Essays: NextPageWithLayout = () => {
     const { count, fetchEssaysWithinRange } = usePieceAPI("Essay");
 
+    const handleClick = (id: string | number) => {
+
+    }
+
     return <>
         <Head>
             <title>Essays</title>
         </Head>
         <Container>
-            <PageHeader title="Essays" subtitle="A collection of atomic notes, i.e. a single idea or a single object of attention." />
+            <PageHeader title="Essays" subtitle="A collection of long-form narratives and opinion pieces." />
             <Dataview<Published_Piece_View>
                 layout={ DataLayout.Grid }
                 totalCount={count} 
                 numberToShow={9}
                 numberPerRow={3}
+                handleOnClick={handleClick}
                 query={fetchEssaysWithinRange}
                 uniformDataRetrievalMethod={pieceUniformDataRetrieval}
                 Component={PieceCard}

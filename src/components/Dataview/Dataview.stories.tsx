@@ -35,6 +35,7 @@ export const Default: Story = {
         numberToShow={9}
         numberPerRow={3}
         uniformDataRetrievalMethod={pieceUniformDataRetrieval}
+        handleOnClick={(id: string | number) => { console.log('Hello') }}
         Component={PieceCard}
         hasMockData
         mockData={essays}

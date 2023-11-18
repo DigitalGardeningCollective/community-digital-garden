@@ -2,16 +2,54 @@ import { ReactElement, useState } from 'react';
 import Head from 'next/head';
 import { NextPageWithLayout } from '../_app';
 import { ModeratorLayout } from '@/components/layouts/ModeratorLayout';
-import { useFetchSubmissions } from '@/hooks/useFetchSubmissions';
-import { Box, Tab, TabList, Table, TableContainer, Tabs, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
+import { Tab, TabList, Tabs } from '@chakra-ui/react';
 import { isChangeDetails } from '@/types/utilities';
 import { format } from 'date-fns';
 import { useRouter } from 'next/router';
+import { DataLayout, Dataview } from '@/components/Dataview/Dataview';
+import { Submission } from '@/types/manual';
+import { UniformDataFormat } from '@/components/PieceCard/PieceCard';
+import { SubmissionTableItem } from '@/components/SubmissionTableItem/SubmissionTableItem';
+import { useSubmissionAPI } from '@/hooks/useSubmissionAPI';
 
 const Submissions: NextPageWithLayout = () => {
     const [tabIndex, setTabIndex] = useState(0);
     const router = useRouter();
-    const { submissions } = useFetchSubmissions(tabIndex + 1);
+    const { 
+      count,
+      fetchPendingSubmissions,
+      fetchApprovedSubmissions,
+      fetchRejectedSubmissions
+    } = useSubmissionAPI(tabIndex + 1);
+
+    let selectedQuery;
+
+    if ((tabIndex + 1) == 1) {
+      selectedQuery = fetchPendingSubmissions;
+    } else if ((tabIndex + 1) == 2) {
+      selectedQuery = fetchApprovedSubmissions;
+    } else {
+      selectedQuery = fetchRejectedSubmissions;
+    }
+
+    const uniformDataRetrieval = (data: Submission): UniformDataFormat => {
+        
+      if (!data.id || !data.created_at || !data.change_details || !isChangeDetails(data.change_details)) {
+          throw Error("Data properties aren't valid");
+      }
+
+      return {
+          id: data.id,
+          imageURL: "",
+          mainText: data.change_details.metadata.title,
+          subText: data.change_details.contributor.full_name,
+          extraText: format(new Date(data.created_at), "yyyy-MM-dd h:mm")
+      };
+    }
+
+    const handleClick = (id: number | string) => {
+      router.push(`/submissions/${encodeURIComponent(id)}`);
+    }
 
     return (
     <>
@@ -28,37 +66,16 @@ const Submissions: NextPageWithLayout = () => {
           <Tab _selected={{ color: 'white', bg: 'red.500' }}>Rejected</Tab>
         </TabList>
       </Tabs>
-      <TableContainer width={'100%'}>
-        <Box overflowX={'auto'}>
-            <Table variant='striped' colorScheme='teal'>
-                <Thead>
-                <Tr>
-                    <Th>Title</Th>
-                    <Th>Author</Th>
-                    <Th>Submitted</Th>
-                </Tr>
-                </Thead>
-                <Tbody>
-                { submissions && submissions.map((s, index) =>
-                    <Tr key={s.id} cursor={'pointer'} onClick={() => router.push(`/submissions/${encodeURIComponent(s.id)}`)}>
-                        { isChangeDetails(s.change_details) ?
-                            <>
-                                <Td>{ s.change_details.metadata.title }</Td>
-                                <Td>{ s.change_details.contributor.full_name }</Td>
-                            </>
-                            :
-                            <>
-                                <Td>Submission { index }</Td>
-                                <Td>Not Found</Td>
-                            </>
-                        }
-                        <Td>{ format(new Date(s.created_at), "yyyy-MM-dd h:mm") }</Td>
-                    </Tr>
-                ) }
-                </Tbody>
-            </Table>
-        </Box>
-    </TableContainer>
+      <Dataview<Submission>
+          layout={DataLayout.Table}
+          totalCount={count}
+          numberToShow={9}
+          uniformDataRetrievalMethod={uniformDataRetrieval}
+          Component={SubmissionTableItem}
+          handleOnClick={handleClick}
+          query={selectedQuery}
+          tableHeaderNames={["TITLE", "AUTHOR", "SUBMITTED"]}
+        />
     </>
   )
 }
