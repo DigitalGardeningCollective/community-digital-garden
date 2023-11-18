@@ -21,20 +21,15 @@ const Essays: NextPageWithLayout = () => {
         </Head>
         <Container>
             <PageHeader title="Essays" subtitle="A collection of atomic notes, i.e. a single idea or a single object of attention." />
-            { count != undefined && <Dataview<Published_Piece_View>
-                            layout={ DataLayout.List }
-                            total={11} 
-                            numberToShow={9}
-                            // numberPerRow={3}
-                            // query={fetchEssaysWithinRange}
-                            uniformDataRetrievalMethod={pieceUniformDataRetrieval}
-                            Component={PieceListItem}
-                            hasMockData
-                            mockData={
-                                essays
-                            }
-                        />
-            }
+            <Dataview<Published_Piece_View>
+                layout={ DataLayout.Grid }
+                totalCount={count} 
+                numberToShow={9}
+                numberPerRow={3}
+                query={fetchEssaysWithinRange}
+                uniformDataRetrievalMethod={pieceUniformDataRetrieval}
+                Component={PieceCard}
+            />
         </Container>
     </>
 }

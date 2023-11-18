@@ -28,17 +28,15 @@ const Notes: NextPageWithLayout = () => {
             "A collection of atomic notes, i.e. a single idea or a single object of attention."
           }
         />
-        { count != undefined && 
-            <Dataview<Published_Piece_View>
-              layout={DataLayout.Grid}
-              total={count} 
-              numberToShow={9}
-              numberPerRow={3}
-              query={fetchNotesWithinRange}
-              uniformDataRetrievalMethod={pieceUniformDataRetrieval}
-              Component={PieceCard}
-            />
-        }
+        <Dataview<Published_Piece_View>
+          layout={DataLayout.Grid}
+          totalCount={count} 
+          numberToShow={9}
+          numberPerRow={3}
+          query={fetchNotesWithinRange}
+          uniformDataRetrievalMethod={pieceUniformDataRetrieval}
+          Component={PieceCard}
+        />
       </Container>
     </>
   );

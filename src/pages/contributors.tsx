@@ -38,16 +38,15 @@ const Contributors: NextPageWithLayout = () => {
 
         <Container>
             <PageHeader title="Contributors" subtitle="A collection of contributors." />
-            { count != undefined && <Dataview<Contributor>
-                            layout={DataLayout.Grid}
-                            total={count} 
-                            numberToShow={8}
-                            numberPerRow={2}
-                            query={fetchContributorsWithinRange}
-                            uniformDataRetrievalMethod={uniformDataRetrieval}
-                            Component={PersonCard}
-                        />
-            }
+            <Dataview<Contributor>
+                layout={DataLayout.Grid}
+                totalCount={count} 
+                numberToShow={8}
+                numberPerRow={2}
+                query={fetchContributorsWithinRange}
+                uniformDataRetrievalMethod={uniformDataRetrieval}
+                Component={PersonCard}
+            />
         </Container>
     </>
 }

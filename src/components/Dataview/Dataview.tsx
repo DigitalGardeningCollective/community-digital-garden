@@ -1,4 +1,4 @@
-import { Button, Divider, Flex, SimpleGrid, VStack } from "@chakra-ui/react";
+import { Box, Button, Divider, Flex, SimpleGrid, Skeleton, SkeletonCircle, SkeletonText, VStack } from "@chakra-ui/react";
 import { usePagination } from '@mantine/hooks';
 import { useEffect, useState } from "react";
 import { UniformDataFormat } from "../PieceCard/PieceCard";
@@ -10,20 +10,26 @@ export enum DataLayout {
 }
 
 interface Props<T> {
+    // When providing mock data
+    hasMockData?: boolean;
+    mockData?: T[];
+
+    // Required by all layouts
     layout: DataLayout;
-    total: number;
+    totalCount: number | undefined;
     numberToShow: number;
-    numberPerRow?: number;
     uniformDataRetrievalMethod: (data: T, hasMockData?: boolean) => UniformDataFormat;
     Component: any;
     query?: (from: number, to: number) => Promise<any>; // before T[] | undefined
-    hasMockData?: boolean;
-    mockData?: T[];
+    // Note: Don't set this when providing mock data
+
+    // Grid Layout
+    numberPerRow?: number;
 }
 
 export const Dataview = <T extends Record<string, unknown>>({
     layout,
-    total,
+    totalCount,
     numberToShow,
     numberPerRow,
     uniformDataRetrievalMethod,
@@ -35,8 +41,14 @@ export const Dataview = <T extends Record<string, unknown>>({
     const [result, setResult] = useState<T[] | undefined>([]);
 
     const [page, onChange] = useState(1);
-    const totalPages = total <= numberToShow ? 1 : Math.ceil(total / numberToShow);
-    const pagination = usePagination({ total: totalPages, page, onChange });
+
+    let totalPages = undefined;
+    
+    if (totalCount) {
+        totalPages = (totalCount <= numberToShow) ? 1 : Math.ceil(totalCount / numberToShow);
+    }
+
+    const pagination = usePagination({ total: totalPages ?? 0, page, onChange });
 
     console.log('totalPages -', totalPages);
     console.log('page -', page);
@@ -83,7 +95,8 @@ export const Dataview = <T extends Record<string, unknown>>({
     }
 
     return (
-        result && result.length !== 0 && 
+        (totalCount && result && result.length !== 0) ?
+            // When not loading
             <>
                 { layout == DataLayout.Grid && 
                     <SimpleGrid
@@ -124,6 +137,37 @@ export const Dataview = <T extends Record<string, unknown>>({
                     <Button onClick={() => handlePrevious()} isDisabled={ page == 1 }>Previous</Button>
                     <Button onClick={() => handleNext()} isDisabled={ page == totalPages }>Next</Button>
                 </Flex>
-            </>
+            </> 
+            :
+            // When Loading
+            (layout == DataLayout.Grid ?
+                (
+                    <SimpleGrid
+                        minChildWidth={
+                            numberPerRow == 3 ?
+                                { base: "30%", md: "30%", sm: "40%" } :
+                                { base: "40%", md: "40%", sm: "50%" }
+                        } 
+                        spacing={5}
+                    >
+                        {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((index) => 
+                            <Box key={index} padding='6' boxShadow='lg' bg='white'>
+                                <SkeletonCircle size='10' />
+                                <SkeletonText mt='4' noOfLines={4} spacing='4' skeletonHeight='2' />
+                        </Box>)
+                        }
+                    </SimpleGrid>
+            ) :
+            (
+                <VStack>
+                    {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((index) => 
+                            <Box key={index} padding='6' boxShadow='lg' bg='white'>
+                                <SkeletonCircle size='10' />
+                                <SkeletonText mt='4' noOfLines={4} spacing='4' skeletonHeight='2' />
+                        </Box>)
+                    }
+                </VStack>
+            )   
+        )
     )
 }

@@ -31,7 +31,7 @@ export const Default: Story = {
   render: () => 
     <Dataview<Published_Piece_View>
         layout={DataLayout.Grid}
-        total={10} 
+        totalCount={10} 
         numberToShow={9}
         numberPerRow={3}
         uniformDataRetrievalMethod={pieceUniformDataRetrieval}
