@@ -17,7 +17,6 @@ import {
 interface Props {
     linkItems: LinkItem[];
     onOpen: () => void;
-    search: string;
 }
 
 export const Header = ({linkItems, onOpen}: Props) => {
