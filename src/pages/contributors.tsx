@@ -7,25 +7,18 @@ import PersonCard from '@/components/PersonCard/PersonCard'
 import { Container, Stack } from '@chakra-ui/react'
 import { Contributor } from '@/types/manual'
 import { useContributorAPI } from '@/hooks/useContributorAPI'
-import { UniformDataFormat } from '@/components/PieceCard/PieceCard'
 import { DataLayout, Dataview } from '@/components/Dataview/Dataview'
+import { isContributor } from '@/types/utilities'
 
 const Contributors: NextPageWithLayout = () => {
     const { count, fetchContributorsWithinRange } = useContributorAPI();
 
-    const uniformDataRetrieval = (data: Contributor): UniformDataFormat => {
-        
-        if (!data.id || !data.avatar_url || !data.full_name || !data.username || !data.bio) {
-            throw Error("Data properties aren't valid");
+    const renderPersonCard = (data: Record<string, unknown>) => {
+        if (isContributor(data)) {
+            return <PersonCard key={data.id} contributor={data} />;
+        } else {
+            throw Error('data is not a contributor');
         }
-
-        return {
-            id: data.id,
-            imageURL: data.avatar_url,
-            mainText: data.full_name,
-            subText: data.username,
-            extraText: data.bio
-        };
     }
 
     const handleClick = (id: string | number) => {
@@ -49,8 +42,7 @@ const Contributors: NextPageWithLayout = () => {
                 numberPerRow={2}
                 handleOnClick={handleClick}
                 query={fetchContributorsWithinRange}
-                uniformDataRetrievalMethod={uniformDataRetrieval}
-                Component={PersonCard}
+                renderComponent={renderPersonCard}
             />
         </Container>
     </>

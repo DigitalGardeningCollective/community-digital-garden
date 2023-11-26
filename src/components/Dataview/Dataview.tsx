@@ -1,7 +1,6 @@
 import { Box, Button, Divider, Flex, SimpleGrid, SkeletonCircle, SkeletonText, Table, TableContainer, Tbody, Th, Thead, Tr, VStack } from "@chakra-ui/react";
 import { usePagination } from '@mantine/hooks';
 import { useEffect, useState } from "react";
-import { UniformDataFormat } from "../PieceCard/PieceCard";
 
 export enum DataLayout {
     Grid = "GRID",
@@ -18,11 +17,11 @@ interface Props<T> {
     layout: DataLayout;
     totalCount: number | undefined;
     numberToShow: number;
-    uniformDataRetrievalMethod: (data: T, hasMockData?: boolean) => UniformDataFormat;
-    Component: any;
     handleOnClick: (id: string | number) => void;
     query?: (from: number, to: number) => Promise<any>; // before T[] | undefined
-    // Note: Don't set this when providing mock data
+    // Note: query isn't used when hasMockData is true
+
+    renderComponent: (data: Record<string, unknown>) => JSX.Element;
 
     // Grid Layout
     numberPerRow?: number;
@@ -37,12 +36,11 @@ export const Dataview = <T extends Record<string, unknown>>({
     layout,
     totalCount,
     numberToShow,
-    uniformDataRetrievalMethod,
-    Component,
     handleOnClick,
     query,
     numberPerRow,
-    tableHeaderNames
+    tableHeaderNames,
+    renderComponent
 }: Props<T>) => {
     const [result, setResult] = useState<T[] | undefined>([]);
 
@@ -115,25 +113,16 @@ export const Dataview = <T extends Record<string, unknown>>({
                                 } 
                                 spacing={5}
                                 >
-                                { result.map(r => {
-                                            const data = uniformDataRetrievalMethod(r, hasMockData);
-                                            return (
-                                                <Component key={data.id} data={data} />
-                                            )
-                                        }
-                                    ) }
+                                { result.map(r => renderComponent(r)) }
                             </SimpleGrid>,
                         "LIST":
                                 <VStack>
-                                    { result.map((r, index) => {
-                                                const data = uniformDataRetrievalMethod(r, hasMockData);
-                                                return (
+                                    { result.map((r, index) => (
                                                     <>
-                                                        <Component key={data.id} data={data} />
+                                                        { renderComponent(r) }
                                                         <Divider key={index} />
                                                     </>
                                                 )
-                                            }
                                     ) }
                                 </VStack>,
                         "TABLE": 
@@ -149,12 +138,7 @@ export const Dataview = <T extends Record<string, unknown>>({
                                                 </Tr>
                                             </Thead>
                                             <Tbody>
-                                                {
-                                                    result.map(r => {
-                                                        const data = uniformDataRetrievalMethod(r);
-                                                        return <Component key={data.id} data={data} func={handleOnClick} />
-                                                    })
-                                                }
+                                                { result.map(r => renderComponent(r)) }
                                             </Tbody>
                                         </Table>
                                     </Box>

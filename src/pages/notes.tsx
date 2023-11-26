@@ -1,13 +1,12 @@
 import { PageHeader } from "@/components/PageHeader/PageHeader";
-import { ReactElement, useEffect, useState } from "react";
+import { ReactElement } from "react";
 import { NextPageWithLayout } from "./_app";
 import { Layout } from "@/components/layouts/Layout";
 import Head from "next/head";
-import { PieceCard } from "@/components/PieceCard/PieceCard";
 import { Container } from "@chakra-ui/react";
 import { usePieceAPI } from "@/hooks/usePieceAPI";
 import { DataLayout, Dataview } from "@/components/Dataview/Dataview";
-import { isPublishedPiece, pieceUniformDataRetrieval } from "@/types/utilities";
+import { renderPieceCard } from "@/types/utilities";
 import { Published_Piece_View } from "@/types/manual";
 const Notes: NextPageWithLayout = () => {
   const { count, fetchNotesWithinRange } = usePieceAPI("Note");
@@ -39,8 +38,7 @@ const Notes: NextPageWithLayout = () => {
           numberPerRow={3}
           handleOnClick={handleClick}
           query={fetchNotesWithinRange}
-          uniformDataRetrievalMethod={pieceUniformDataRetrieval}
-          Component={PieceCard}
+          renderComponent={renderPieceCard}
         />
       </Container>
     </>

@@ -3,14 +3,12 @@ import Head from 'next/head';
 import { NextPageWithLayout } from './_app';
 import { Container, Stack } from '@chakra-ui/react';
 import { PageHeader } from '@/components/PageHeader/PageHeader';
-import { PieceCard } from '@/components/PieceCard/PieceCard';
 import { Published_Piece_View } from '../types/manual';
 import { Layout } from '@/components/layouts/Layout';
 import { Dataview, DataLayout} from '@/components/Dataview/Dataview';
 import { usePieceAPI } from '@/hooks/usePieceAPI';
-import { isPublishedPiece, pieceUniformDataRetrieval } from '@/types/utilities';
+import { renderPieceCard } from '@/types/utilities';
 import { essays } from '@/components/Dataview/mockData';
-import { PieceListItem } from '@/components/PieceListItem/PieceListItem';
 
 const Essays: NextPageWithLayout = () => {
     const { count, fetchEssaysWithinRange } = usePieceAPI("Essay");
@@ -32,8 +30,9 @@ const Essays: NextPageWithLayout = () => {
                 numberPerRow={3}
                 handleOnClick={handleClick}
                 query={fetchEssaysWithinRange}
-                uniformDataRetrievalMethod={pieceUniformDataRetrieval}
-                Component={PieceCard}
+                renderComponent={renderPieceCard}
+                mockData={essays}
+                hasMockData
             />
         </Container>
     </>

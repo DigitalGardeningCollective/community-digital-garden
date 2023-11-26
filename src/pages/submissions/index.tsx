@@ -3,12 +3,10 @@ import Head from 'next/head';
 import { NextPageWithLayout } from '../_app';
 import { ModeratorLayout } from '@/components/layouts/ModeratorLayout';
 import { Tab, TabList, Tabs } from '@chakra-ui/react';
-import { isChangeDetails } from '@/types/utilities';
-import { format } from 'date-fns';
+import { isSubmission } from '@/types/utilities';
 import { useRouter } from 'next/router';
 import { DataLayout, Dataview } from '@/components/Dataview/Dataview';
 import { Submission } from '@/types/manual';
-import { UniformDataFormat } from '@/components/PieceCard/PieceCard';
 import { SubmissionTableItem } from '@/components/SubmissionTableItem/SubmissionTableItem';
 import { useSubmissionAPI } from '@/hooks/useSubmissionAPI';
 
@@ -32,23 +30,16 @@ const Submissions: NextPageWithLayout = () => {
       selectedQuery = fetchRejectedSubmissions;
     }
 
-    const uniformDataRetrieval = (data: Submission): UniformDataFormat => {
-        
-      if (!data.id || !data.created_at || !data.change_details || !isChangeDetails(data.change_details)) {
-          throw Error("Data properties aren't valid");
-      }
-
-      return {
-          id: data.id,
-          imageURL: "",
-          mainText: data.change_details.metadata.title,
-          subText: data.change_details.contributor.full_name,
-          extraText: format(new Date(data.created_at), "yyyy-MM-dd h:mm")
-      };
-    }
-
     const handleClick = (id: number | string) => {
       router.push(`/submissions/${encodeURIComponent(id)}`);
+    }
+
+    const renderSubmissionTableItem = (data: Record<string, unknown>) => {
+      if (isSubmission(data)) {
+        return <SubmissionTableItem key={data.id} submission={data} func={handleClick} />
+      } else {
+        throw ("data is not a submission");
+      }
     }
 
     return (
@@ -69,12 +60,11 @@ const Submissions: NextPageWithLayout = () => {
       <Dataview<Submission>
           layout={DataLayout.Table}
           totalCount={count}
-          numberToShow={9}
-          uniformDataRetrievalMethod={uniformDataRetrieval}
-          Component={SubmissionTableItem}
+          numberToShow={9}          
           handleOnClick={handleClick}
           query={selectedQuery}
           tableHeaderNames={["TITLE", "AUTHOR", "SUBMITTED"]}
+          renderComponent={renderSubmissionTableItem}
         />
     </>
   )

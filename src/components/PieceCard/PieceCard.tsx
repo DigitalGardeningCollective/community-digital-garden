@@ -1,4 +1,3 @@
-import { Contributor, Published_Piece_View } from "@/types/manual";
 import { 
   AspectRatio,
   Card, 
@@ -9,35 +8,42 @@ import {
   Image, 
 } from "@chakra-ui/react";
 
-export interface UniformDataFormat {
-  id: string | number;
-  imageURL: string;
-  mainText: string;
-  subText: string;
-  extraText: string;
-}
-
 interface Props {
-  data: UniformDataFormat;
+  data: any; // temp setting this to any until Supabase's types support nested data
 }
 
-export const PieceCard = ({data: { imageURL, mainText, subText, extraText }}: Props) =>
-<Card maxW='sm' boxShadow={'2xl'}>
-  <CardHeader padding='0'>
-    <AspectRatio ratio={16 / 9}>
-      <Image 
-        src={imageURL ?? undefined} 
-        alt={mainText ?? undefined} 
-        boxSize='sm'
-        objectFit='cover'
-        borderBottom={'1px'}
-        borderColor={'lightgray'}
-      />
-    </AspectRatio>
-  </CardHeader>
-  <CardBody>
-    <Text fontSize={16} fontWeight={"bold"}>{mainText}</Text>
-    <Text fontSize={12}>By {subText}</Text>
-    <Text fontSize={12}  color='grey'>{extraText}</Text>
-  </CardBody>
-</Card>
+export const PieceCard = ({ data }: Props) => {
+
+  if (!data.title || !data.growth_stage) {
+    throw Error("Data properties aren't valid");
+  }
+  
+  const { title, growth_stage, cover_url } = data;
+
+  const contributorName = (data.version && data.version.length != 0) ? 
+    data.version[0].version_contributor[0].contributor.full_name : 
+    "Unknown";
+
+  return (
+    <Card maxW='sm' boxShadow={'2xl'}>
+      <CardHeader padding='0'>
+        <AspectRatio ratio={16 / 9}>
+          <Image 
+            src={cover_url ?? undefined} 
+            alt={title ?? undefined} 
+            boxSize='sm'
+            objectFit='cover'
+            borderBottom={'1px'}
+            borderColor={'lightgray'}
+          />
+        </AspectRatio>
+      </CardHeader>
+      <CardBody>
+        <Text fontSize={16} fontWeight={"bold"}>{title}</Text>
+        <Text fontSize={12}>By {contributorName}</Text>
+        <Text fontSize={12}  color='grey'>{growth_stage}</Text>
+      </CardBody>
+    </Card>
+  );
+}
+
