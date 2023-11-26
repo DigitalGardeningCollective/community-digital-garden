@@ -39,6 +39,7 @@ const Notes: NextPageWithLayout = () => {
           handleOnClick={handleClick}
           query={fetchNotesWithinRange}
           renderComponent={renderPieceCard}
+          dataName="Note"
         />
       </Container>
     </>

@@ -43,6 +43,7 @@ const Contributors: NextPageWithLayout = () => {
                 handleOnClick={handleClick}
                 query={fetchContributorsWithinRange}
                 renderComponent={renderPersonCard}
+                dataName="Contributor"
             />
         </Container>
     </>

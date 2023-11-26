@@ -31,8 +31,9 @@ const Essays: NextPageWithLayout = () => {
                 handleOnClick={handleClick}
                 query={fetchEssaysWithinRange}
                 renderComponent={renderPieceCard}
-                mockData={essays}
-                hasMockData
+                dataName="Essay"
+                // mockData={essays}
+                // hasMockData
             />
         </Container>
     </>

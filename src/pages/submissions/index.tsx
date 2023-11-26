@@ -65,6 +65,7 @@ const Submissions: NextPageWithLayout = () => {
           query={selectedQuery}
           tableHeaderNames={["TITLE", "AUTHOR", "SUBMITTED"]}
           renderComponent={renderSubmissionTableItem}
+          dataName="Submission"
         />
     </>
   )
