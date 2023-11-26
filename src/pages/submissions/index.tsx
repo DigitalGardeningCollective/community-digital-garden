@@ -2,16 +2,45 @@ import { ReactElement, useState } from 'react';
 import Head from 'next/head';
 import { NextPageWithLayout } from '../_app';
 import { ModeratorLayout } from '@/components/layouts/ModeratorLayout';
-import { useFetchSubmissions } from '@/hooks/useFetchSubmissions';
-import { Box, Tab, TabList, Table, TableContainer, Tabs, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
-import { isChangeDetails } from '@/types/utilities';
-import { format } from 'date-fns';
+import { Tab, TabList, Tabs } from '@chakra-ui/react';
+import { isSubmission } from '@/types/utilities';
 import { useRouter } from 'next/router';
+import { DataLayout, Dataview } from '@/components/Dataview/Dataview';
+import { Submission } from '@/types/manual';
+import { SubmissionTableItem } from '@/components/SubmissionTableItem/SubmissionTableItem';
+import { useSubmissionAPI } from '@/hooks/useSubmissionAPI';
 
 const Submissions: NextPageWithLayout = () => {
     const [tabIndex, setTabIndex] = useState(0);
     const router = useRouter();
-    const { submissions } = useFetchSubmissions(tabIndex + 1);
+    const { 
+      count,
+      fetchPendingSubmissions,
+      fetchApprovedSubmissions,
+      fetchRejectedSubmissions
+    } = useSubmissionAPI(tabIndex + 1);
+
+    let selectedQuery;
+
+    if ((tabIndex + 1) == 1) {
+      selectedQuery = fetchPendingSubmissions;
+    } else if ((tabIndex + 1) == 2) {
+      selectedQuery = fetchApprovedSubmissions;
+    } else {
+      selectedQuery = fetchRejectedSubmissions;
+    }
+
+    const handleClick = (id: number | string) => {
+      router.push(`/submissions/${encodeURIComponent(id)}`);
+    }
+
+    const renderSubmissionTableItem = (data: Record<string, unknown>) => {
+      if (isSubmission(data)) {
+        return <SubmissionTableItem key={data.id} submission={data} func={handleClick} />
+      } else {
+        throw ("data is not a submission");
+      }
+    }
 
     return (
     <>
@@ -28,37 +57,16 @@ const Submissions: NextPageWithLayout = () => {
           <Tab _selected={{ color: 'white', bg: 'red.500' }}>Rejected</Tab>
         </TabList>
       </Tabs>
-      <TableContainer width={'100%'}>
-        <Box overflowX={'auto'}>
-            <Table variant='striped' colorScheme='teal'>
-                <Thead>
-                <Tr>
-                    <Th>Title</Th>
-                    <Th>Author</Th>
-                    <Th>Submitted</Th>
-                </Tr>
-                </Thead>
-                <Tbody>
-                { submissions && submissions.map((s, index) =>
-                    <Tr key={s.id} cursor={'pointer'} onClick={() => router.push(`/submissions/${encodeURIComponent(s.id)}`)}>
-                        { isChangeDetails(s.change_details) ?
-                            <>
-                                <Td>{ s.change_details.metadata.title }</Td>
-                                <Td>{ s.change_details.contributor.full_name }</Td>
-                            </>
-                            :
-                            <>
-                                <Td>Submission { index }</Td>
-                                <Td>Not Found</Td>
-                            </>
-                        }
-                        <Td>{ format(new Date(s.created_at), "yyyy-MM-dd h:mm") }</Td>
-                    </Tr>
-                ) }
-                </Tbody>
-            </Table>
-        </Box>
-    </TableContainer>
+      <Dataview<Submission>
+          layout={DataLayout.Table}
+          totalCount={count}
+          numberToShow={9}          
+          handleOnClick={handleClick}
+          query={selectedQuery}
+          tableHeaderNames={["TITLE", "AUTHOR", "SUBMITTED"]}
+          renderComponent={renderSubmissionTableItem}
+          dataName="Submission"
+        />
     </>
   )
 }

@@ -7,9 +7,9 @@ interface Props {
 
 export const PageHeader = ({ title, subtitle }: Props) => {
   return (
-    <VStack align='flex-start'>
-      <Heading as='h3' size='lg'>{ title }</Heading>
-      <Text fontSize='4xl'>{ subtitle }</Text>
+    <VStack align='flex-start' mb={4}>
+      <Heading as='h4' size='lg'>{ title }</Heading>
+      <Text fontSize='2xl'>{ subtitle }</Text>
     </VStack>
   )
 }

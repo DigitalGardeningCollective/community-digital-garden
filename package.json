@@ -15,6 +15,7 @@
     "@chakra-ui/react": "^2.7.1",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
+    "@mantine/hooks": "^7.2.1",
     "@supabase/auth-helpers-nextjs": "^0.7.2",
     "@supabase/auth-helpers-react": "^0.4.0",
     "@supabase/supabase-js": "^2.26.0",
@@ -49,5 +50,6 @@
     "@types/uuid": "^9.0.2",
     "eslint-plugin-storybook": "^0.6.12",
     "storybook": "^7.0.23"
-  }
+  },
+  "packageManager": "yarn@1.22.21"
 }

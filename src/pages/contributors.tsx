@@ -1,15 +1,29 @@
-import { Key, ReactElement } from 'react'
+import { ReactElement } from 'react'
 import Head from 'next/head'
 import { Layout } from '@/components/layouts/Layout'
 import { NextPageWithLayout } from './_app'
 import { PageHeader } from '@/components/PageHeader/PageHeader'
-import { useFetchContributors } from '@/hooks/useFetchContributors'
 import PersonCard from '@/components/PersonCard/PersonCard'
 import { Container, Stack } from '@chakra-ui/react'
 import { Contributor } from '@/types/manual'
+import { useContributorAPI } from '@/hooks/useContributorAPI'
+import { DataLayout, Dataview } from '@/components/Dataview/Dataview'
+import { isContributor } from '@/types/utilities'
 
 const Contributors: NextPageWithLayout = () => {
-    const  {contributors} = useFetchContributors()
+    const { count, fetchContributorsWithinRange } = useContributorAPI();
+
+    const renderPersonCard = (data: Record<string, unknown>) => {
+        if (isContributor(data)) {
+            return <PersonCard key={data.id} contributor={data} />;
+        } else {
+            throw Error('data is not a contributor');
+        }
+    }
+
+    const handleClick = (id: string | number) => {
+
+    }
 
     return <>
         <Head>
@@ -19,12 +33,18 @@ const Contributors: NextPageWithLayout = () => {
             <link rel="icon" href="/favicon.ico" />
         </Head>
 
-        <Container maxW="4x1" padding={0}>
-            <PageHeader title="Contributors" subtitle="A collection of contributors." />
-            <Stack spacing={4}>{ 
-                contributors && contributors?.map((contributor, index) => 
-                <PersonCard key={index} contributor={contributor}/>) 
-            }</Stack>
+        <Container>
+            <PageHeader title="Contributors" subtitle="The wonderful individuals who have contributed their ideas to our digital garden." />
+            <Dataview<Contributor>
+                layout={DataLayout.Grid}
+                totalCount={count} 
+                numberToShow={8}
+                numberPerRow={2}
+                handleOnClick={handleClick}
+                query={fetchContributorsWithinRange}
+                renderComponent={renderPersonCard}
+                dataName="Contributor"
+            />
         </Container>
     </>
 }

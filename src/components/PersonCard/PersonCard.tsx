@@ -8,27 +8,26 @@ import {
     CardBody,
     CardHeader,
     Divider,
-    Container,
 } from '@chakra-ui/react'
 import { Contributor } from '@/types/manual'
-import Contributors from '@/pages/contributors'
 
 interface Props { contributor: Contributor }
 
-const PersonCard = ({ contributor }: Props) => 
-<Card size='sm' width='sm'>
+const PersonCard = ({ contributor: { avatar_url, full_name, username, bio } }: Props) => 
+<Card>
     <CardHeader>
         <Flex>
-            <Avatar src={contributor.avatar_url} />
+            <Avatar src={avatar_url} />
             <Box ml='3'>
-                <Text fontWeight='bold'>{contributor.full_name}</Text>
-                <Link>@{contributor.username}</Link>
+                <Text fontWeight='bold'>{full_name}</Text>
+                {/* <Link>@{contributor.username}</Link> */}
+                <Text>@{username}</Text>
             </Box>
         </Flex>
     </CardHeader>
     <Divider color='silver' />
     <CardBody>
-        <Text fontSize='sm'>{contributor.bio}</Text>
+        <Text fontSize='sm'>{bio}</Text>
     </CardBody>
 </Card>    
 
