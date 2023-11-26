@@ -5,28 +5,34 @@ import {
   HStack,
 } from "@chakra-ui/react";
 
-export interface UniformDataFormat {
-  id: string | number;
-  imageURL: string;
-  mainText: string;
-  subText: string;
-  extraText: string;
-}
-
 interface Props {
-  data: UniformDataFormat;
+  data: any; // temporarily setting this to any until Supabase's types support nested data
 }
 
-export const PieceListItem = ({data: { imageURL, mainText, subText, extraText }}: Props) =>
-<HStack width={"100%"} alignItems={'start'} justifyContent={'start'}>
-    <VStack alignItems={'start'} flex={2}>
-        <Text fontSize={16} fontWeight={"bold"}>{mainText}</Text>
-        <Text fontSize={12}>By {subText}</Text>
-        <Text fontSize={12}  color='grey'>{extraText}</Text> 
-    </VStack>
-    <Image 
-        height={20}
-        src={imageURL ?? undefined} 
-        alt={mainText ?? undefined} 
-    />
-</HStack>
+export const PieceListItem = ({ data }: Props) => {
+
+  if (!data.title || !data.growth_stage) {
+    throw Error("Data properties aren't valid");
+  }
+  
+  const { title, growth_stage, cover_url } = data;
+
+  const contributorName = (data.version && data.version.length != 0) ? 
+    data.version[0].version_contributor[0].contributor.full_name : 
+    "Unknown";
+
+  return (
+    <HStack width={"100%"} alignItems={'start'} justifyContent={'start'}>
+        <VStack alignItems={'start'} flex={2}>
+            <Text fontSize={16} fontWeight={"bold"}>{title}</Text>
+            <Text fontSize={12}>By {contributorName}</Text>
+            <Text fontSize={12}  color='grey'>{growth_stage}</Text> 
+        </VStack>
+        <Image 
+            height={20}
+            src={cover_url ?? undefined} 
+            alt={title ?? undefined} 
+        />
+    </HStack>
+  )
+}
