@@ -1,5 +1,5 @@
 import {NavigationTabs} from "../NavigationTabs/NavigationTabs";
-import {FiMenu, FiSearch} from "react-icons/fi";
+import {FiMenu} from "react-icons/fi";
 import {LinkItem} from "../CustomNavLink/CustomNavLink";
 import {Logo} from "../Logo/Logo";
 import {useUser} from "@supabase/auth-helpers-react";
