@@ -144,7 +144,7 @@ export const Dataview = <T extends Record<string, unknown>>({
                                                 result.data.map((r, index) => (
                                                         <Fragment key={index}>
                                                             { renderComponent(r) }
-                                                            <Divider key={index} />
+                                                            <Divider />
                                                         </Fragment>
                                                     ))
                                             }
