@@ -1,6 +1,6 @@
-import { Box, Button, Divider, Flex, SimpleGrid, SkeletonCircle, SkeletonText, Table, TableContainer, Tbody, Text, Th, Thead, Tr, VStack } from "@chakra-ui/react";
+import { Box, Button, Divider, Flex, SimpleGrid, SkeletonCircle, SkeletonText, Table, TableContainer, Tbody, Th, Thead, Tr, VStack } from "@chakra-ui/react";
 import { usePagination } from '@mantine/hooks';
-import { useCallback, useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { InfoDisplay } from "../InfoDisplay/InfoDisplay";
 
 export enum DataLayout {
@@ -111,6 +111,14 @@ export const Dataview = <T extends Record<string, unknown>>({
         pagination.setPage(page + 1);
     }
 
+    const renderNineSkeletonBoxes = () => {
+        return [1, 2, 3, 4, 5, 6, 7, 8, 9].map((index) => 
+            <Box key={index} padding='6' boxShadow='lg' bg='white'>
+                <SkeletonCircle size='10' />
+                <SkeletonText mt='4' noOfLines={4} spacing='4' skeletonHeight='2' />
+            </Box>)
+    }
+
     return (
         // when not loading
         (totalCount && result && !result.isLoading) ?
@@ -134,10 +142,10 @@ export const Dataview = <T extends Record<string, unknown>>({
                                         <VStack>
                                             {  
                                                 result.data.map((r, index) => (
-                                                        <>
+                                                        <Fragment key={index}>
                                                             { renderComponent(r) }
                                                             <Divider key={index} />
-                                                        </>
+                                                        </Fragment>
                                                     ))
                                             }
                                         </VStack>,
@@ -180,21 +188,11 @@ export const Dataview = <T extends Record<string, unknown>>({
                     } 
                     spacing={5}
                     >
-                        {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((index) => 
-                            <Box key={index} padding='6' boxShadow='lg' bg='white'>
-                                <SkeletonCircle key={index} size='10' />
-                                <SkeletonText key={index} mt='4' noOfLines={4} spacing='4' skeletonHeight='2' />
-                            </Box>)
-                        }
+                        { renderNineSkeletonBoxes() }
                     </SimpleGrid>),
                 "LIST":
                     (<VStack>
-                        {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((index) => 
-                                <Box key={index} padding='6' boxShadow='lg' bg='white'>
-                                    <SkeletonCircle key={index} size='10' />
-                                    <SkeletonText key={index} mt='4' noOfLines={4} spacing='4' skeletonHeight='2' />
-                            </Box>)
-                        }
+                        { renderNineSkeletonBoxes() }
                     </VStack>),
                 "TABLE": 
                     ((<VStack width={"100%"}>
