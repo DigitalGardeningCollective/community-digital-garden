@@ -43,13 +43,13 @@ const Landing: NextPageWithLayout = () => <>
     <Divider/> 
      {/* The Notes, Essay, and Contributor Card Components (LinkCard) */}
     <SimpleGrid columns={3} spacing={4}>
-      <LinkCard headerText='Notes' footerText='Browse ➔' footerLink='Notes' 
+      <LinkCard headerText='Notes' footerText='Browse ➔' footerLink='notes' 
       descriptionText='A collection of atomic notes, i.e. a single idea or a single object of attention.'
       imageSrc='https://wallpapers.com/images/high/bank-page-student-notebook-caz8w7ly9ojyj9dg.webp' />
-      <LinkCard headerText='Essays' footerText='Browse ➔' footerLink='Essays' 
+      <LinkCard headerText='Essays' footerText='Browse ➔' footerLink='essays' 
       descriptionText='A collection of long-form narratives and opinion pieces.'
       imageSrc='https://www.qinprinting.com/blog/wp-content/uploads/2022/08/Stunning-photo-and-text-book.jpg'/>
-      <LinkCard headerText='Contributors' footerText='Browse ➔' footerLink='Contributors' 
+      <LinkCard headerText='Contributors' footerText='Browse ➔' footerLink='contributors' 
       descriptionText='The wonderful individuals who have contributed their ideas to our digital garden.'
       imageSrc='/images/co-x3-graphic.png'/>
     </SimpleGrid>
