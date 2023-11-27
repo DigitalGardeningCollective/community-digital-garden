@@ -2,11 +2,9 @@ import {NavigationTabs} from "../NavigationTabs/NavigationTabs";
 import {FiMenu, FiSearch} from "react-icons/fi";
 import {LinkItem} from "../CustomNavLink/CustomNavLink";
 import {Logo} from "../Logo/Logo";
-import {useUser} from "@supabase/auth-helpers-react";
 import {SignOutBtn} from "../SideOutBtn/SignOutBtn";
 import SearchComponent from "../Search/Search";
-import {useState} from "react";
-
+import {useContext, useState} from "react";
 import {
     Box,
     Button,
@@ -19,6 +17,7 @@ import {
     ModalBody,
     Link,
 } from "@chakra-ui/react";
+import { AuthContext } from "@/hooks/local/context";
 
 interface Props {
     linkItems: LinkItem[];
@@ -27,7 +26,7 @@ interface Props {
 }
 
 export const Header = ({linkItems, onOpen, search}: Props) => {
-    const user = useUser();
+    const { auth } = useContext(AuthContext);
 
     //search state
     const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -56,12 +55,11 @@ export const Header = ({linkItems, onOpen, search}: Props) => {
                 aria-label="open menu"
                 icon={<FiMenu />}
             />
-            <Logo user={user} isDark/>
+            <Logo auth={auth} isDark/>
             <Box display={{base: "flex", md: "none"}}/>
-            <NavigationTabs user={user} linkItems={linkItems} isInSidebar={false} hasCenteredTabs/>
+            <NavigationTabs auth={auth} linkItems={linkItems} isInSidebar={false} hasCenteredTabs/>
 
-
-            {user ? (
+            {auth ? (
                 <SignOutBtn />
             ) : (
                 <HStack>

@@ -1,8 +1,8 @@
-import { ReactNode } from 'react';
+import { ReactNode, useContext } from 'react';
 import { Box, Container, Link as ChakraLink, SimpleGrid, Stack, Text } from '@chakra-ui/react';
 import { Logo } from '../Logo/Logo';
 import { AuthOptions } from '../AuthOptions/AuthOptions';
-import { useUser } from '@supabase/auth-helpers-react';
+import { AuthContext } from '@/hooks/local/context';
 
 const ListHeader = ({ children }: { children: ReactNode }) => {
   return (
@@ -13,7 +13,7 @@ const ListHeader = ({ children }: { children: ReactNode }) => {
 };
 
 export const Footer = () => {
-  const user = useUser();
+  const { auth } = useContext(AuthContext);
 
   return (
     <Box
@@ -27,7 +27,7 @@ export const Footer = () => {
           spacing={8}>
           <Stack spacing={6}>
             <Box>
-              <Logo isDark={false} user={user} />
+              <Logo isDark={false} auth={auth} />
             </Box>
             <Text fontSize={'sm'} color='white'>
               A non-profit community of co-creators and collaborators.
@@ -45,7 +45,7 @@ export const Footer = () => {
           </Stack>
           <Stack align={'flex-start'}>
             <ListHeader>Moderators</ListHeader>
-            <AuthOptions user={user} isInSideBar={false} />
+            <AuthOptions auth={auth} isInSideBar={false} />
           </Stack>
         </SimpleGrid>
       </Container>

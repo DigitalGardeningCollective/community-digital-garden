@@ -4,6 +4,7 @@ import type { AppProps } from 'next/app';
 import { createPagesBrowserClient } from '@supabase/auth-helpers-nextjs';
 import { SessionContextProvider } from '@supabase/auth-helpers-react';
 import { useState } from 'react';
+import { AuthProvider } from '@/hooks/local/context';
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode
@@ -25,9 +26,11 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
       supabaseClient={supabaseClient}
       initialSession={pageProps.initialSession}
     >
-      {getLayout(
+      <AuthProvider>
+        {getLayout(
           <Component {...pageProps} />
         )}
+      </AuthProvider>
     </SessionContextProvider>
   );
 }

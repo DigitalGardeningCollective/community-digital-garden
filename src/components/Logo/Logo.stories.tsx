@@ -15,9 +15,9 @@ type Story = StoryObj<typeof Logo>;
 // TODO: Figure out how to support Next's Image component in Storybook (ex. https://dev.to/jonasmerlin/how-to-use-the-next-js-image-component-in-storybook-1415)
 
 export const Dark: Story = {
-    render: () => <Logo user={null} isDark />,
+    render: () => <Logo auth={null} isDark />,
   };
 
 export const White: Story = {
-  render: () => <Logo user={null} isDark={false} />,
+  render: () => <Logo auth={null} isDark={false} />,
 };

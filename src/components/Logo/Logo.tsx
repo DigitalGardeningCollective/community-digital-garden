@@ -1,17 +1,17 @@
-import { Box, HStack, Text, Image } from "@chakra-ui/react";
-import { User } from "@supabase/auth-helpers-react";
+import { Auth } from "@/types/manual";
+import { Box, HStack, Image } from "@chakra-ui/react";
 
 interface Props {
-  user: User | null;
+  auth: Auth | null;
   isDark: boolean;
 }
 
-export const Logo = ({ user, isDark }: Props) => {
+export const Logo = ({ auth, isDark }: Props) => {
 
   return (
     <HStack>
       <Image width={20} src={isDark ? "/co-x3-logo-dark.png" : "/co-x3-logo-white.png"} alt='Co-x3 Logo' />
-      { user && 
+      { auth && 
         <Box
           as='button'
           p={2}
