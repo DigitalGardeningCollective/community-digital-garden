@@ -1,5 +1,5 @@
 import { Auth } from "@/types/manual";
-import { Box, HStack, Text, Image } from "@chakra-ui/react";
+import { Box, HStack, Image } from "@chakra-ui/react";
 
 interface Props {
   auth: Auth | null;
