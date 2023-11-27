@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useContext } from 'react';
 import Head from 'next/head';
 import { Box, Button, Checkbox, Flex, FormControl, FormLabel, Heading, Input, Link, Stack, Text, useColorModeValue } from "@chakra-ui/react";
 import { NextPageWithLayout } from './_app';
@@ -7,6 +7,9 @@ import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { useSupabaseClient } from '@supabase/auth-helpers-react'
 import { Database  } from '../types/generated';
+import { AuthContext } from '@/hooks/local/context';
+import { Auth, Moderator } from '@/types/manual';
+import { useModeratorAPI } from '@/hooks/useModeratorAPI';
 
 type Inputs = {
   email: string;
@@ -21,6 +24,8 @@ const SignIn: NextPageWithLayout = () => {
   const [error, setError] = React.useState<string | null>(null);
   const router = useRouter();
   const supabaseClient = useSupabaseClient<Database>();
+  const { setAuth } = useContext(AuthContext);
+  const { fetchModerator } = useModeratorAPI();
 
   const onSubmit = async (data: any) => {
     setError(null);
@@ -29,6 +34,16 @@ const SignIn: NextPageWithLayout = () => {
       if (response?.error?.message) {
         setError(response.error.message);
       } {
+        let moderator: Moderator | undefined;
+
+        if (response.data.user) {
+          moderator = await fetchModerator(response.data.user.id);
+        } else {
+          throw Error('User could not be found');
+        }
+
+        const auth: Auth = { session: response.data.session, moderator: moderator };
+        setAuth(auth);
         console.log('signin response -', response);
         router.push('/submissions');
       }
