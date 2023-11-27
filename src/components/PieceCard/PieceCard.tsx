@@ -14,14 +14,14 @@ interface Props {
 
 export const PieceCard = ({ data }: Props) => {
 
-  if (!data.title || !data.growth_stage) {
+  if (!data.title || !data.growth_stage || !data.published_piece_contributor) {
     throw Error("Data properties aren't valid");
   }
   
-  const { title, growth_stage, cover_url } = data;
+  const { title, growth_stage, cover_url, published_piece_contributor } = data;
 
-  const contributorName = (data.version && data.version.length != 0) ? 
-    data.version[0].version_contributor[0].contributor.full_name : 
+  const contributorName = (published_piece_contributor && published_piece_contributor.length != 0) ? 
+    published_piece_contributor[0].contributor.full_name : 
     "Unknown";
 
   return (
