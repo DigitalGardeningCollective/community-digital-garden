@@ -41,15 +41,18 @@ export const useSearch = (search: string = '') => {
             marginBottom={'5'} />
     </InputGroup>
 
-    const resultsList = <List>{searchTerm && 
+    const resultsList = searchTerm ? <List>{
         filteredPieces.map((entry, index) => 
             <ListItem key={index}>{entry.title}</ListItem>)
-    }</List>
+    }</List> : <>
+    No Results
+    There are no pieces that fits your search query.
+    </>
 
     return { searchTerm, setSearchTerm, clearSearch, searchBar, resultsList }
 }
 
 export const Search = () => {
     const { searchBar, resultsList } = useSearch()
-    return [searchBar, resultsList]
+    return <> {searchBar} {resultsList} </>
 }

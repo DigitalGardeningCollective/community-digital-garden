@@ -28,7 +28,8 @@ export const useSearchModal = (search: string = '') => {
         <ModalOverlay />
         <ModalContent>
             <ModalBody>
-                {[searchBar, resultsList]}
+                {searchBar}
+                {resultsList}
             </ModalBody>
         </ModalContent>
     </Modal>
@@ -38,5 +39,5 @@ export const useSearchModal = (search: string = '') => {
 
 export const SearchModal = () => {
     const { searchButton, searchModal } = useSearchModal()
-    return [searchButton, searchModal]
+    return <> {searchButton} {searchModal} </>
 }
