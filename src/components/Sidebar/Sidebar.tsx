@@ -4,6 +4,8 @@ import { LinkItem } from "../CustomNavLink/CustomNavLink";
 import { AuthOptions } from "../AuthOptions/AuthOptions";
 import { Logo } from "../Logo/Logo";
 import { useUser } from "@supabase/auth-helpers-react";
+import { useContext } from "react";
+import { AuthContext } from "@/hooks/local/context";
 
 interface Props {
     linkItems: LinkItem[];
@@ -11,8 +13,8 @@ interface Props {
 }
 
 export const Sidebar = ({ linkItems, onClose }: Props) => {
-    const user = useUser();
-    return (
+  const { auth } = useContext(AuthContext);
+  return (
       <Box
         transition="3s ease"
         bg="white"
@@ -28,11 +30,11 @@ export const Sidebar = ({ linkItems, onClose }: Props) => {
           mx="8"
           justifyContent="space-between"
         >
-          <Logo user={user} isDark />
+          <Logo auth={auth} isDark />
           <CloseButton display="flex" onClick={onClose} />
         </Flex>
-        <NavigationTabs user={user} linkItems={linkItems} isInSidebar hasCenteredTabs={false} />
-        <AuthOptions user={user} isInSideBar />
+        <NavigationTabs auth={auth} linkItems={linkItems} isInSidebar hasCenteredTabs={false} />
+        <AuthOptions auth={auth} isInSideBar />
       </Box>
     )
   }

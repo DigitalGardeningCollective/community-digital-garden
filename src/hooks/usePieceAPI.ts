@@ -25,15 +25,12 @@ export const usePieceAPI = (typeTitle: string) => {
         fetchPiecesCount(typeTitle);
     }, [supabaseClient, typeTitle]);
 
-    // TODO: I think this could be made more efficient.
-    // So, in the meantime, I'm going to return a default
-    // leading contributor for pieces that don't have a version.
     const fetchEssaysWithinRange = async (from: number, to: number) => {
         const { data, error } = await supabaseClient
         .from('published_piece_view')
-        .select('*, version(*, version_contributor(*, contributor(*))))')
+        .select('*, published_piece_contributor(*, contributor(*))))')
         .eq('type', "Essay")
-        .eq('version.version_contributor.contributor_type_id', 1)
+        .eq('published_piece_contributor.contributor_type_id', 1)
         .range(from, to);
         if (data) {
             console.log('fetchEssaysWithinRange - data -', data);
@@ -47,9 +44,9 @@ export const usePieceAPI = (typeTitle: string) => {
     const fetchNotesWithinRange = async (from: number, to: number) => {
         const { data, error } = await supabaseClient
         .from('published_piece_view')
-        .select('*, version(*, version_contributor(*, contributor(*))))')
+        .select('*, published_piece_contributor(*, contributor(*))))')
         .eq("type", "Note")
-        .eq('version.version_contributor.contributor_type_id', 1)
+        .eq('published_piece_contributor.contributor_type_id', 1)
         .range(from, to);
         if (data) {
             console.log('fetchNotesWithinRange - data -', data);

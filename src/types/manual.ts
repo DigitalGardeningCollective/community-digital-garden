@@ -1,3 +1,4 @@
+import { Session } from "@supabase/supabase-js";
 import { Database, Json } from "./generated";
 
 export type Submission = Database['public']['Tables']['submission']['Row'];
@@ -15,6 +16,11 @@ export type Tag = Database['public']['Tables']['tag']['Row'];
 export type Moderator = Database['public']['Tables']['moderator']['Row'];
 
 export type Version = Database['public']['Tables']['version']['Row'];
+
+export interface Auth {
+    session: Session | undefined;
+    moderator: Moderator | undefined;
+}
 
 export interface ContributorDetails {
     full_name: string;

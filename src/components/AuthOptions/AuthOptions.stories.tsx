@@ -13,7 +13,7 @@ export default meta;
 type Story = StoryObj<typeof AuthOptions>;
 
 export const SignedOutNotSideBar: Story = {
-    render: () => <AuthOptions user={null} isInSideBar={false} />,
+    render: () => <AuthOptions auth={null} isInSideBar={false} />,
   };
 
 /*
@@ -23,7 +23,7 @@ export const SignedInNotSideBar: Story = {
 */
 
 export const SignedOutInSideBar: Story = {
-  render: () => <AuthOptions user={null} isInSideBar />,
+  render: () => <AuthOptions auth={null} isInSideBar />,
 };
 
 /*
