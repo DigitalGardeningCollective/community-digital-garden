@@ -1,44 +1,28 @@
 import {NavigationTabs} from "../NavigationTabs/NavigationTabs";
-import {FiMenu, FiSearch} from "react-icons/fi";
+import {FiMenu} from "react-icons/fi";
 import {LinkItem} from "../CustomNavLink/CustomNavLink";
 import {Logo} from "../Logo/Logo";
 import {SignOutBtn} from "../SideOutBtn/SignOutBtn";
-import SearchComponent from "../Search/Search";
-import {useContext, useState} from "react";
+import {SearchModal} from "../SearchModal/SearchModal";
+import {useContext} from "react";
 import {
     Box,
     Button,
     Flex,
     HStack,
     IconButton,
-    Modal,
-    ModalOverlay,
-    ModalContent,
-    ModalBody,
-    Link,
+    Link
 } from "@chakra-ui/react";
 import { AuthContext } from "@/hooks/local/context";
 
 interface Props {
     linkItems: LinkItem[];
     onOpen: () => void;
-    search: string;
 }
 
-export const Header = ({linkItems, onOpen, search}: Props) => {
+export const Header = ({linkItems, onOpen}: Props) => {
     const { auth } = useContext(AuthContext);
-
-    //search state
-    const [isSearchOpen, setIsSearchOpen] = useState(false);
-
-    const handleSearchOpen = () => {
-        setIsSearchOpen(true);
-    };
-
-    const handleSearchClose = () => {
-        setIsSearchOpen(false);
-    };
-
+  
     return (
         <Flex
             position="sticky"
@@ -63,34 +47,13 @@ export const Header = ({linkItems, onOpen, search}: Props) => {
                 <SignOutBtn />
             ) : (
                 <HStack>
-                    <IconButton
-                        display={{ base: "flex"}}
-                        onClick={handleSearchOpen}
-                        outline="none"
-                        background={"white"}
-                        aria-label="open search"
-                        _hover={{ backgroundColor: "transparent" }}
-                        icon={<FiSearch />}
-                    />
-
-                    {/* Modal for the SearchComponent */}
-                    <Modal isOpen={isSearchOpen} onClose={handleSearchClose} size="lg">
-                        <ModalOverlay />
-                        <ModalContent>
-                            <ModalBody>
-                               <SearchComponent search={search} />
-                            </ModalBody>
-                        </ModalContent>
-                    </Modal>
-
-                    <Link
-                        href="https://the.x3.family/"
-                        isExternal
-                        >
+                    <SearchModal />
+                    <Link href="https://the.x3.family/" isExternal>
                         <Button colorScheme="cyan" color="white">Join Co-x3</Button>
                     </Link>
                 </HStack>
-            )}
+            )
+          }
         </Flex>
     )
 }

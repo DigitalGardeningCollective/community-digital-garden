@@ -31,7 +31,7 @@ export const ModeratorLayout = ({ children }: PropsWithChildren) => {
         </Drawer>
         <Container
           maxW={'4xl'}>
-          <Header linkItems={items} onOpen={onOpen} search=""/>
+          <Header linkItems={items} onOpen={onOpen} />
           <Flex direction={'column'} align={'center'} pt="4">
             {children}
           </Flex>
