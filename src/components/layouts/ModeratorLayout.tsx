@@ -3,6 +3,7 @@ import { PropsWithChildren } from "react";
 import { Sidebar } from "../Sidebar/Sidebar";
 import { Header } from "../Header/Header";
 import { LinkItem } from "../CustomNavLink/CustomNavLink";
+import { useFetchAllSubmissions } from '@/hooks/useFetchAllSubmissions';
 import * as theme from "../../../.chakra/chakra.config";
 
 const extendedTheme = extendTheme(theme)
@@ -13,7 +14,20 @@ export const ModeratorLayout = ({ children }: PropsWithChildren) => {
     { label: "Submissions", href: "/submissions" },
   ];
 
+  const { submissions } = useFetchAllSubmissions();
+  // console.log(submissions);
+
   return (
+        // <div>
+        //     {submissions && (
+        //         <ul>
+        //             {submissions.map((submission) => (
+        //                 <li key={submission.id}>{/* Render submission data */}</li>
+        //             ))}
+        //         </ul>
+        //     )}
+        // </div>
+    
     <ChakraProvider theme={extendedTheme}>
       <Box minH="100vh" bg='white' >
         <Drawer

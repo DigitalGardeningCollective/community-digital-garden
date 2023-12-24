@@ -63,10 +63,11 @@ const Submissions: NextPageWithLayout = () => {
           numberToShow={9}          
           handleOnClick={handleClick}
           query={selectedQuery}
-          tableHeaderNames={["TITLE", "AUTHOR", "SUBMITTED"]}
+          tableHeaderNames={["TITLE", "AUTHOR", "SUBMITTED", "CURRENTLY VIEWING"]}
           renderComponent={renderSubmissionTableItem}
           dataName="Submission"
         />
+        {/* Added Currently Viewing Tab earlier, causing issues with new develop change  */}
     </>
   )
 }
